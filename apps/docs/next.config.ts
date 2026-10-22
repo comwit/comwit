@@ -6,6 +6,16 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@comwit/ui', '@comwit/ui-templates'],
   async redirects() {
     return [
+      ...['architecture', 'layers', 'decisions'].map((slug) => ({
+        source: `/template/docs/${slug}`,
+        destination: '/template/docs/structure',
+        permanent: true,
+      })),
+      {
+        source: '/template/docs/migrate',
+        destination: '/template/docs/getting-started',
+        permanent: true,
+      },
       { source: '/state', destination: '/state/docs', permanent: true },
       // The deprecated silent() page was removed; its guidance lives in the Next.js guide.
       {

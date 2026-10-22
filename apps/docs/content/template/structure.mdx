@@ -1,168 +1,65 @@
 ---
-title: Folder structure
+title: Code structure and lint
 group: How it works
-order: 3
-description: Every folder in the template, what may import what, and the order to write things in.
+order: 2
+description: Folder responsibilities and the structural rules checked by Oxlint.
 ---
 
-# Folder structure
+<a id="folder-structure"></a>
+
+# Code structure and lint
+
+`app` and `admin` are services for different user types. Each service groups APIs and state by domain, and screens by route.
 
 ```text
 src/
-  app/                          Next.js App Router — routing only
-    (app)/                      end-user routes, wrapped by the app service layout
-    (admin)/admin/              operator routes on a stable internal path
-    layout.tsx                  root layout: providers, toaster, service worker
+  app/                        # Next.js routes and layouts
   services/
-    .ai.md                      service rules and import rules
-    api.ai.md · state.ai.md · page.ai.md
-    design.md                   design tone — read before any screen work
-    app/
-      api/{domain}/             server actions      index.ts · types.ts · actions/*.ts
-      state/{domain}/           domain state        index.ts · types.ts · model.ts · actions/*.ts
-      page/{route}/             page components     index.tsx · *-section.tsx
-      page/layout/              service layout      index.tsx (server) · client.tsx (hydration adapter)
-    admin/
-      .ai.md                    admin routes, account rules, entry guidance
-      _components/              admin-only compositions (shell, page, stat cards)
-      api/ · state/ · page/     same layers, separate domains
-  lib/                          shared code
-    components/ui/              comwit-ui components installed as source
-    layout/                     root layout client (StateProvider, OverlayProvider, Toaster)
-    state/                      ComwitProvider wiring and the AppContext type
-    server-action/              typed server-function transport (one POST route handler)
-    utils/                      cn · createAction · resolveActions · ActionError · http client
-    popup.tsx · ui-text.ts · kst.ts · admin-routes.ts
-  server/                       server-only
-    config.ts                   ordinary server settings from process.env
-    db/schema.ts                Drizzle schema (empty until a database is connected)
-    repository/
-      .ai.md                    repository rules
-      types.ts                  PageRequest · Pageable
-      schema.dbml               entity design — written before mock data
-      _data/{entity}.ts         normalized mock rows
-      {entity}.ts               CRUD per aggregate root
-  proxy.ts                      request proxy: public admin prefix → internal /admin
-.storybook/                     page-level stories, api mocks, stories/.ai.md
+    app/                      # End-user service
+      page/{route}/           # UI
+      state/{domain}/         # Models, queries and actions
+      api/{domain}/           # Server functions
+    admin/                    # Admin service, same layers
+  server/repository/          # Data access
+  lib/                        # Shared code and UI components
+.agents/skills/               # Setup skills
+.storybook/                   # Page stories and API mocks
+eslint-rules/                 # Custom lint rules
+AGENTS.md                     # Project instructions
 ```
 
-## `src/app` is routing only
+<a id="layers"></a>
 
-Route files import a page component and return it. No `'use client'` here
-except Next's own error boundaries, no data shaping, no layout logic beyond
-the service boundary. The home route is `src/app/(app)/page.tsx`; a root
-`src/app/page.tsx` is a build error by rule, because every route belongs to a
-service.
+## Why separate the layers?
 
-Each service has a layout pair. The route group's `layout.tsx` renders
-`<Suspense fallback={null}>` around the service's async layout; that layout
-awaits the basic user (`getMe()`) and hands the resolved value to a small
-client adapter that calls `useUser.hydrate(...)` before anything reads the
-user hook. Interactive UI and user subscriptions live in children of that
-adapter, never in it, so a sign-out cannot replay a stale server seed.
+Each layer gives new code a clear home and limits how much needs to change together. Agents can also narrow their reading to the code and guides relevant to the task.
 
-Detail pages have two options. Pass the id and let the client load:
+| Path                | Purpose and benefit                                                                                            |
+| ------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `src/app`           | Separates URLs from screen implementation, so route changes require fewer changes inside screens.              |
+| `page/{route}`      | Keeps presentation separate, reducing the impact of design changes on data processing.                         |
+| `state/{domain}`    | Manages shared state and changes in one place, reducing duplicate handling and inconsistencies across screens. |
+| `api/{domain}`      | Centralizes server work for screens, so each screen does not repeat data assembly and validation.              |
+| `server/repository` | Contains storage-specific code, limiting changes when connecting or replacing a database.                      |
+| `lib`               | Shares common UI and tools across features, so the same problems do not need to be solved repeatedly.          |
 
-```tsx
-export default async function Page({ params }) {
-  const { id } = await params
-  return <PostDetail id={id} />
-}
-```
+The default dependency direction is `page → state → api → repository`. User and admin screens live in separate services to keep their different requirements from becoming entangled.
 
-Or resolve on the server when SEO matters, and hydrate the query:
+<a id="what-enforces-it"></a>
 
-```tsx
-export default async function Page({ params }) {
-  const { id } = await params
-  const post = await api.post.find(id)
-  return <PostDetailRoute id={id} initialPost={post} />
-}
-```
+## Rules checked by lint
 
-## `src/services/{service}`
+Custom rules in `eslint-rules/` are enabled in `.oxlintrc.json` and run by **Oxlint**. Key checks include:
 
-One folder per kind of user. `app` and `admin` come with the template. Each
-holds the three client-facing layers with the same domain names inside:
+| Rule                                    | Check                                                                                             |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `api-structure`, `state-structure`      | Required files, action folders and exports, checked from each domain's `index.ts`                 |
+| `app-structure`                         | Forbids `src/app/page.tsx`; home belongs in `(app)/page.tsx`                                      |
+| `index-only-import`                     | Restricts cross-layer imports of API and state internals such as actions/types                    |
+| `client-component-no-api-import`        | Forbids direct API imports in service client pages                                                |
+| `api-only-server-action`                | Restricts direct `fetch` in client pages and API routes outside allowed paths                     |
+| `no-db-in-api`                          | Forbids direct `drizzle-orm` imports in the API layer                                             |
+| `api-create-action`, `api-action-error` | Checks API action wrappers and error handling                                                     |
+| `no-native-interactive`                 | Requires installed components for native interactive controls in service UI, except `_components` |
 
-| Layer | Path              | Owns                                                          |
-| ----- | ----------------- | ------------------------------------------------------------- |
-| api   | `api/{domain}/`   | server actions shaped for the screen; talks to the repository |
-| state | `state/{domain}/` | the domain model, its queries and every side effect           |
-| page  | `page/{route}/`   | sections that read one domain hook and render                 |
-
-Rules:
-
-- No cross-imports between services. `admin` never imports from `app`.
-- Shared code goes to `src/lib` (client and universal) or `src/server` (server only).
-- External imports go through a domain's `index.ts` only. Importing
-  `api/post/actions/create` from anywhere but `api/post/index.ts` is a lint
-  error.
-- Relative imports are free inside one domain folder.
-- The api is called from state, or from a Server Component for hydration.
-  Calling the api from a client component in `useEffect` is forbidden.
-
-Domains in the api layer are **page-fit**, not table-fit. They group what a
-main screen needs, so when the screen changes the response can change with
-it. A domain may serve several pages; a page may read several domains.
-
-## `src/server/repository`
-
-The single gateway to data. Repositories start as functions over normalized
-mock rows in `_data/`, joined on query like a real database would. When a
-database is connected only the inside of each function changes; the
-signatures, and therefore the api layer, stay.
-
-- `import 'server-only'` in every file.
-- One file per aggregate root (comments live inside `post.ts`).
-- `findAll(filter, pageable)`, `findById(id)`, `create(data)`,
-  `update(id, data)`, `delete(id)`; lists always return `Pageable<T>`.
-- IDs come from `uuid()` (UUID v7, time-ordered). Deletion is a soft delete;
-  queries exclude `deletedAt` rows by default.
-- Raw values only. Frontend-friendly conversion belongs to the api layer.
-- `schema.dbml` is written first, before mock data, so relationships are
-  designed rather than discovered.
-
-## `src/lib` and `src/server`
-
-`src/lib` holds everything shared across services on the client side. The
-UI components are `comwit-ui` source installed by the CLI, so they are yours
-to edit, and the file header of each one is its API documentation. `popup.tsx`
-gives actions imperative confirm/alert/sheet dialogs; `ui-text.ts` holds every
-default string so the app's language is one file.
-
-`src/server` is server-only: `config.ts` for ordinary settings, `db/` for
-the Drizzle schema and client once connected, `repository/` as above.
-
-## Write order
-
-Features are written bottom-up and read top-down:
-
-```text
-write:  repository → api → state → page
-depend: page → state → api → repository
-```
-
-Inside a layer the order is fixed too. An api domain starts with `types.ts`
-(the interface and its `Simple`, `Detail` and `Request` shapes), then
-`actions/*.ts`, then `index.ts`. A state domain starts with `types.ts`
-(`State` and `Actions`), then `model.ts`, `actions/*.ts`, `index.ts`. A page
-starts with `index.tsx` composing sections that do not exist yet, then the
-sections.
-
-## What enforces it
-
-The rules above are not conventions on a wiki. `eslint-rules/` ships Oxlint
-plugins that fail `pnpm run validate` when a boundary is crossed:
-
-| Rule                                                                               | Rejects                                                                                                                  |
-| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `app-structure`, `no-root-app-folder`, `no-use-client-in-app`                      | routes outside `src/app`, a root page, client directives in route files                                                  |
-| `index-only-import`, `no-direct-api-action-import`                                 | reaching into a domain past its `index.ts`                                                                               |
-| `client-component-no-api-import`                                                   | a client component importing the api layer                                                                               |
-| `api-structure`, `api-create-action`, `api-action-error`, `api-only-server-action` | api modules that skip `resolveActions`, `createAction` or `ActionError`                                                  |
-| `state-structure`, `no-direct-comwit-import`, `no-multiple-state-hook-calls`       | state folders missing their files, `@comwit/state` used outside the state layer, two hook calls for one domain           |
-| `page-use-client`, `no-native-interactive`, `no-next-image`, `no-anchor-tag`       | page files without `'use client'`, raw `<button>`/`<input>`, `next/image`, `<a>` for internal links                      |
-| `no-db-in-api`, `server-only-import`, `drizzle-node-config`                        | database access from the api layer, repository files without `server-only`, a Drizzle config that imports server modules |
-| `auth-hydration-boundary`, `better-auth-required-options`                          | a hydration adapter that also subscribes, Better Auth instances missing required options                                 |
-| `kebab-case-filename`                                                              | file names that are not kebab-case                                                                                       |
+`pnpm run validate` runs type checking and lint. Other conventions, including implementation order, service separation and design guidance, live in `AGENTS.md` and `.ai.md` files.
