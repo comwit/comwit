@@ -27,3 +27,8 @@ base submodule instead of maintaining a separate generic copy.
 For edits inside a submodule, branch, validate, commit, push and open a PR there
 first. Update its parent reference in a separate parent PR. Independent clones
 use the product repository's own pnpm workspace. See the root README for commands.
+
+The CI branch is `main`. Vercel-specific repository configuration has been removed;
+CI validates builds but does not configure or publish to another hosting provider.
+Sibling `comwit-state`, `comwit-ui` and template clones are independent working
+trees; edits reach this workspace through pushed commits and submodule updates.

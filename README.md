@@ -76,3 +76,26 @@ Docs: [State](https://library.comwit.io/state/docs),
 [UI](https://library.comwit.io/ui), [Template](https://library.comwit.io/template).
 The representative introduction and Star link is [comwit/comwit](https://github.com/comwit/comwit).
 Stars remain separate for each repository.
+
+## Local checkouts
+
+A parent workspace and standalone clones can sit next to each other:
+
+```text
+~/work/오픈소스/
+  comwit/                # parent, including its own submodule checkouts
+  comwit-state/          # comwit/state
+  comwit-ui/             # comwit/ui
+  comwit-template/       # comwit/template
+  comwit-template-shop/  # comwit/template-shop
+```
+
+A sibling clone and its parent submodule use the same remote but have separate
+working files, branches and local settings. Changes are not synchronized live.
+Commit and push in the owning checkout, then fetch/select the intended commit in
+the other checkout and update the parent's gitlink in a separate commit/PR.
+Keep credentials and personal settings local to each checkout.
+
+Docs builds are validated by CI on `main`. This repository no longer includes a
+Vercel deployment configuration; merging to `main` does not itself configure a new
+hosting provider.

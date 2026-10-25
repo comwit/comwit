@@ -33,3 +33,7 @@ PRs in the repository that owns each changed file. Push submodule commits first;
 update the parent gitlink in a separate parent commit/PR. Do not mix or overwrite
 other repositories' or users' changes. Verify standalone operation and integrated
 docs. `packages/ui/apps/storybook` and `packages/ui/apps/ui-dev` belong to UI.
+
+Sibling `comwit-*` clones and parent submodules are separate checkouts of the same
+remotes, not live-synchronized folders. Preserve each checkout's local settings;
+push/fetch commits explicitly and update the parent gitlink when adopting changes.
