@@ -72,6 +72,13 @@ product PR, but submitted parent gitlinks and normal builds use the published,
 pinned submodule commit. Product PRs must merge before dependent parent PRs;
 refresh the gitlink to the product merge commit before merging the parent.
 
+Additional docs gallery captures live in `apps/docs/assets/shop-gallery`. Their
+`captures.json` records the actual public URL, viewport, capture time, navigation
+source and image hash. Keep the original product catalog intact; `gen-shop.mjs`
+verifies and copies both sets of images and publishes `gallery.json` alongside the
+original `catalog.json`. Capture responsive pages in the browser, without changing
+the page DOM or synthesizing layouts; encode the untouched viewport image as WebP.
+
 The docs relationship view follows the Cloud console's key-column nodes and
 column inspector, using native HTML/SVG with four initial columns, draggable
 nodes and keyboard movement. It renders declared foreign keys only and never

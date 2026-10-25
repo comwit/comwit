@@ -1,0 +1,721 @@
+{
+  "captureMethod": "agent-browser Chromium viewport screenshot; no page style or image manipulation; WebP encoding only",
+  "brands": [
+    {
+      "id": "aurelle",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "aurelle-home-desktop.webp",
+          "url": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link/",
+          "title": "AURELLE 오렐 — 서울의 여성 럭셔리 패션 하우스",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:11.823015+00:00",
+          "discoveredFrom": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link",
+          "linkText": null,
+          "sha256": "b4b369a457a4c4ee4cb0a76723420a08b167c84a016f9557032867cedcfd9920"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "aurelle-home-mobile.webp",
+          "url": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link/",
+          "title": "AURELLE 오렐 — 서울의 여성 럭셔리 패션 하우스",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:13.522630+00:00",
+          "discoveredFrom": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link",
+          "linkText": null,
+          "sha256": "0ac6a754748925ec529c16f890e5583ad90a97a67985e433b4d3110002154839"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "aurelle-collection-desktop.webp",
+          "url": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link/products",
+          "title": "컬렉션 | AURELLE",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:15.545014+00:00",
+          "discoveredFrom": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link",
+          "linkText": "컬렉션",
+          "sha256": "8db807dbbf99e56c75218be9ee338d1e396735062130ac61107ce85ab922d83e"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "aurelle-collection-mobile.webp",
+          "url": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link/products",
+          "title": "컬렉션 | AURELLE",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:17.465658+00:00",
+          "discoveredFrom": "https://bf032686ba614aef9850bbd5885fd377.app.comwit.link",
+          "linkText": "컬렉션",
+          "sha256": "4238127fbd9d83b52e44d8648752f60be2f524427fe8dafc5134a84b356ceb76"
+        }
+      ]
+    },
+    {
+      "id": "greenrow",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "greenrow-home-desktop.webp",
+          "url": "https://09c396baeb244d1986b41677defc434e.app.comwit.link/",
+          "title": "그린로우 — 콜드프레스 유기농 주스·티",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:18.947077+00:00",
+          "discoveredFrom": "https://09c396baeb244d1986b41677defc434e.app.comwit.link",
+          "linkText": null,
+          "sha256": "fddda5f2cc0cac7c398b329a154ddf65091307da59e55826be84ba853b4cde96"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "greenrow-home-mobile.webp",
+          "url": "https://09c396baeb244d1986b41677defc434e.app.comwit.link/",
+          "title": "그린로우 — 콜드프레스 유기농 주스·티",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:20.183940+00:00",
+          "discoveredFrom": "https://09c396baeb244d1986b41677defc434e.app.comwit.link",
+          "linkText": null,
+          "sha256": "e6bcc9aec2bf8e6fae21ae8ea3f98e001fc307862a4a895cc236b20a81cecbdf"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "greenrow-collection-desktop.webp",
+          "url": "https://09c396baeb244d1986b41677defc434e.app.comwit.link/products",
+          "title": "전체 상품 | 그린로우",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:22.017549+00:00",
+          "discoveredFrom": "https://09c396baeb244d1986b41677defc434e.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "d362d139fa5fb48b40d592c7de10e0bedff7bf26f5f913ca7d7b7e9fc90a758d"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "greenrow-collection-mobile.webp",
+          "url": "https://09c396baeb244d1986b41677defc434e.app.comwit.link/products",
+          "title": "전체 상품 | 그린로우",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:23.189164+00:00",
+          "discoveredFrom": "https://09c396baeb244d1986b41677defc434e.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "d7c418e735c8765456e3f62f92702493e1084924790d23a5484cbaecbf78db97"
+        }
+      ]
+    },
+    {
+      "id": "pogeunpet",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "pogeunpet-home-desktop.webp",
+          "url": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link/",
+          "title": "포근펫 — 반려견·반려묘 라이프스타일 용품",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:24.618739+00:00",
+          "discoveredFrom": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link",
+          "linkText": null,
+          "sha256": "55cd18df930e45f25c692420dc2fc0a1fda0af3d07c6c1f501c472f428cdea73"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "pogeunpet-home-mobile.webp",
+          "url": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link/",
+          "title": "포근펫 — 반려견·반려묘 라이프스타일 용품",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:26.598475+00:00",
+          "discoveredFrom": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link",
+          "linkText": null,
+          "sha256": "2e9ccacdd47406f3f6f30bc9ac4957f26bd8c931bd83365996cffda81a6b2cee"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "pogeunpet-collection-desktop.webp",
+          "url": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link/products",
+          "title": "포근펫 — 반려견·반려묘 라이프스타일 용품",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:29.104632+00:00",
+          "discoveredFrom": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "2b4eac3f9b4d4ed58fe24967509bd547a1e6d1745d2cadce5694b26406c1611b"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "pogeunpet-collection-mobile.webp",
+          "url": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link/products",
+          "title": "포근펫 — 반려견·반려묘 라이프스타일 용품",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:30.314523+00:00",
+          "discoveredFrom": "https://3eafb5ab105e400799555c8bc00d3afa.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "f5eeebee3d7ca3562bdb4b8167b1078b9788f106efdfdae0dd44af8618006db1"
+        }
+      ]
+    },
+    {
+      "id": "ore-atelier",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "ore-atelier-home-desktop.webp",
+          "url": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link/",
+          "title": "오르 아틀리에 — 골드와 진주의 파인 주얼리",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:31.705584+00:00",
+          "discoveredFrom": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link",
+          "linkText": null,
+          "sha256": "113b8ef5c4edd2f61317bb3d226c7cf780b9efac1ac241d23590de6c88593323"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "ore-atelier-home-mobile.webp",
+          "url": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link/",
+          "title": "오르 아틀리에 — 골드와 진주의 파인 주얼리",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:32.989074+00:00",
+          "discoveredFrom": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link",
+          "linkText": null,
+          "sha256": "51aec356e452acb2d5fbfb46f85ce5f05e3bbef8aa42470fc4898dc2c33dec9e"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "ore-atelier-collection-desktop.webp",
+          "url": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link/products",
+          "title": "컬렉션 | 오르 아틀리에",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:35.407731+00:00",
+          "discoveredFrom": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link",
+          "linkText": "컬렉션 전체",
+          "sha256": "df0d4344a707c4373009ce6f4b3f328ce7d496cb7cc368463d01e0274206ab43"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "ore-atelier-collection-mobile.webp",
+          "url": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link/products",
+          "title": "컬렉션 | 오르 아틀리에",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:36.627336+00:00",
+          "discoveredFrom": "https://b715ce6a462b421aa9470ff39b5e953c.app.comwit.link",
+          "linkText": "컬렉션 전체",
+          "sha256": "cb5c2d2e381fe71b2f20bdf544a9f58511667d437af376b4dd91d8f5b6571365"
+        }
+      ]
+    },
+    {
+      "id": "yunseul",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "yunseul-home-desktop.webp",
+          "url": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link/",
+          "title": "윤슬 YUNSEUL — 물 위의 빛을 쓰는 아이웨어",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:38.049916+00:00",
+          "discoveredFrom": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link",
+          "linkText": null,
+          "sha256": "74f0afb16b99a85539098955f9481f067e4d8361c9e9a5558915ccbd746d60af"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "yunseul-home-mobile.webp",
+          "url": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link/",
+          "title": "윤슬 YUNSEUL — 물 위의 빛을 쓰는 아이웨어",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:39.382966+00:00",
+          "discoveredFrom": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link",
+          "linkText": null,
+          "sha256": "747bdb8dab3c5039c30fef3bee43b3544105023a394aafa66c2de537e16de39d"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "yunseul-collection-desktop.webp",
+          "url": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link/products",
+          "title": "전체 프레임 | 윤슬 YUNSEUL",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:42.366377+00:00",
+          "discoveredFrom": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link",
+          "linkText": "전체보기",
+          "sha256": "d1b2eb2a19162df7f7f7d617f1dc3937328bba93b6c1d65229271283aa063ce2"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "yunseul-collection-mobile.webp",
+          "url": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link/products",
+          "title": "전체 프레임 | 윤슬 YUNSEUL",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:43.567732+00:00",
+          "discoveredFrom": "https://2008d06002fc44ecb5b59f1102495df1.app.comwit.link",
+          "linkText": "전체보기",
+          "sha256": "82e55922e41ba5c0fcc1a4123d9af81990222f3c465767ed9afa0fdd001607e3"
+        }
+      ]
+    },
+    {
+      "id": "heukgyeol",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "heukgyeol-home-desktop.webp",
+          "url": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link/",
+          "title": "흙결 — 손으로 빚은 그릇",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:44.976133+00:00",
+          "discoveredFrom": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link",
+          "linkText": null,
+          "sha256": "7187317c0537bffbd7242517f044457ed052bfbd2aaf3b7d971f0be261815c2e"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "heukgyeol-home-mobile.webp",
+          "url": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link/",
+          "title": "흙결 — 손으로 빚은 그릇",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:46.690155+00:00",
+          "discoveredFrom": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link",
+          "linkText": null,
+          "sha256": "ef1f1e1fb9dde290b7230c17a5c00ac805333137c4db52ddd14dec37d1ef9fe5"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "heukgyeol-collection-desktop.webp",
+          "url": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link/products",
+          "title": "그릇 | 흙결",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:48.601844+00:00",
+          "discoveredFrom": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "c56c5249188ea3e493e72f4f4557393dbb1459063fd0c31f439e896e21589531"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "heukgyeol-collection-mobile.webp",
+          "url": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link/products",
+          "title": "그릇 | 흙결",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:49.780340+00:00",
+          "discoveredFrom": "https://32830ae26b044078bb6a426ef62cff01.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "5d6449308c74db8b829761730be3ebbef5a1ba612477ea587eecf3e1483416ce"
+        }
+      ]
+    },
+    {
+      "id": "maison-ruelle",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "maison-ruelle-home-desktop.webp",
+          "url": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link/",
+          "title": "메종 루엘 — Maison Ruelle",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:51.307368+00:00",
+          "discoveredFrom": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link",
+          "linkText": null,
+          "sha256": "86b893c5bbdb40866e16d83507f9424ebd6525325f8da05266e9608480b8d7c1"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "maison-ruelle-home-mobile.webp",
+          "url": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link/",
+          "title": "메종 루엘 — Maison Ruelle",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:52.575189+00:00",
+          "discoveredFrom": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link",
+          "linkText": null,
+          "sha256": "eb59b9448b138326c055bf945a57287147fa86247faef269bc0bd965276acb5c"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "maison-ruelle-collection-desktop.webp",
+          "url": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link/products",
+          "title": "전체 상품 | 메종 루엘",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:54.336947+00:00",
+          "discoveredFrom": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link",
+          "linkText": "신상품",
+          "sha256": "66c7e853a67a66956041e93187dc05c50c2e7a8fb1c232d941a8c8300772eb64"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "maison-ruelle-collection-mobile.webp",
+          "url": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link/products",
+          "title": "전체 상품 | 메종 루엘",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:55.529901+00:00",
+          "discoveredFrom": "https://75965ddb7a03422ca6e1e97662a7ea45.app.comwit.link",
+          "linkText": "신상품",
+          "sha256": "49e4a56f60eb2ec00351ebc4f48b9aa503997de720cf307b52b037ff309b6d2f"
+        }
+      ]
+    },
+    {
+      "id": "supgyeol",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "supgyeol-home-desktop.webp",
+          "url": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link/",
+          "title": "숲결 — 비 온 뒤 숲의 향",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:04:56.993471+00:00",
+          "discoveredFrom": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link",
+          "linkText": null,
+          "sha256": "a11bd8750ffc792735adf6a76f4eaf17ec535664e675fdcc1464d9fffc041699"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "supgyeol-home-mobile.webp",
+          "url": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link/",
+          "title": "숲결 — 비 온 뒤 숲의 향",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:04:59.331148+00:00",
+          "discoveredFrom": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link",
+          "linkText": null,
+          "sha256": "d5798920b6149b1185c5ac304887650f80a209ebb500c9e9b81c12ea551e25fb"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "supgyeol-collection-desktop.webp",
+          "url": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link/products",
+          "title": "전체 제품 | 숲결",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:05:01.644338+00:00",
+          "discoveredFrom": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "2865554fa6c8b17548014393c0c9723d5d177d8a710741e6d6a8c53ae066140c"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "supgyeol-collection-mobile.webp",
+          "url": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link/products",
+          "title": "전체 제품 | 숲결",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:05:02.842689+00:00",
+          "discoveredFrom": "https://08b1fc8e1a64407fb3fa8c9a5a3dc002.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "a29afe25b6fa4b2bdb38e85857e2613ed15131d345b37a74c8b802457d78ec09"
+        }
+      ]
+    },
+    {
+      "id": "bukhyang",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "bukhyang-home-desktop.webp",
+          "url": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link/",
+          "title": "북향 BUKHYANG — 남성 아우터와 니트",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:05:04.247227+00:00",
+          "discoveredFrom": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link",
+          "linkText": null,
+          "sha256": "105478cc462ff86b5c32ca37734b264778a406a122202043690bb2a1bd964e87"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "bukhyang-home-mobile.webp",
+          "url": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link/",
+          "title": "북향 BUKHYANG — 남성 아우터와 니트",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:05:05.474395+00:00",
+          "discoveredFrom": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link",
+          "linkText": null,
+          "sha256": "708dd54821960e9266f85a9f28f0b330cfd0235a677fa8e0906c0bd60ce515fa"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "bukhyang-collection-desktop.webp",
+          "url": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link/products",
+          "title": "전체 상품 | 북향 BUKHYANG",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:05:07.761483+00:00",
+          "discoveredFrom": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "332c1e9eb16720842ebd295e11e2ea2b4694b873ee6dcc2bbd47fa4e96e74195"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "bukhyang-collection-mobile.webp",
+          "url": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link/products",
+          "title": "전체 상품 | 북향 BUKHYANG",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:05:08.978137+00:00",
+          "discoveredFrom": "https://d0614453d3904d63b5db4325c775db5c.app.comwit.link",
+          "linkText": "전체",
+          "sha256": "a137f5cae005c692dc28a90e3aa610eb8be99e20898351802fa8e6af40f7d64e"
+        }
+      ]
+    },
+    {
+      "id": "mongdol-soap",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "mongdol-soap-home-desktop.webp",
+          "url": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link/",
+          "title": "몽돌솝 — 둥글고 순한 수제 비누",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:05:10.502429+00:00",
+          "discoveredFrom": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link",
+          "linkText": null,
+          "sha256": "1b5761e734efe37c466970a4b7dfe02c0e25acf3b539616e6005dc99d2112a17"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "mongdol-soap-home-mobile.webp",
+          "url": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link/",
+          "title": "몽돌솝 — 둥글고 순한 수제 비누",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:05:11.920806+00:00",
+          "discoveredFrom": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link",
+          "linkText": null,
+          "sha256": "600cd4bb2801aac8efc09bbe50a960043e4bb29f3de958042cdfcfb7fb15274f"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "mongdol-soap-collection-desktop.webp",
+          "url": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link/products",
+          "title": "전체 상품 | 몽돌솝",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:05:14.381452+00:00",
+          "discoveredFrom": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link",
+          "linkText": "전체 상품",
+          "sha256": "5e0e94ea5fc7b5654d8484b5a239dca34e8e9caa70f1152ec607c7875b15a393"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "mongdol-soap-collection-mobile.webp",
+          "url": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link/products",
+          "title": "전체 상품 | 몽돌솝",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:05:15.636615+00:00",
+          "discoveredFrom": "https://d93ec2ecf1b9433ba1a5b4e200bd7abe.app.comwit.link",
+          "linkText": "전체 상품",
+          "sha256": "bd046cdb7fc369335bc9743de46b36ce2a58028d1a2cbb2846d370823009f3ff"
+        }
+      ]
+    },
+    {
+      "id": "hangyeol-leather",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "hangyeol-leather-home-desktop.webp",
+          "url": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link/",
+          "title": "한결 레더 — 손에 길드는 가죽 소품과 만년필",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:05:17.149548+00:00",
+          "discoveredFrom": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link",
+          "linkText": null,
+          "sha256": "3b6ac826a97dd97f7fdb23f9457aafb1c26684099b12ec8559844315c9bcd73d"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "hangyeol-leather-home-mobile.webp",
+          "url": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link/",
+          "title": "한결 레더 — 손에 길드는 가죽 소품과 만년필",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:05:19.374233+00:00",
+          "discoveredFrom": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link",
+          "linkText": null,
+          "sha256": "74145533f07014b919696657a308d86fdaf29360ac54be3ef255bccd78af9c35"
+        },
+        {
+          "kind": "collection",
+          "device": "desktop",
+          "file": "hangyeol-leather-collection-desktop.webp",
+          "url": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link/products",
+          "title": "컬렉션 | 한결 레더",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "capturedAt": "2026-10-25T14:05:21.758385+00:00",
+          "discoveredFrom": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link",
+          "linkText": "컬렉션 살펴보기",
+          "sha256": "814fb8b9ffdfb9ffea66589c45204a7d4eb4ab4db46a2d9e3566f4625299025d"
+        },
+        {
+          "kind": "collection",
+          "device": "mobile",
+          "file": "hangyeol-leather-collection-mobile.webp",
+          "url": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link/products",
+          "title": "컬렉션 | 한결 레더",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "capturedAt": "2026-10-25T14:05:23.093946+00:00",
+          "discoveredFrom": "https://38687e04fad94ac7a8e199f8c269b45f.app.comwit.link",
+          "linkText": "컬렉션 살펴보기",
+          "sha256": "87a000ea45fe0009d99061255c7cfaefd1e036be4869283032ae919c78fca3b7"
+        }
+      ]
+    }
+  ],
+  "usage": "Captured from the existing public example sites for their documentation gallery. These screenshots are visual references, not reusable product-photo or logo assets. Original maintainer-supplied captures and provenance remain in /template/shop/catalog.json."
+}

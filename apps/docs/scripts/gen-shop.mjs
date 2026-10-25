@@ -40,6 +40,25 @@ for (const screen of admin) {
   copyFileSync(join(adminDir, screen.file), join(out, screen.file))
   expected.add(screen.file)
 }
+// Docs-only captures supplement the pinned product catalog without modifying it.
+const galleryDir = fileURLToPath(new URL('../assets/shop-gallery/', import.meta.url))
+const gallery = JSON.parse(readFileSync(join(galleryDir, 'captures.json'), 'utf8'))
+for (const brand of gallery.brands) {
+  const original = catalog.brands.find((item) => item.id === brand.id)
+  if (!original) throw new Error('Unknown gallery brand: ' + brand.id)
+  for (const screen of brand.screens) {
+    if (
+      !/^[a-z0-9-]+\.webp$/.test(screen.file) ||
+      new URL(screen.url).origin !== new URL(original.url).origin ||
+      hash(join(galleryDir, screen.file)) !== screen.sha256
+    )
+      throw new Error('Invalid gallery screenshot: ' + screen.file)
+    copyFileSync(join(galleryDir, screen.file), join(out, screen.file))
+    expected.add(screen.file)
+  }
+}
+copyFileSync(join(galleryDir, 'captures.json'), join(out, 'gallery.json'))
+expected.add('gallery.json')
 for (const file of readdirSync(out)) if (!expected.has(file)) rmSync(join(out, file))
 writeFileSync(join(out, 'catalog.json'), JSON.stringify(catalog, null, 2) + '\n')
 writeFileSync(

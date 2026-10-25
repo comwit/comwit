@@ -11,6 +11,7 @@ import {
 import { useState } from 'react'
 import { useLocale } from 'next-intl'
 import reference from '@/lib/shop-reference.json'
+import captures from '@/assets/shop-gallery/captures.json'
 
 const types: Record<string, [string, string]> = {
   fashion: ['패션', 'Fashion'],
@@ -62,81 +63,106 @@ type Brand = (typeof orderedBrands)[number]
 function BrandPreview({ brand, ko }: { brand: Brand; ko: boolean }) {
   const displayName = brandNames[brand.id]?.[ko ? 0 : 1] ?? brand.name
   const industry = ko ? brand.category : (industries[brand.category] ?? brand.typeLabelEn)
+  const captured = captures.brands.find((item) => item.id === brand.id)!
+  const home = captured.screens.find((item) => item.kind === 'home' && item.device === 'desktop')!
+  const mobile = captured.screens.find((item) => item.kind === 'home' && item.device === 'mobile')!
+  const screens = [
+    ...captured.screens.map((item) => ({
+      ...item,
+      label: `${item.kind === 'home' ? (ko ? '홈' : 'Home') : ko ? '상품 목록' : 'Collection'} · ${item.device === 'desktop' ? 'PC' : ko ? '모바일' : 'Mobile'}`,
+      width: item.viewport.width,
+      height: item.viewport.height,
+    })),
+    ...brand.screens
+      .filter((item) => item.kind === 'detail')
+      .map((item) => ({
+        ...item,
+        url: brand.url + brand.productPath,
+        label: ko ? '상품 상세' : 'Product detail',
+        width: 720,
+        height: 480,
+      })),
+  ]
   const [screenIndex, setScreenIndex] = useState(0)
-  const screen = brand.screens[screenIndex]
+  const screen = screens[screenIndex]
   return (
     <article className="shop-reference-card">
-      <div className="shop-reference-media">
-        <Dialog
-          onOpenChange={(open) => {
-            if (open) setScreenIndex(0)
-          }}
-        >
-          <DialogTrigger asChild>
-            <Button
-              variant="plain"
-              size="none"
-              type="button"
-              className="shop-image-trigger"
-              aria-label={ko ? `${displayName} 화면 보기` : `View ${displayName} screens`}
-            >
-              <Image
-                unoptimized
-                src={`/template/shop/${brand.screens[0].file}`}
-                width={720}
-                height={480}
-                alt={`${displayName} — ${ko ? '홈 화면' : 'homepage'}`}
-                loading="lazy"
-              />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="shop-image-dialog" closeLabel={ko ? '닫기' : 'Close'}>
-            <div className="shop-image-dialog-heading">
-              <DialogTitle>{displayName}</DialogTitle>
-              <DialogDescription>{industry}</DialogDescription>
-            </div>
+      <Dialog
+        onOpenChange={(open) => {
+          if (open) setScreenIndex(0)
+        }}
+      >
+        <DialogTrigger asChild>
+          <Button
+            variant="plain"
+            size="none"
+            type="button"
+            className="shop-image-trigger"
+            aria-label={ko ? `${displayName} 화면 보기` : `View ${displayName} screens`}
+          >
+            <Image
+              className="shop-preview-desktop"
+              unoptimized
+              src={`/template/shop/${home.file}`}
+              width={home.viewport.width}
+              height={home.viewport.height}
+              alt={`${displayName} — ${ko ? 'PC 홈 화면' : 'desktop homepage'}`}
+              loading="lazy"
+            />
+            <Image
+              className="shop-preview-mobile"
+              unoptimized
+              src={`/template/shop/${mobile.file}`}
+              width={mobile.viewport.width}
+              height={mobile.viewport.height}
+              alt={`${displayName} — ${ko ? '모바일 홈 화면' : 'mobile homepage'}`}
+              loading="lazy"
+            />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="shop-image-dialog" closeLabel={ko ? '닫기' : 'Close'}>
+          <div className="shop-image-dialog-heading">
+            <DialogTitle>{displayName}</DialogTitle>
+            <DialogDescription>{industry}</DialogDescription>
+          </div>
+          <div className="shop-image-viewer" aria-live="polite" aria-atomic="true">
             <Image
               unoptimized
               src={`/template/shop/${screen.file}`}
-              width={720}
-              height={480}
-              alt={`${displayName} — ${screenIndex === 0 ? (ko ? '홈 화면' : 'homepage') : ko ? '상품 상세 화면' : 'product detail'}`}
+              width={screen.width}
+              height={screen.height}
+              alt={`${displayName} — ${screen.label}`}
             />
-            <div className="shop-image-tools">
-              <div>
-                {brand.screens.map((item, index) => (
-                  <Button
-                    variant="plain"
-                    size="none"
-                    key={item.kind}
-                    type="button"
-                    aria-pressed={screenIndex === index}
-                    onClick={() => setScreenIndex(index)}
-                  >
-                    {index === 0 ? (ko ? '홈' : 'Home') : ko ? '상세' : 'Detail'}
-                  </Button>
-                ))}
-              </div>
-              <a
-                href={screenIndex === 0 ? brand.url : brand.url + brand.productPath}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {ko ? '사이트' : 'Visit site'} ↗
-              </a>
+            <span className="sr-only">{screen.label}</span>
+          </div>
+          <div className="shop-image-tools">
+            <div role="group" aria-label={ko ? '화면 선택' : 'Choose a screen'}>
+              {screens.map((item, index) => (
+                <Button
+                  variant="plain"
+                  size="none"
+                  key={item.file}
+                  type="button"
+                  aria-pressed={screenIndex === index}
+                  onClick={() => setScreenIndex(index)}
+                >
+                  {item.label}
+                </Button>
+              ))}
             </div>
-          </DialogContent>
-        </Dialog>
-        <a
-          className="shop-site-link"
-          href={brand.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={ko ? `${displayName} 사이트 보기 (새 탭)` : `Visit ${displayName} (new tab)`}
-        >
-          {ko ? '사이트 보기' : 'Visit site'} <span aria-hidden="true">↗</span>
-        </a>
-      </div>
+            <a
+              href={screen.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={
+                ko ? `${displayName} 사이트 보기 (새 탭)` : `Visit ${displayName} (new tab)`
+              }
+            >
+              {ko ? '사이트 보기' : 'Visit site'} <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </DialogContent>
+      </Dialog>
       <div className="shop-reference-caption">
         <span>{displayName}</span>
         <small>{industry}</small>
@@ -176,8 +202,9 @@ export function ShopGallery() {
         <a href={reference.catalog.source} target="_blank" rel="noreferrer">
           Shop Studio ↗
         </a>{' '}
-        · {ko ? '실제 화면' : 'Actual screens'} · 2026-10-15 ·{' '}
-        <a href="/template/shop/catalog.json">{ko ? '출처' : 'Sources'}</a>
+        · {ko ? '실제 화면' : 'Actual screens'} ·{' '}
+        <a href="/template/shop/catalog.json">{ko ? '기존 출처' : 'Original sources'}</a> ·{' '}
+        <a href="/template/shop/gallery.json">{ko ? '추가 캡처 출처' : 'Additional captures'}</a>
       </p>
     </section>
   )
