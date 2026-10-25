@@ -154,6 +154,8 @@ export function ShopAdminScreens() {
                 unoptimized
                 src={`/template/shop/${screen.file}`}
                 alt={ko ? screen.titleKo : screen.title}
+                width={1164}
+                height={655}
                 loading="lazy"
               />
             </a>
