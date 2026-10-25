@@ -1,0 +1,32 @@
+---
+title: Getting started
+group: Shop Template
+order: 21
+description: Run the shop and preview its existing screens.
+---
+
+<a id="shop-start"></a>
+
+# Getting started
+
+Node.js 22.16 or later · pnpm 11.3.0
+
+```bash
+npm create comwit@latest my-shop -- --shop --pm pnpm
+cd my-shop
+pnpm storybook
+```
+
+Preview pages with mock APIs in Storybook.
+
+<a id="connect"></a>
+
+## Connect your project
+
+Prepare the environment with your Comwit project setup prompt, then request `shop-setup`. Follow the <ShopSourceLink path="docs/shop-resources.md">resource connection guide</ShopSourceLink> for database and storage.
+
+```bash
+pnpm dev
+```
+
+For other services, see [integration settings](/template/docs/integrations).

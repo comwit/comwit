@@ -10,23 +10,30 @@ import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import { getTemplateDoc, getTemplateDocs } from '@/lib/template-docs'
+import {
+  ShopGallery,
+  ShopRoutes,
+  ShopAdminScreens,
+  ShopSourceLink,
+} from '../../_components/shop-reference'
+import { ShopSchema } from '../../_components/shop-schema'
 import { TableOfContents } from '../../_components/toc'
 
 export function generateStaticParams() {
-  return getTemplateDocs().map((doc) => ({ slug: doc.slug }))
+  return getTemplateDocs().map((doc) => ({ slug: doc.slug.split('/') }))
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
+export async function generateMetadata({ params }: { params: Promise<{ slug: string[] }> }) {
+  const slug = (await params).slug.join('/')
   const doc = getTemplateDoc(slug, await getLocale())
   if (!doc) return {}
   return { title: doc.title, description: doc.description }
 }
 
-export default async function TemplateDocPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function TemplateDocPage({ params }: { params: Promise<{ slug: string[] }> }) {
   const copy = await getTranslations('Copy')
 
-  const { slug } = await params
+  const slug = (await params).slug.join('/')
   const doc = getTemplateDoc(slug, await getLocale())
   if (!doc) notFound()
   const docs = getTemplateDocs(await getLocale())
@@ -35,11 +42,16 @@ export default async function TemplateDocPage({ params }: { params: Promise<{ sl
   const next = index < docs.length - 1 ? docs[index + 1] : null
 
   return (
-    <div className="tp-doc">
+    <div
+      className="tp-doc"
+      data-wide={slug.startsWith('shop/') || undefined}
+      data-gallery={slug === 'shop/overview' || undefined}
+    >
       <div className="tp-doc-body">
         <article className="template-guide prose max-w-none">
           <MDXRemote
             source={doc.content}
+            components={{ ShopGallery, ShopRoutes, ShopSchema, ShopAdminScreens, ShopSourceLink }}
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm, remarkStableAnchors],

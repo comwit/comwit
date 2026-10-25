@@ -20,5 +20,7 @@ packages/ui/core/src/icons/generated/
 .env*
 !.env.example
 
+# Generated from the pinned shop source and its canonical reference catalog.
+/apps/docs/public/template/shop/
 /packages/template/shop-template/
 /packages/template/template-sources.json

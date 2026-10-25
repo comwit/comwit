@@ -1,0 +1,32 @@
+---
+title: 시작하기
+group: Shop Template
+order: 21
+description: 쇼핑몰을 설치하고 준비된 화면을 확인합니다.
+---
+
+<a id="shop-start"></a>
+
+# 시작하기
+
+Node.js 22.16 이상 · pnpm 11.3.0
+
+```bash
+npm create comwit@latest my-shop -- --shop --pm pnpm
+cd my-shop
+pnpm storybook
+```
+
+Storybook에서 목 API를 사용하는 페이지를 확인합니다.
+
+<a id="connect"></a>
+
+## 프로젝트 연결
+
+Comwit 프로젝트 설정 프롬프트로 환경을 준비한 뒤 `shop-setup`을 요청하세요. DB·스토리지는 <ShopSourceLink path="docs/shop-resources.md">리소스 연결 안내</ShopSourceLink>를 따릅니다.
+
+```bash
+pnpm dev
+```
+
+다른 서비스를 사용하려면 [연동 설정](/template/docs/integrations)을 참고하세요.

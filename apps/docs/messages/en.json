@@ -707,7 +707,12 @@
     "templateRuleCount": "Automatic checks",
     "templateRuleWhy": "Keep code in the right place.",
     "templateSkillCount": "Setup skills",
-    "templateSkillWhy": "App setup, auth, SEO, data migration and videos."
+    "templateSkillWhy": "App setup, auth, SEO, data migration and videos.",
+    "templateCommon": "Common guides",
+    "templateBase": "Base Template",
+    "templateShopDescription": "A storefront with products, inventory, orders and admin screens.",
+    "templateAll": "All templates",
+    "templateChoose": "Choose a template"
   },
   "Locale": {
     "switch": "Switch to Korean"

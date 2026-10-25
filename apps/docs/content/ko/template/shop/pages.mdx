@@ -1,0 +1,30 @@
+---
+title: 페이지 구조
+group: Shop Template
+order: 22
+description: 실제 App Router 경로와 준비된 관리자 화면.
+---
+
+<a id="pages"></a>
+
+# 페이지 구조
+
+라우터는 `src/app/`, 화면 구현은 `src/services/app/page/`와 `src/services/admin/page/`에 있습니다.
+
+<ShopRoutes />
+
+<a id="admin"></a>
+
+## 준비된 관리자 화면
+
+첫 설정에서 `/관리자-<10자리 16진수>` 경로를 만듭니다. `.env`의 `NEXT_PUBLIC_ADMIN_BASE_PATH`로 최종 경로를 바꿀 수 있습니다.
+
+```dotenv
+NEXT_PUBLIC_ADMIN_BASE_PATH=/운영실
+```
+
+변경 후 개발 서버를 재시작하세요. 배포할 때는 같은 값으로 다시 빌드합니다. `/admin`은 내부 라우터 경로입니다.
+
+<ShopAdminScreens />
+
+기존 스토리는 `src/stories/admin/`, API 목은 `src/stories/mocks/`에 있습니다. 공통 레이어 규칙은 [프로젝트 구조](/template/docs/structure)에 있습니다.

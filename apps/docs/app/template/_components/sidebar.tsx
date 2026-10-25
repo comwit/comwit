@@ -6,7 +6,14 @@ import { useTranslations } from 'next-intl'
 import { Button } from '@comwit/ui-templates/button'
 import * as React from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@comwit/ui-templates/select'
 import { ListIcon } from '@phosphor-icons/react/dist/csr/List'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import type { TemplateDocMeta } from '@/lib/template-docs'
@@ -14,55 +21,79 @@ import type { TemplateDocMeta } from '@/lib/template-docs'
 const OVERVIEW = '/template'
 const hrefFor = (doc: TemplateDocMeta) => `/template/docs/${doc.slug}`
 
-/** Groups in the order their first doc appears; docs keep their `order` inside a group. */
-function groupDocs(docs: TemplateDocMeta[]) {
-  const groups = new Map<string, TemplateDocMeta[]>()
-  for (const doc of [...docs].sort((a, b) => a.order - b.order)) {
-    const list = groups.get(doc.group)
-    if (list) list.push(doc)
-    else groups.set(doc.group, [doc])
-  }
-  return [...groups]
-}
-
 function NavContent({ docs, onNavigate }: { docs: TemplateDocMeta[]; onNavigate?: () => void }) {
   const copy = useTranslations('Copy')
-
   const pathname = usePathname()
+  const router = useRouter()
+  const templates = Array.from(
+    new Map(
+      docs.filter((doc) => doc.slug.includes('/')).map((doc) => [doc.slug.split('/')[0], doc.group])
+    )
+  )
+  const selected =
+    templates.find(([id]) => pathname.startsWith(`/template/docs/${id}/`))?.[0] ?? 'base'
+  const current = docs.filter((doc) =>
+    selected === 'base'
+      ? !doc.slug.includes('/') && doc.group !== 'Common'
+      : doc.slug.startsWith(selected + '/')
+  )
+  const common = docs.filter((doc) => doc.group === 'Common')
+  const link = (doc: TemplateDocMeta) => (
+    <Link
+      key={doc.slug}
+      href={hrefFor(doc)}
+      aria-current={pathname === hrefFor(doc) ? 'page' : undefined}
+      onClick={onNavigate}
+    >
+      {doc.title}
+    </Link>
+  )
   return (
     <nav aria-label={copy('text089')} className="template-nav">
       <Link
         href={OVERVIEW}
+        className="template-nav-index"
         aria-current={pathname === OVERVIEW ? 'page' : undefined}
         onClick={onNavigate}
       >
-        <Copy id="text090" />{' '}
+        <Copy id="templateAll" />
       </Link>
-      {groupDocs(docs).map(([group, items]) => (
-        <React.Fragment key={group}>
-          <p className="template-nav-group">
-            <Copy text={group} />
-          </p>
-          {items.map((doc) => {
-            const href = hrefFor(doc)
-            return (
-              <Link
-                key={doc.slug}
-                href={href}
-                aria-current={pathname === href ? 'page' : undefined}
-                onClick={onNavigate}
-              >
-                {doc.title}
-              </Link>
-            )
-          })}
-        </React.Fragment>
-      ))}
-      <p className="template-nav-group">
-        <Copy id="text091" />
-      </p>
-      <a href="/template/llms.txt" target="_blank" rel="noreferrer">
-        llms.txt
+      <Select
+        value={selected}
+        onValueChange={(id) => {
+          const first = docs.find((doc) =>
+            id === 'base' ? doc.group === 'Base Template' : doc.slug.startsWith(id + '/')
+          )
+          if (first) router.push(hrefFor(first))
+          onNavigate?.()
+        }}
+      >
+        <SelectTrigger className="template-select-trigger" aria-label={copy('templateChoose')}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="template-select-menu">
+          <SelectItem value="base">
+            <Copy id="templateBase" />
+          </SelectItem>
+          {templates.map(([id, label]) => (
+            <SelectItem key={id} value={id}>
+              {label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <div className="template-current-docs">{current.map(link)}</div>
+      <details
+        className="template-common-links"
+        open={common.some((doc) => pathname === hrefFor(doc)) || undefined}
+      >
+        <summary>
+          <Copy id="templateCommon" />
+        </summary>
+        {common.map(link)}
+      </details>
+      <a className="template-nav-agent" href="/template/llms.txt" target="_blank" rel="noreferrer">
+        llms.txt ↗
       </a>
     </nav>
   )

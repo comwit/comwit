@@ -33,7 +33,7 @@ function read(file: string, locale: string) {
 }
 
 export function getTemplateDocs(locale = 'en'): TemplateDocMeta[] {
-  return listMdxFiles(contentDir(locale))
+  return listMdxFiles(contentDir(locale), true)
     .map((file) => {
       const { title, slug, description, group, order } = read(file, locale)
       return { title, slug, description, group, order }
@@ -43,6 +43,10 @@ export function getTemplateDocs(locale = 'en'): TemplateDocMeta[] {
 
 export function getTemplateDoc(slug: string, locale = 'en'): TemplateDoc | null {
   const file = `${slug}.mdx`
-  if (!/^[a-z0-9-]+$/.test(slug) || !fs.existsSync(path.join(contentDir(locale), file))) return null
+  if (
+    !/^[a-z0-9-]+(?:\/[a-z0-9-]+)*$/.test(slug) ||
+    !fs.existsSync(path.join(contentDir(locale), file))
+  )
+    return null
   return read(file, locale)
 }

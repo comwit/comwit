@@ -1,0 +1,30 @@
+---
+title: Page structure
+group: Shop Template
+order: 22
+description: Actual App Router paths and existing admin pages.
+---
+
+<a id="pages"></a>
+
+# Page structure
+
+Routes live in `src/app/`; page implementations live in `src/services/app/page/` and `src/services/admin/page/`.
+
+<ShopRoutes />
+
+<a id="admin"></a>
+
+## Existing admin screens
+
+Initial setup creates `/관리자-<10 hex characters>`. Set the complete path with `NEXT_PUBLIC_ADMIN_BASE_PATH` in `.env`.
+
+```dotenv
+NEXT_PUBLIC_ADMIN_BASE_PATH=/운영실
+```
+
+Restart the dev server after changes; rebuild with the same value for deployment. `/admin` is the internal router path.
+
+<ShopAdminScreens />
+
+The existing stories live in `src/stories/admin/`, with API mocks in `src/stories/mocks/`. Shared layer rules: [Project structure](/template/docs/structure).
