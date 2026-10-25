@@ -12,10 +12,9 @@ import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execFileSync, spawnSync } from 'node:child_process'
 
-import { templateSource, sourceFiles } from './source.js'
+import { sourceFor, sourceFiles } from './source.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
-const TEMPLATE = templateSource
 const VARIANTS = join(HERE, '..', 'variants')
 const DOCS = 'https://library.comwit.io/template'
 
@@ -60,6 +59,7 @@ function usage() {
   ${c.cyan('npx create-comwit@latest <dir>')} [options]
 
 Options
+  --shop            create the Shop Template with commerce pages and setup skills
   --opennext        deploy target Cloudflare Workers via OpenNext (adds wrangler.jsonc, open-next.config.ts, scripts)
   --name <name>     package name (default: the directory name)
   --pm <manager>    pnpm · npm · yarn · bun (default: pnpm when installed, else the invoking manager)
@@ -103,6 +103,8 @@ const NAME_RE = /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/
 
 // ── main ────────────────────────────────────────────────────────────────
 const { positional, flags } = parseArgs(process.argv.slice(2))
+const templateName = flags.shop ? 'shop' : 'base'
+const TEMPLATE = sourceFor(templateName)
 if (flags.help || flags.h) {
   usage()
   process.exit(0)
@@ -116,6 +118,8 @@ if (!dir) {
   usage()
   die('tell me where to create the project: create-comwit <dir>')
 }
+if (flags.shop && flags.opennext)
+  die('--shop cannot be combined with --opennext; use the shop deployment settings')
 if (!existsSync(join(TEMPLATE, 'package.json')))
   die('the bundled template is missing — reinstall create-comwit')
 
@@ -132,7 +136,7 @@ if (
 const files = sourceFiles(TEMPLATE)
 const variantFiles = flags.opennext ? walk(join(VARIANTS, 'opennext', 'files')) : []
 log(
-  `${c.bold('create-comwit')} → ${c.cyan(relative(process.cwd(), target) || '.')} ${c.dim(`(${files.length + variantFiles.length} files${flags.opennext ? ', opennext' : ''})`)}`
+  `${c.bold('create-comwit')} → ${c.cyan(relative(process.cwd(), target) || '.')} ${c.dim(`(${files.length + variantFiles.length} files, ${templateName}${flags.opennext ? ', opennext' : ''})`)}`
 )
 
 if (flags.dry) {

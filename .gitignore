@@ -19,3 +19,6 @@ packages/ui/core/src/icons/generated/
 # Local environment values stay outside Git. Keep only blank examples.
 .env*
 !.env.example
+
+/packages/template/shop-template/
+/packages/template/template-sources.json
