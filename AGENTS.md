@@ -19,7 +19,7 @@ Comwit is a pnpm workspace containing independent State and UI libraries used in
 - `packages/ui/templates` (`@comwit/ui-templates`) owns editable component source and the shared CSS token contract.
 - `packages/ui/cli` (`comwit-ui`) installs component source into consumer projects. Generate its registry from templates; do not edit generated JSON.
 - `templates/base` and `templates/shop` are independent source repositories. Keep their code, settings and skills aligned with their maintained source; preserve each repository's own pnpm lockfile and standalone setup. Never include them in the parent pnpm workspace.
-- `packages/template` (`create-comwit`) exports the pinned `templates/base` source during `prepack`; its ignored `template/` directory is generated packaging output, never a second source.
+- `packages/template` (`create-comwit`) exports the pinned `templates/base` and `templates/shop` sources during `prepack`; its ignored `template/` and `shop-template/` directories are generated packaging output, never a second source.
 - `apps/docs` owns the shared site, product-specific human docs and separate llms.txt files. Generate UI previews from Storybook specs and registry source. Template guides live in `content/template`.
 
 Keep public package names, independent versions, and runtime exports stable during repository maintenance. Site branding must not change the UI library's token defaults. Never couple the UI engine to State just to support a docs example.
