@@ -15,3 +15,7 @@ packages/ui/core/src/icons/generated/
 # create-comwit packages the pinned canonical template; never track a second source.
 /packages/template/template/
 /packages/template/*.tgz
+
+# Local environment values stay outside Git. Keep only blank examples.
+.env*
+!.env.example

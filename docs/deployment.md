@@ -7,13 +7,12 @@ pages can read them after deployment.
 
 ## Environment
 
-| Name                  | Storage                                     | Purpose                                          |
-| --------------------- | ------------------------------------------- | ------------------------------------------------ |
-| `COMWIT_PROJECT`      | Local environment / GitHub variable         | Target Cloud project                             |
-| `COMWIT_APP`          | Local environment / GitHub variable         | Dedicated docs app                               |
-| `SITE_URL`            | Build/runtime environment / GitHub variable | Public origin for metadata and agent-guide links |
-| `GIT_SHA`             | Build environment                           | Revision exposed by `/api/health`                |
-| `COMWIT_DEPLOY_TOKEN` | GitHub Actions secret only                  | Dedicated `app:read` / `app:deploy` credential   |
+| Name             | Storage                   | Purpose                                          |
+| ---------------- | ------------------------- | ------------------------------------------------ |
+| `COMWIT_PROJECT` | Local environment         | Target Cloud project                             |
+| `COMWIT_APP`     | Local environment         | Dedicated docs app                               |
+| `SITE_URL`       | Build/runtime environment | Public origin for metadata and agent-guide links |
+| `GIT_SHA`        | Build environment         | Revision exposed by `/api/health`                |
 
 No target IDs, deployment URLs or credentials belong in source. The docs runtime
 needs no deployment credential. Local `comwit` uses its own logged-in CLI config;
@@ -33,19 +32,15 @@ State, UI, Template, blog and llms.txt paths after deployment.
 Vercel-specific repository configuration has been removed. Custom-domain DNS is
 separate from deploying the app to its provider-assigned public URL.
 
-## Main automation
+## Manual deployment only
 
-`.github/workflows/deploy-docs.yml` runs after successful main CI, or by manual
-dispatch on main. It checks out the verified SHA, skips obsolete main revisions,
-builds the artifact, deploys with a pinned CLI and verifies the public revision
-plus representative English/Korean routes. The deploy credential is available only
-after the build and is stored in a temporary mode-0600 CLI config, then removed.
+Pushing to main runs validation CI and does not deploy the site. Deploy manually
+with the logged-in Comwit CLI and the commands above. No GitHub deployment token
+or deployment workflow is required.
 
-Configure `COMWIT_PROJECT`, `COMWIT_APP`, `COMWIT_API_URL` and `SITE_URL` as GitHub
-variables. Add a dedicated project token with `app:read` and `app:deploy` as the
-`COMWIT_DEPLOY_TOKEN` secret, then set `COMWIT_DEPLOY_ENABLED=true`. The workflow
-stays disabled until that explicit setup is complete. Do not use an internal
-platform server token or a broad personal development credential for automation.
+Real `.env` and `.env.*` files are ignored throughout this repository. The tracked
+`apps/docs/.env.example` contains blank variable names only. Keep local environment
+files and the CLI authentication config on your machine; never commit them.
 
 On macOS the deploy helper disables AppleDouble resource-fork packaging. Content
 discovery also ignores hidden metadata files; MDX is bundled for the isolate
