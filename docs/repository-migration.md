@@ -10,7 +10,7 @@ Apply the product PRs first, then the parent gitlink PR:
 2. https://github.com/comwit/ui/pull/1
 3. https://github.com/comwit/template/pull/1
 4. https://github.com/comwit/template-shop/pull/1
-5. The dependent `comwit/comwit` repository migration PR.
+5. https://github.com/comwit/comwit/pull/141
 
 The parent pins published product PR commits so its recursive clone is testable
 before merge. After product merges, confirm those commits remain reachable or
@@ -38,3 +38,21 @@ isolated fixtures, not real shop payment, notification or production data.
   Moving Prism comwit-template to comwit/template is a separate owner TODO.
 - GitHub monorepo subdirectory import is not implemented.
 - Course templates, npm releases and production docs deployment are out of scope.
+
+## Handoff to the service integration owner
+
+| Source repository                       | Usable branch before merge     | Verified commit                            |
+| --------------------------------------- | ------------------------------ | ------------------------------------------ |
+| https://github.com/comwit/template      | `codex/public-source-snapshot` | `d615f460f5d1dd1ea0f5b17240ff5047be80db73` |
+| https://github.com/comwit/template-shop | `codex/public-source-snapshot` | `8a38982669128a81d5d510c6356c570ad9053872` |
+
+These refs install and build independently. Use them explicitly while the PRs
+remain unmerged; new template repositories' main branches are initialization
+commits until their source PRs merge. The representative integration branch is
+`codex/independent-repositories`, targeting `main`. No service configuration is
+changed here. The shop application needs its own Cloud/resource/auth environment
+for real runtime data; its tests and Storybook use isolated fixtures/mocks.
+
+Parent clean-clone verification passed: recursive GitHub clone, frozen workspace
+install, docs production build, 16 source/submodule/CLI integration checks and the
+State playground build. A live docs Dialog example was opened in the browser.

@@ -6,7 +6,7 @@ Live UI examples come from `../../packages/ui/apps/storybook/specs/`; the regist
 and component source remain in that same UI repository.
 
 ```bash
-git clone --recurse-submodules https://github.com/comwit/comwit.git
+git clone --branch main --recurse-submodules https://github.com/comwit/comwit.git
 cd comwit
 pnpm install --frozen-lockfile
 pnpm dev:docs

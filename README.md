@@ -20,7 +20,7 @@ copy is removed. `create-comwit` packages the pinned `templates/base` source.
 ## Develop from the root
 
 ```bash
-git clone --recurse-submodules https://github.com/comwit/comwit.git
+git clone --branch main --recurse-submodules https://github.com/comwit/comwit.git
 cd comwit
 pnpm install --frozen-lockfile
 pnpm dev:docs
