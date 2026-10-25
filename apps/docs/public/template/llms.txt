@@ -5,12 +5,13 @@ rules for folder structure and key dependency boundaries.
 
 Source: https://github.com/comwit/template (templates/base in comwit/comwit).
 The source includes editable Comwit integrations and the brrrd build adapter by default.
-The root create-comwit pack step exports this pinned source; no separate generic
-snapshot is maintained. This migration does not publish a new npm version.
 
 ## Start
 
-npm create comwit@latest my-app
+Use Node.js 22.16 or later and pnpm 11.3.0. The create command installs dependencies
+and initializes a new Git history when Git is available; it never copies upstream history.
+
+npm create comwit@latest my-app -- --pm pnpm
 cd my-app
 pnpm run dev
 
