@@ -6,7 +6,22 @@ import { fileURLToPath } from 'node:url'
 const here = dirname(fileURLToPath(import.meta.url))
 export const canonical = join(here, '../../../templates/base')
 export const bundled = join(here, '../template')
-export const templateSource = existsSync(join(canonical, 'package.json')) ? canonical : bundled
+export const shopCanonical = join(here, '../../../templates/shop')
+export const shopBundled = join(here, '../shop-template')
+export const sources = {
+  base: { canonical, bundled, repository: 'https://github.com/comwit/template' },
+  shop: {
+    canonical: shopCanonical,
+    bundled: shopBundled,
+    repository: 'https://github.com/comwit/template-shop',
+  },
+}
+export function sourceFor(name = 'base') {
+  const source = sources[name]
+  if (!source) throw new Error(`Unknown template: ${name}`)
+  return existsSync(join(source.canonical, 'package.json')) ? source.canonical : source.bundled
+}
+export const templateSource = sourceFor()
 
 export function publicFile(name) {
   const parts = name.split('/')
@@ -34,7 +49,7 @@ export function publicFile(name) {
 }
 
 export function sourceFiles(root = templateSource) {
-  if (root === canonical) {
+  if (Object.values(sources).some((source) => root === source.canonical)) {
     // Git supplies the source inventory; ignored local credentials and build output never enter it.
     return [
       ...new Set(

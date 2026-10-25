@@ -87,8 +87,10 @@ when changing maintained source. Never include real environment values, user dat
 local caches or build output.
 
 `packages/template` preserves the `create-comwit` package. `prepack` exports the
-pinned base submodule to an ignored packaging directory and verifies byte equality.
-The optional `--opennext` overlay changes only the generated project when requested.
+pinned base and shop submodules to ignored packaging directories and verifies byte equality.
+`--shop` selects the shop snapshot; the default remains the base. The optional
+`--opennext` overlay is for the base template only. Packaged `template-sources.json`
+records both source commits.
 Never hand-edit the ignored package snapshot.
 
 Work in the repository owning each file, even from the parent workspace. Open its
@@ -112,7 +114,7 @@ Use the browser to check the home page, product navigation, mobile menus, live U
 
 The packages retain independent versions: State, the UI engine, template sources, and the CLI need not be released together. Use package-specific tags for future package releases. A repository/documentation milestone may use a `libraries-YYYY-MM-DD` tag; it does not imply a new npm version.
 
-Before publishing a package, build/typecheck it and inspect its packed contents. For the UI CLI, `prepack` generates its bundled registry. For `create-comwit`, check that `npm pack --dry-run` lists `template/_gitignore` and `variants/` (npm would drop a `.gitignore`). This repository does not automatically publish npm packages when a GitHub release is created.
+Before publishing a package, build/typecheck it and inspect its packed contents. For the UI CLI, `prepack` generates its bundled registry. For `create-comwit`, check that `npm pack --dry-run` lists `template/_gitignore`, `shop-template/_gitignore`, `template-sources.json` and `variants/` (npm would drop a `.gitignore`). This repository does not automatically publish npm packages when a GitHub release is created.
 
 ## Repository consolidation
 
