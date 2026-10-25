@@ -30,6 +30,23 @@ Implement from repository to page. API domains contain index.ts, types.ts and ac
 state domains also contain model.ts. API actions use createAction and are exposed
 through resolveActions. Server Components may fetch initial data for hydration.
 
+## Comwit service setup
+
+The base source is designed for Comwit Cloud. @brrrd/adapter produces dist/brrrd
+from next build; scripts/brrrd-adapter.mjs also prepares runtime page manifests.
+The preregistered .agents/scripts/comwit-mcp.mjs forwards agent requests to
+https://comwit.io/mcp with project context and the local Cloud credential.
+
+Builds, validation and mocked Storybook previews work without real credentials.
+For live services, use the Comwit project's setup prompt to prepare the CLI and
+.env. COMWIT_PROJECT_ID (MCP) and COMWIT_PROJECT (Cloud) are different IDs.
+Run comwit login, then comwit auth export-token --env-out .env; verify with
+node .agents/scripts/comwit-mcp.mjs --check. Never print or commit the token.
+Use MCP setup_database/setup_storage only for needed resources and follow the
+returned nextSteps. Do not invent IDs or register a second MCP server.
+Local deployment requires COMWIT_EXECUTION_ENV=local and COMWIT_APP; hosted
+sessions use their on-screen Deploy button. Follow the source README and AGENTS.md.
+
 ## Instructions and skills
 
 Read AGENTS.md first, then the relevant layer guide:

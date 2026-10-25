@@ -44,7 +44,13 @@ test('both template snapshots match their original public files', () => {
     }
     assert.ok(existsSync(join(root, dir, 'pnpm-lock.yaml')))
     assert.ok(existsSync(join(root, dir, 'pnpm-workspace.yaml')))
-    assert.ok(!existsSync(join(root, dir, '.env')), 'no real environment file in the checkout')
+    assert.equal(
+      execFileSync('git', ['-C', join(root, dir), 'ls-files', '--', '.env'], {
+        encoding: 'utf8',
+      }).trim(),
+      '',
+      'real environment files must remain untracked'
+    )
   }
 })
 
