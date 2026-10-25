@@ -79,16 +79,23 @@ Stars remain separate for each repository.
 
 ## Local checkouts
 
-A parent workspace and standalone clones can sit next to each other:
+The local workspace groups five independent repositories. Its top-level directory
+is not a Git repository; use it as the Codex project folder to work across docs,
+State, UI, Template and shop-template:
 
 ```text
-~/work/오픈소스/
-  comwit/                # parent, including its own submodule checkouts
-  comwit-state/          # comwit/state
-  comwit-ui/             # comwit/ui
-  comwit-template/       # comwit/template
-  comwit-template-shop/  # comwit/template-shop
+~/오픈소스/comwit/
+  AGENTS.md       # local workspace instructions
+  comwit/         # parent, including its own pinned submodule checkouts
+  state/          # comwit/state
+  ui/             # comwit/ui
+  template/       # comwit/template
+  shop-template/  # comwit/template-shop
 ```
+
+Run integrated workspace commands from `comwit/`, including
+`pnpm --filter docs dev --port 3115` for the local documentation preview.
+Keep each independent repository's Git history, lockfile and local settings.
 
 A sibling clone and its parent submodule use the same remote but have separate
 working files, branches and local settings. Changes are not synchronized live.
@@ -97,5 +104,6 @@ the other checkout and update the parent's gitlink in a separate commit/PR.
 Keep credentials and personal settings local to each checkout.
 
 Docs builds are validated by CI on `main`. Comwit Cloud deployment is configured
-through environment variables and a dedicated deploy secret; see [deployment](docs/deployment.md).
+through local environment variables and the logged-in CLI; deploy manually as
+described in [deployment](docs/deployment.md).
 Vercel-specific configuration has been removed.

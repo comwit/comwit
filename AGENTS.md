@@ -37,6 +37,7 @@ update the parent gitlink in a separate parent commit/PR. Do not mix or overwrit
 other repositories' or users' changes. Verify standalone operation and integrated
 docs. `packages/ui/apps/storybook` and `packages/ui/apps/ui-dev` belong to UI.
 
-Sibling `comwit-*` clones and parent submodules are separate checkouts of the same
+Sibling `state/`, `ui/`, `template/` and `shop-template/` repositories in the local
+workspace and this parent’s submodules are separate checkouts of the same
 remotes, not live-synchronized folders. Preserve each checkout's local settings;
 push/fetch commits explicitly and update the parent gitlink when adopting changes.
