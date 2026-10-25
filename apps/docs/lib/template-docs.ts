@@ -1,3 +1,4 @@
+import { listMdxFiles } from './content-files.mjs'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -32,9 +33,7 @@ function read(file: string, locale: string) {
 }
 
 export function getTemplateDocs(locale = 'en'): TemplateDocMeta[] {
-  return fs
-    .readdirSync(contentDir(locale))
-    .filter((file) => file.endsWith('.mdx'))
+  return listMdxFiles(contentDir(locale))
     .map((file) => {
       const { title, slug, description, group, order } = read(file, locale)
       return { title, slug, description, group, order }

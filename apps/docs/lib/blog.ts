@@ -1,3 +1,4 @@
+import { listMdxFiles } from './content-files.mjs'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -19,10 +20,7 @@ export interface BlogPost extends BlogPostMeta {
 
 function getBlogMdxFiles(locale: string): string[] {
   if (!fs.existsSync(contentDir(locale))) return []
-  const entries = fs.readdirSync(contentDir(locale), { withFileTypes: true })
-  return entries
-    .filter((entry) => !entry.isDirectory() && entry.name.endsWith('.mdx'))
-    .map((entry) => entry.name)
+  return listMdxFiles(contentDir(locale))
 }
 
 export function getAllBlogPosts(locale = 'en'): BlogPostMeta[] {

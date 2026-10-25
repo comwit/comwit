@@ -14,7 +14,8 @@
     "prebuild": "pnpm --filter @comwit/state build && pnpm --filter @comwit/ui build && pnpm gen",
     "gen": "pnpm --filter comwit-ui build:registry && node scripts/gen-ui.mjs && node scripts/gen-template.mjs",
     "typecheck": "tsc --noEmit",
-    "test:i18n": "node --test i18n/*.test.mjs"
+    "test:i18n": "node --test i18n/*.test.mjs",
+    "test:content": "node --test lib/*.test.mjs"
   },
   "dependencies": {
     "@comwit/state": "workspace:*",

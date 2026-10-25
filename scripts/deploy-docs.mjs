@@ -36,7 +36,7 @@ if (process.argv.includes('--check')) {
       '--package',
       artifact,
     ],
-    { stdio: 'inherit' }
+    { stdio: 'inherit', env: { ...process.env, COPYFILE_DISABLE: '1' } }
   )
   if (result.error) throw result.error
   process.exitCode = result.status ?? 1

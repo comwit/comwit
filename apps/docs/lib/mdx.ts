@@ -1,3 +1,4 @@
+import { listMdxFiles } from './content-files.mjs'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
@@ -16,26 +17,12 @@ export interface Doc extends DocMeta {
   content: string
 }
 
-function getMdxFiles(dir: string, base = ''): string[] {
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  const files: string[] = []
-  for (const entry of entries) {
-    const rel = path.join(base, entry.name)
-    if (entry.isDirectory()) {
-      files.push(...getMdxFiles(path.join(dir, entry.name), rel))
-    } else if (entry.name.endsWith('.mdx')) {
-      files.push(rel)
-    }
-  }
-  return files
-}
-
 function filePathToSlug(filePath: string): string {
   return filePath.replace(/\.mdx$/, '').replace(/(^|\/)index$/, '')
 }
 
 export function getAllDocs(locale = 'en'): DocMeta[] {
-  const files = getMdxFiles(contentDir(locale))
+  const files = listMdxFiles(contentDir(locale), true)
   return files
     .map((file) => {
       const raw = fs.readFileSync(path.join(contentDir(locale), file), 'utf-8')
@@ -52,7 +39,7 @@ export function getAllDocs(locale = 'en'): DocMeta[] {
 }
 
 export function getDocBySlug(slug: string, locale = 'en'): Doc | null {
-  const files = getMdxFiles(contentDir(locale))
+  const files = listMdxFiles(contentDir(locale), true)
   for (const file of files) {
     const raw = fs.readFileSync(path.join(contentDir(locale), file), 'utf-8')
     const { data, content } = matter(raw)
