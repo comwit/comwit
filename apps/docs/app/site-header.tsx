@@ -13,7 +13,7 @@ function GitHubLink() {
   return (
     <a
       className="github-nav"
-      href="https://github.com/burrr-ai/comwit"
+      href="https://github.com/comwit/comwit"
       target="_blank"
       rel="noreferrer"
     >

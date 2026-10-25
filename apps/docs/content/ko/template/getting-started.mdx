@@ -17,6 +17,8 @@ pnpm run dev
 
 CLI가 프로젝트를 생성하고 의존성을 설치합니다. 생성된 프로젝트에서 코딩 에이전트에 `AGENTS.md`를 읽고 작업하도록 요청하세요.
 
+현재 문서는 [공개 원본](https://github.com/comwit/template)을 기준으로 합니다. 이번 저장소 분리는 npm 새 버전을 발행하지 않으므로, 아직 발행되지 않은 변경은 원본 저장소를 clone해 사용하세요.
+
 <a id="included"></a>
 
 ## 기본 구성
@@ -49,7 +51,7 @@ CLI가 프로젝트를 생성하고 의존성을 설치합니다. 생성된 프�
 
 ## 배포
 
-기본은 표준 Next.js 프로젝트입니다. Cloudflare Workers에 배포하려면 생성 시 OpenNext 옵션을 사용합니다.
+기본 템플릿은 사용자 관리 원본과 같은 Comwit Cloud 설정과 빌드 어댑터를 포함합니다. 실제 연결 정보는 `.env.example`을 참고해 설정합니다. Cloudflare Workers용으로 생성하려면 OpenNext 옵션을 사용합니다.
 
 ```bash
 npm create comwit@latest my-app -- --opennext

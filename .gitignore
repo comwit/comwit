@@ -11,3 +11,7 @@ apps/storybook/src/generated/
 packages/ui/cli/registry/
 apps/docs/app/ui/_generated/
 packages/ui/core/src/icons/generated/
+
+# create-comwit packages the pinned canonical template; never track a second source.
+/packages/template/template/
+/packages/template/*.tgz

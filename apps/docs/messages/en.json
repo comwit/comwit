@@ -707,7 +707,7 @@
     "templateRuleCount": "Automatic checks",
     "templateRuleWhy": "Keep code in the right place.",
     "templateSkillCount": "Setup skills",
-    "templateSkillWhy": "App screens, auth and SEO, ready to set up."
+    "templateSkillWhy": "App setup, auth, SEO, data migration and videos."
   },
   "Locale": {
     "switch": "Switch to Korean"

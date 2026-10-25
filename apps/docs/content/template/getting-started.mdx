@@ -17,6 +17,8 @@ pnpm run dev
 
 The CLI creates the project and installs dependencies. Ask your coding agent to read `AGENTS.md` before working in the generated project.
 
+These docs describe the [public source](https://github.com/comwit/template). This repository split does not publish a new npm version; clone the source repository to use changes that have not been released yet.
+
 <a id="included"></a>
 
 ## Included setup
@@ -49,7 +51,7 @@ Data starts in an in-memory repository. A database connection and real authentic
 
 ## Deployment
 
-The default is a standard Next.js project. For Cloudflare Workers, choose OpenNext when creating it.
+The base template includes the maintained source’s Comwit Cloud configuration and build adapter. Configure your own bindings using `.env.example`. For Cloudflare Workers, choose OpenNext when creating it.
 
 ```bash
 npm create comwit@latest my-app -- --opennext

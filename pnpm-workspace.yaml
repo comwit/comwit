@@ -1,7 +1,10 @@
 packages:
   - apps/*
   - packages/state/*
-  - packages/ui/*
+  - packages/ui/core
+  - packages/ui/templates
+  - packages/ui/cli
+  - packages/ui/apps/*
   - packages/template
 
 allowBuilds:

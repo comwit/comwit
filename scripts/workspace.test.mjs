@@ -344,60 +344,36 @@ test('generated docs consume the moved registry and expose separate agent guides
   )
 })
 
-test('create-comwit scaffolds a project that carries no platform-specific files', () => {
+test('create-comwit uses the canonical maintained template without private local files', () => {
   const cli = join(root, 'packages/template/src/index.js')
   const fixture = mkdtempSync(join(tmpdir(), 'create-comwit-'))
   try {
-    const out = execFileSync(
-      process.execPath,
-      [cli, 'my-shop', '--cwd', fixture, '--no-install', '--no-git'],
-      { encoding: 'utf8' }
-    )
-    assert.match(out, /files written/)
+    execFileSync(process.execPath, [cli, 'my-shop', '--cwd', fixture, '--no-install', '--no-git'])
     const app = join(fixture, 'my-shop')
-    for (const rel of [
-      'AGENTS.md',
-      'CLAUDE.md',
-      '.gitignore', // shipped as _gitignore, restored on scaffold
-      '.env.example',
-      'comwit.json',
-      'src/services/.ai.md',
-      'src/services/state.ai.md',
-      'src/server/repository/.ai.md',
-      '.agents/skills/app-setup/SKILL.md',
-      '.agents/skills/auth-setup/SKILL.md',
-      '.claude/skills/auth-setup/SKILL.md',
-      '.storybook/main.ts',
-      '.storybook/stories/.ai.md',
-      'src/services/app/page/home/index.tsx',
-    ])
-      assert.ok(existsSync(join(app, rel)), `${rel} should be scaffolded`)
-    assert.ok(!existsSync(join(app, '_gitignore')))
-    for (const rel of [
-      '.gitea',
-      '.tools',
-      'contracts',
-      '.mcp.json',
-      'src/instrumentation.ts',
-      'pnpm-lock.yaml',
-    ])
-      assert.ok(!existsSync(join(app, rel)), `${rel} must not be scaffolded`)
+    const source = join(root, 'templates/base')
+    const manifest = JSON.parse(readFileSync(join(source, 'PUBLIC_SOURCE.json'), 'utf8'))
+    for (const name of Object.keys(manifest.files)) {
+      if (name === 'package.json') continue
+      assert.deepEqual(readFileSync(join(app, name)), readFileSync(join(source, name)), name)
+    }
     const pkg = JSON.parse(readFileSync(join(app, 'package.json'), 'utf8'))
-    assert.equal(pkg.name, 'my-shop')
-    assert.equal(pkg.scripts.dev, 'next dev')
-    assert.ok(!('@brrrd/adapter' in pkg.dependencies))
-    assert.doesNotMatch(readFileSync(join(app, 'pnpm-workspace.yaml'), 'utf8'), /workerd/)
-    assert.ok('@comwit/state' in pkg.dependencies)
-    assert.doesNotMatch(readFileSync(join(app, 'next.config.ts'), 'utf8'), /brrrd|adapterPath/)
-    assert.match(readFileSync(join(app, 'README.md'), 'utf8'), /^# my-shop/)
-    // A second run into the same non-empty directory is refused.
+    const original = JSON.parse(readFileSync(join(source, 'package.json'), 'utf8'))
+    assert.deepEqual(pkg, { ...original, name: 'my-shop' })
+    for (const excluded of [
+      '.git',
+      '.env',
+      'node_modules',
+      '.next',
+      'dist',
+      'AGENTS.override.md',
+      'CLAUDE.local.md',
+    ])
+      assert.ok(!existsSync(join(app, excluded)), excluded)
     assert.throws(() =>
       execFileSync(
         process.execPath,
         [cli, 'my-shop', '--cwd', fixture, '--no-install', '--no-git'],
-        {
-          stdio: 'pipe',
-        }
+        { stdio: 'pipe' }
       )
     )
   } finally {
@@ -405,10 +381,18 @@ test('create-comwit scaffolds a project that carries no platform-specific files'
   }
 })
 
-test('the bundled template snapshot stays free of platform-specific content', () => {
-  execFileSync(process.execPath, [join(root, 'packages/template/scripts/verify.mjs')], {
-    stdio: 'pipe',
-  })
+test('create-comwit packing verifies the pinned source and refuses a stale copy', () => {
+  execFileSync(process.execPath, [join(root, 'packages/template/scripts/prepare-template.mjs')])
+  const verify = join(root, 'packages/template/scripts/verify.mjs')
+  execFileSync(process.execPath, [verify])
+  const guide = join(root, 'packages/template/template/AGENTS.md')
+  const original = readFileSync(guide)
+  try {
+    writeFileSync(guide, 'stale packaging output')
+    assert.throws(() => execFileSync(process.execPath, [verify], { stdio: 'pipe' }))
+  } finally {
+    writeFileSync(guide, original)
+  }
 })
 
 test('create-comwit --opennext overlays the Cloudflare Workers adapter', () => {
@@ -454,10 +438,7 @@ test('create-comwit --opennext overlays the Cloudflare Workers adapter', () => {
     assert.match(agents, /Cloudflare Workers through OpenNext/)
     assert.doesNotMatch(agents, /pnpm start/)
     assert.match(readFileSync(join(app, '.gitignore'), 'utf8'), /\.open-next/)
-    assert.match(
-      readFileSync(join(app, 'README.md'), 'utf8'),
-      /^# @acme\/shop[\s\S]*Cloudflare Workers via OpenNext/
-    )
+    assert.match(readFileSync(join(app, 'README.md'), 'utf8'), /Cloudflare Workers via OpenNext/)
   } finally {
     rmSync(fixture, { recursive: true, force: true })
   }
@@ -499,8 +480,8 @@ test('the kit draws every icon from @comwit/ui/icons: lucide-react is gone', () 
     'packages/ui/cli',
     'packages/ui/core',
     'apps/docs',
-    'apps/storybook',
-    'apps/ui-dev',
+    'packages/ui/apps/storybook',
+    'packages/ui/apps/ui-dev',
   ]) {
     const pkg = JSON.parse(readFileSync(join(root, manifest, 'package.json'), 'utf8'))
     assert.ok(
@@ -517,7 +498,7 @@ test('the kit draws every icon from @comwit/ui/icons: lucide-react is gone', () 
       !item.dependencies?.includes('lucide-react'),
       `${item.name} registry item depends on lucide-react`
     )
-  const specDir = join(root, 'apps/storybook/specs')
+  const specDir = join(root, 'packages/ui/apps/storybook/specs')
   for (const spec of readdirSync(specDir))
     assert.doesNotMatch(
       readFileSync(join(specDir, spec), 'utf8'),

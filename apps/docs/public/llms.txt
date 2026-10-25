@@ -61,4 +61,4 @@ and report what was replaced, what was kept and what is left.
 
 ## Feedback
 
-`gh issue create --repo burrr-ai/comwit --title '...' --body '...'`
+`gh issue create --repo comwit/comwit --title '...' --body '...'`

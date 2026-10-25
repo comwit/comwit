@@ -7,10 +7,10 @@
   "homepage": "https://library.comwit.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/burrr-ai/comwit.git"
+    "url": "git+https://github.com/comwit/comwit.git"
   },
   "bugs": {
-    "url": "https://github.com/burrr-ai/comwit/issues"
+    "url": "https://github.com/comwit/comwit/issues"
   },
   "license": "MIT",
   "author": "burrr-ai",
@@ -35,12 +35,19 @@
     "registry": "pnpm --filter comwit-ui build:registry",
     "build:packages": "pnpm --filter @comwit/state build && pnpm --filter @comwit/ui build && pnpm registry",
     "build": "pnpm --filter docs build",
-    "test": "pnpm --filter @comwit/ui test && pnpm --filter @comwit/state test && pnpm --filter docs test:lint && pnpm --filter docs test:i18n && node --test scripts/workspace.test.mjs",
+    "test": "pnpm --filter @comwit/ui test && pnpm --filter @comwit/state test && pnpm --filter docs test:lint && pnpm --filter docs test:i18n && node --test scripts/workspace.test.mjs && pnpm test:submodules",
     "typecheck": "pnpm build:packages && pnpm --filter docs gen && pnpm stories && pnpm -r --if-present typecheck",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "format:staged": "lint-staged",
-    "test:ui": "pnpm --filter @comwit/ui test"
+    "test:ui": "pnpm --filter @comwit/ui test",
+    "template:install": "pnpm --dir templates/base install --frozen-lockfile",
+    "template:validate": "pnpm --dir templates/base validate",
+    "template:build": "pnpm --dir templates/base build",
+    "shop:install": "pnpm --dir templates/shop install --frozen-lockfile",
+    "shop:validate": "pnpm --dir templates/shop validate",
+    "shop:build": "pnpm --dir templates/shop build",
+    "test:submodules": "node --test scripts/submodules.test.mjs"
   },
   "lint-staged": {
     "*.{js,cjs,mjs,jsx,ts,tsx,json,yaml,yml,md,mdx,css,scss,html}": [

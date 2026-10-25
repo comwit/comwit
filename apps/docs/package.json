@@ -12,7 +12,7 @@
     "test:lint": "node --test eslint-rules/*.test.mjs",
     "predev": "pnpm --filter @comwit/state build && pnpm --filter @comwit/ui build && pnpm gen",
     "prebuild": "pnpm --filter @comwit/state build && pnpm --filter @comwit/ui build && pnpm gen",
-    "gen": "pnpm --filter comwit-ui build:registry && node scripts/gen-ui.mjs",
+    "gen": "pnpm --filter comwit-ui build:registry && node scripts/gen-ui.mjs && node scripts/gen-template.mjs",
     "typecheck": "tsc --noEmit",
     "test:i18n": "node --test i18n/*.test.mjs"
   },

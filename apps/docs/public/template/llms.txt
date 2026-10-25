@@ -3,6 +3,11 @@
 A Next.js project template with agent instructions, setup skills and custom lint
 rules for folder structure and key dependency boundaries.
 
+Source: https://github.com/comwit/template (templates/base in comwit/comwit).
+The base source includes Comwit Cloud configuration and the brrrd build adapter.
+The root create-comwit pack step exports this pinned source; no separate generic
+snapshot is maintained. This migration does not publish a new npm version.
+
 ## Start
 
 npm create comwit@latest my-app
@@ -33,7 +38,7 @@ Read AGENTS.md first, then the relevant layer guide:
 - src/app/.ai.md: routing and layouts.
 - src/server/repository/.ai.md: data models and access.
 - src/services/admin/.ai.md: admin routes and accounts.
-- src/services/design.md: UI and style tokens.
+- .storybook/stories/design-system/design.mdx: UI and style tokens.
 - .storybook/stories/.ai.md: page stories and API mocks.
 
 CLAUDE.md references AGENTS.md. Skills live in .agents/skills/;
@@ -41,6 +46,8 @@ CLAUDE.md references AGENTS.md. Skills live in .agents/skills/;
 - app-setup: bottom tabs, detail screens, page transitions and PWA install UI.
 - auth-setup: per-service Better Auth and Drizzle tables after a database is connected.
 - seo-optimize: metadata, JSON-LD, sitemap and robots.
+- refactoring: mock-to-database migration when explicitly requested.
+- video-offload: move site videos out of the app package.
 
 ## Validation
 

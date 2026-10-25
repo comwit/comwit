@@ -707,7 +707,7 @@
     "templateRuleCount": "자동 검사 규칙",
     "templateRuleWhy": "기능이 늘어도 구조가 흐트러지지 않게.",
     "templateSkillCount": "설정 스킬",
-    "templateSkillWhy": "앱 화면·로그인·검색 노출 설정까지."
+    "templateSkillWhy": "앱·인증·검색 노출·DB 전환·영상 관리까지."
   },
   "Locale": {
     "switch": "영어로 전환"

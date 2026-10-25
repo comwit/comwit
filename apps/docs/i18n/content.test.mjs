@@ -139,7 +139,7 @@ test('every gallery summary, example title and description has translated copy',
       assert.ok(messages.has(text), `Missing catalog translation: ${text}`)
     }
   }
-  const directory = new URL('../storybook/specs/', root)
+  const directory = new URL('../../packages/ui/apps/storybook/specs/', root)
   for (const file of readdirSync(directory).filter((file) => file.endsWith('.mjs'))) {
     const { specs } = await import(new URL(file, directory).href)
     for (const spec of specs) {

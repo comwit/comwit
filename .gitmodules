@@ -1,0 +1,12 @@
+[submodule "packages/state"]
+	path = packages/state
+	url = https://github.com/comwit/state.git
+[submodule "packages/ui"]
+	path = packages/ui
+	url = https://github.com/comwit/ui.git
+[submodule "templates/base"]
+	path = templates/base
+	url = https://github.com/comwit/template.git
+[submodule "templates/shop"]
+	path = templates/shop
+	url = https://github.com/comwit/template-shop.git
