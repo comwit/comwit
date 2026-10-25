@@ -28,8 +28,11 @@ See CONTRIBUTING.md for generation, verification and release details.
 
 ## Repository ownership
 
-Even when working from this root, create branches, validate, commit, push and open
-PRs in the repository that owns each changed file. Push submodule commits first;
+All changes to the Comwit open-source projects (State, UI, Template, shop template
+and this parent repository) must go through a branch and pull request in the
+repository that owns each changed file, including work from standalone clones.
+Never push changes directly to `main`. Validate before merging and release from
+the reviewed, merged source. Push submodule commits first;
 update the parent gitlink in a separate parent commit/PR. Do not mix or overwrite
 other repositories' or users' changes. Verify standalone operation and integrated
 docs. `packages/ui/apps/storybook` and `packages/ui/apps/ui-dev` belong to UI.

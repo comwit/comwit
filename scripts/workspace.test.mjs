@@ -395,6 +395,64 @@ test('create-comwit packing verifies the pinned source and refuses a stale copy'
   }
 })
 
+test('packed create-comwit preserves the template and starts an independent Git history', () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'create-comwit-packed-'))
+  const packageDir = join(root, 'packages/template')
+  try {
+    execFileSync(process.execPath, [join(packageDir, 'scripts/prepare-template.mjs')])
+    execFileSync(process.execPath, [join(packageDir, 'scripts/verify.mjs')])
+    // Pack the verified snapshot, then run outside the workspace so the canonical
+    // submodule cannot mask files missing from the published archive.
+    const [packed] = JSON.parse(
+      execFileSync('npm', ['pack', '--ignore-scripts', '--json', '--pack-destination', fixture], {
+        cwd: packageDir,
+        encoding: 'utf8',
+      })
+    )
+    execFileSync('tar', ['-xzf', join(fixture, packed.filename), '-C', fixture])
+    const cli = join(fixture, 'package/src/index.js')
+    const run = (name, ...args) =>
+      execFileSync(process.execPath, [cli, name, '--cwd', fixture, '--no-install', ...args])
+    run('fresh-app')
+    const app = join(fixture, 'fresh-app')
+    const source = join(packageDir, 'template')
+    const files = readdirSync(source, { recursive: true, withFileTypes: true })
+      .filter((entry) => entry.isFile())
+      .map((entry) => join(entry.parentPath, entry.name))
+    for (const file of files) {
+      const name = file.slice(source.length + 1)
+      const generated = join(app, name === '_gitignore' ? '.gitignore' : name)
+      if (name === 'package.json') {
+        assert.deepEqual(JSON.parse(readFileSync(generated, 'utf8')), {
+          ...JSON.parse(readFileSync(file, 'utf8')),
+          name: 'fresh-app',
+        })
+      } else if (name === 'README.md') {
+        assert.equal(
+          readFileSync(generated, 'utf8'),
+          readFileSync(file, 'utf8').replaceAll('{{name}}', 'fresh-app')
+        )
+      } else {
+        assert.deepEqual(readFileSync(generated), readFileSync(file), name)
+      }
+    }
+    const git = (cwd, ...args) =>
+      execFileSync('git', ['-C', cwd, ...args], { encoding: 'utf8' }).trim()
+    assert.equal(git(app, 'rev-list', '--count', 'HEAD'), '1')
+    assert.equal(git(app, 'log', '-1', '--format=%s'), 'Initial commit from create-comwit')
+    assert.equal(git(app, 'remote'), '')
+    assert.equal(git(app, 'status', '--porcelain'), '')
+    run('without-git', '--no-git')
+    assert.ok(!existsSync(join(fixture, 'without-git/.git')))
+    run('fresh-app/nested-app')
+    assert.ok(!existsSync(join(app, 'nested-app/.git')))
+    assert.equal(git(app, 'rev-list', '--count', 'HEAD'), '1')
+    assert.equal(git(app, 'status', '--porcelain'), '?? nested-app/')
+  } finally {
+    rmSync(fixture, { recursive: true, force: true })
+  }
+})
+
 test('create-comwit --opennext overlays the Cloudflare Workers adapter', () => {
   const cli = join(root, 'packages/template/src/index.js')
   const fixture = mkdtempSync(join(tmpdir(), 'create-comwit-on-'))
