@@ -4,19 +4,12 @@ The existing representative repository already resolves to `comwit/comwit`;
 its issues, PRs and stars are retained. State/UI retain their extracted public
 history. Base/shop start new history from public working-tree snapshots.
 
-Apply the product PRs first, then the parent gitlink PR:
-
-1. https://github.com/comwit/state/pull/1
-2. https://github.com/comwit/ui/pull/1
-3. https://github.com/comwit/template/pull/1
-4. https://github.com/comwit/template-shop/pull/1
-5. https://github.com/comwit/comwit/pull/141
-
-The parent pins published product PR commits so its recursive clone is testable
-before merge. After product merges, confirm those commits remain reachable or
-update the gitlinks to the product merge commits (especially after squash/rebase).
-Before those PRs merge, use their feature branches for independent clones.
-No PR is merged by this migration.
+The four product PRs are merged into their own `main` branches. The parent pins
+those published merge commits. The parent integration is PR
+https://github.com/comwit/comwit/pull/141 and uses `main` as its base.
+The representative repository uses `main` as its default and CI branch; the former
+`latest` branch has no unique commits and is being retired. npm `latest` tags are
+unchanged.
 
 Snapshot verification: base has 322 original public files; shop has 559.
 Their source code, settings, skills and rules match byte-for-byte, including
@@ -41,17 +34,15 @@ isolated fixtures, not real shop payment, notification or production data.
 
 ## Handoff to the service integration owner
 
-| Source repository                       | Usable branch before merge     | Verified commit                            |
-| --------------------------------------- | ------------------------------ | ------------------------------------------ |
-| https://github.com/comwit/template      | `codex/public-source-snapshot` | `d615f460f5d1dd1ea0f5b17240ff5047be80db73` |
-| https://github.com/comwit/template-shop | `codex/public-source-snapshot` | `8a38982669128a81d5d510c6356c570ad9053872` |
+| Source repository                       | Branch | Source commit pinned by the parent         |
+| --------------------------------------- | ------ | ------------------------------------------ |
+| https://github.com/comwit/template      | `main` | `0d83732d21a07e7bc72be109e7d6e953e6aca37c` |
+| https://github.com/comwit/template-shop | `main` | `5168439c309a723adfdf7a337f8d0c37a8cc0db9` |
 
-These refs install and build independently. Use them explicitly while the PRs
-remain unmerged; new template repositories' main branches are initialization
-commits until their source PRs merge. The representative integration branch is
-`codex/independent-repositories`, targeting `main`. No service configuration is
-changed here. The shop application needs its own configured resource/auth environment
-for real runtime data; its tests and Storybook use isolated fixtures/mocks.
+These refs install and build independently. The shop application needs its own
+configured resource/auth environment for real runtime data; tests and Storybook
+use isolated fixtures/mocks. This repository does not change the Comwit service's
+template URL.
 
 Parent clean-clone verification passed: recursive GitHub clone, frozen workspace
 install, docs production build, 16 source/submodule/CLI integration checks and the
