@@ -1,0 +1,22 @@
+---
+title: Data structure
+group: Shop Template
+order: 23
+description: Explore the actual Drizzle tables and foreign keys.
+---
+
+<a id="data"></a>
+
+# Data structure
+
+Generated from `src/server/db/schema.ts` and the app/admin auth schemas. The diagram shows **26 tables and 23 foreign keys**, starting in four columns. Moving nodes changes only this view, never the database.
+
+<ShopSchema />
+
+<a id="schema-changes"></a>
+
+## Schema changes
+
+Edit the Drizzle source, generate the migration and review its SQL. Apply it only after explicit approval; it targets the connected database. Prices, SKU stock/reservations, order items, payments and shipment records already have dedicated tables. Auth tables separate customer and admin accounts.
+
+The diagram includes declared foreign keys only; a similar column name does not imply a relationship. Data goes through [repositories and the shared layers](/template/docs/structure).

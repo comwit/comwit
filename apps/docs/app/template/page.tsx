@@ -6,7 +6,7 @@ import { CopyCommand } from './_components/copy-command'
 import { ArchitectureMap } from './_components/architecture-map'
 
 export default async function TemplateOverview() {
-  const guides = getTemplateDocs(await getLocale())
+  const guides = getTemplateDocs(await getLocale()).filter((doc) => !doc.slug.includes('/'))
 
   return (
     <div className="tp-overview tp-landing">
@@ -24,6 +24,20 @@ export default async function TemplateOverview() {
         </div>
       </header>
 
+      <section className="shop-template-picker">
+        <Link href="/template/docs/getting-started">
+          <strong>
+            <Copy id="templateBase" />
+          </strong>
+          <span>Next.js · State · UI</span>
+        </Link>
+        <Link href="/template/docs/shop/overview">
+          <strong>Shop Template</strong>
+          <span>
+            <Copy id="templateShopDescription" />
+          </span>
+        </Link>
+      </section>
       <ArchitectureMap />
 
       <section className="tp-section" aria-labelledby="tp-read-title">

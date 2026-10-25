@@ -19,3 +19,6 @@ packages/ui/core/src/icons/generated/
 # Local environment values stay outside Git. Keep only blank examples.
 .env*
 !.env.example
+
+# Generated from the pinned shop source and its canonical reference catalog.
+/apps/docs/public/template/shop/

@@ -1,0 +1,26 @@
+---
+title: 전용 스킬
+group: Shop Template
+order: 24
+description: 첫 쇼핑몰 요청부터 이후 개발까지.
+---
+
+<a id="skills"></a>
+
+# 전용 스킬
+
+`shop-setup`은 첫 쇼핑몰 요청을 다룹니다. [실제 예시](/template/docs/shop/overview)에서 방향을 정하고 기존 페이지를 수정하며, 목 API를 쓰는 Storybook 상태를 함께 구성합니다. 공통 지침은 [에이전트 가이드](/template/docs/agents)를 따릅니다.
+
+<a id="resources"></a>
+
+## MCP로 DB·스토리지 연결
+
+스킬은 먼저 프로젝트 문맥과 사용 가능한 Comwit 도구를 확인합니다. 기존 연결을 재사용하고, 필요하며 승인된 경우에만 `setup_database` / `setup_storage`를 사용합니다. `list_cloud_resources`로 준비 상태를 확인하고, `get_local_env`와 응답의 `nextSteps`로 로컬 설정을 복구합니다. ID를 추측하거나 상거래 스키마를 덮어쓰지 않습니다. 목 화면만 만드는 경우에는 사용자가 선택한 연결 보류 상태를 기록합니다.
+
+<a id="complete"></a>
+
+## 한 번 준비하고 계속 개발하기
+
+요청한 페이지·Storybook 상태·화면 검토가 끝나면 도우미가 코드 검사, 상거래 테스트, 에이전트 테스트와 Storybook 빌드를 실행합니다. 모두 성공한 뒤에만 일회성 스킬, Claude 포인터와 스킬 안의 미사용 참고 파일을 제거합니다. 실패하거나 미완료인 작업은 이어갈 수 있도록 스킬을 유지합니다.
+
+페이지, 스토리, public 에셋, 서비스 연결과 지속 개발 스킬(`refactoring`, `seo-optimize`, `video-offload`)은 남깁니다. 앱이 스킬 내부 에셋을 참조하고 있으면 지속 경로로 옮기기 전까지 정리를 중단합니다. 템플릿 원본 저장소는 배포용 스킬을 항상 유지합니다. 진행 상태는 로컬 `.agents/state/shop-setup.json`에 기록합니다.

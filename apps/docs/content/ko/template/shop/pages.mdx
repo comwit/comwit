@@ -1,0 +1,24 @@
+---
+title: 페이지 구조
+group: Shop Template
+order: 22
+description: 실제 App Router 경로와 준비된 관리자 화면.
+---
+
+<a id="pages"></a>
+
+# 페이지 구조
+
+라우터는 `src/app/`, 화면 구현은 `src/services/app/page/`와 `src/services/admin/page/`에 있습니다. 아래 목록은 실제 shop 소스에서 생성합니다.
+
+<ShopRoutes />
+
+<a id="admin"></a>
+
+## 준비된 관리자 화면
+
+기본 공개 진입 경로는 `/관리자`이며 `NEXT_PUBLIC_ADMIN_BASE_PATH`로 바꿀 수 있습니다. 내부 `/admin` 파일 구조는 유지하고, `/admin` 직접 요청은 404를 반환합니다. 링크는 `adminRoutes`를 사용하며 서버 권한 검사를 유지합니다. 아래 화면은 기존 페이지에 Storybook 목 데이터를 넣어 캡처한 것으로, 운영 데이터가 아닙니다.
+
+<ShopAdminScreens />
+
+기존 스토리는 `src/stories/admin/`, API 목은 `src/stories/mocks/`에 있습니다. 화면 수정 시 이 경계를 유지하세요. 공통 레이어 규칙은 [프로젝트 구조](/template/docs/structure)에 있습니다.

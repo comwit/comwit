@@ -41,7 +41,13 @@ function NavContent({ docs, onNavigate }: { docs: TemplateDocMeta[]; onNavigate?
       {groupDocs(docs).map(([group, items]) => (
         <React.Fragment key={group}>
           <p className="template-nav-group">
-            <Copy text={group} />
+            {group === 'Common' ? (
+              <Copy id="templateCommon" />
+            ) : group === 'Base Template' ? (
+              <Copy id="templateBase" />
+            ) : (
+              group
+            )}
           </p>
           {items.map((doc) => {
             const href = hrefFor(doc)
