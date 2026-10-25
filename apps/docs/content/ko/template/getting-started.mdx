@@ -2,57 +2,47 @@
 title: 시작하기
 group: How it works
 order: 1
-description: 프로젝트 생성과 기본 구성, 검증 명령어.
+description: 오픈소스 템플릿을 설치하고 실행하는 방법.
 ---
 
 <a id="getting-started"></a>
 
 # 시작하기
 
+자유롭게 가져다 쓰고 수정할 수 있는 **오픈소스 Next.js 프로젝트 템플릿**입니다. 폴더 구조, 에이전트 가이드, 스킬과 검사 규칙이 함께 준비되어 있습니다.
+
 ```bash
-npm create comwit@latest my-app
+git clone https://github.com/comwit/template.git my-app
 cd my-app
+pnpm install --frozen-lockfile
 pnpm run dev
 ```
 
-CLI가 프로젝트를 생성하고 의존성을 설치합니다. 생성된 프로젝트에서 코딩 에이전트에 `AGENTS.md`를 읽고 작업하도록 요청하세요.
+`npm create comwit@latest`는 기존 npm 배포본이며, 이번 변경으로 새 버전이 발행되지는 않습니다.
 
 <a id="included"></a>
 
-## 기본 구성
+## 포함된 구성
 
-| 구성                       | 역할                                    |
-| -------------------------- | --------------------------------------- |
-| Next.js App Router         | 라우팅과 서버 실행                      |
-| `@comwit/state`            | 도메인별 상태·쿼리·액션                 |
-| `comwit-ui` + Tailwind CSS | 소스로 설치된 UI 컴포넌트와 스타일 토큰 |
-| Oxlint + TypeScript        | 폴더 구조, import 규칙, 타입 검사       |
-| Storybook                  | API를 모킹한 페이지별 미리보기          |
-
-데이터는 메모리 저장소로 시작합니다. 데이터베이스 연결과 실제 인증은 별도 설정이 필요하며, Better Auth와 Drizzle 연결은 `auth-setup` 스킬이 담당합니다.
+Next.js App Router, `@comwit/state`, 소스로 설치된 UI 컴포넌트, Oxlint 규칙, 페이지별 Storybook을 포함합니다. 기본 화면은 목 데이터로 시작하므로 Comwit 계정 없이 실행하고 수정할 수 있습니다.
 
 <a id="commands"></a>
 
 ## 주요 명령어
 
-| 명령어                    | 역할                                            |
-| ------------------------- | ----------------------------------------------- |
-| `pnpm run dev`            | 개발 서버                                       |
-| `pnpm run validate`       | 타입 검사와 린트                                |
-| `pnpm run build`          | 서비스 워커와 Next.js 빌드                      |
-| `pnpm storybook`          | 페이지 미리보기                                 |
-| `pnpm validate:storybook` | Storybook 타입·린트·API 모킹 경계 검사          |
-| `pnpm agents:test`        | 스킬 참조 일치 여부와 에이전트 관련 회귀 테스트 |
-| `pnpm ui add <name>`      | UI 컴포넌트 추가                                |
+| 명령어                    | 용도                                    |
+| ------------------------- | --------------------------------------- |
+| `pnpm run dev`            | 개발 서버                               |
+| `pnpm run validate`       | 타입 검사와 린트                        |
+| `pnpm run build`          | 프로덕션 빌드. 기본 출력은 `dist/brrrd` |
+| `pnpm storybook`          | API를 모킹한 페이지 미리보기            |
+| `pnpm validate:storybook` | Storybook 타입·린트·모킹 경계 검사      |
+| `pnpm agents:test`        | 스킬 참조와 에이전트 관련 회귀 테스트   |
 
-<a id="deployment"></a>
+<a id="development"></a>
 
-## 배포
+## 개발 흐름
 
-기본은 표준 Next.js 프로젝트입니다. Cloudflare Workers에 배포하려면 생성 시 OpenNext 옵션을 사용합니다.
+`AGENTS.md`와 수정할 계층의 가이드를 읽고 작업합니다. 화면을 바꾸면 Storybook도 갱신하고, `pnpm run validate`로 확인합니다.
 
-```bash
-npm create comwit@latest my-app -- --opennext
-```
-
-이 옵션은 OpenNext·Wrangler 설정과 `preview`, `deploy` 명령어를 추가합니다.
+기본으로 포함된 Comwit 연동을 사용하거나 다른 환경으로 바꾸려면 [기본 연동 설정](/template/docs/integrations)을 참고하세요.

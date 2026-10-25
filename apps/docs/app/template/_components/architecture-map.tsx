@@ -1,3 +1,4 @@
+import stats from '@/lib/template-stats.json'
 import { useTranslations } from 'next-intl'
 import { FileTextIcon, FolderIcon } from '@comwit/ui/icons'
 
@@ -45,15 +46,26 @@ function FolderTree({ entries }: { entries: Entry[] }) {
   )
 }
 
-// Snapshot of packages/template/template, 2026-10-22:
-// 1,318 nonblank lines in AGENTS.md, src/**/*.ai.md, services/design.md and
-// .storybook/stories/.ai.md (10 guides; skill stubs excluded).
-// 25 unique enabled custom/* rules across .oxlintrc.json rules and overrides.
-// 3 canonical .agents/skills/*/SKILL.md files.
+// Generated from the pinned templates/base submodule by pnpm --filter docs gen.
 const METRICS = [
-  { value: '1,300+', unit: 'templateLines', title: 'templateGuideCount', why: 'templateGuideWhy' },
-  { value: '25', unit: 'templateItems', title: 'templateRuleCount', why: 'templateRuleWhy' },
-  { value: '3', unit: 'templateItems', title: 'templateSkillCount', why: 'templateSkillWhy' },
+  {
+    value: stats.guideLines.toLocaleString('en-US'),
+    unit: 'templateLines',
+    title: 'templateGuideCount',
+    why: 'templateGuideWhy',
+  },
+  {
+    value: String(stats.rules),
+    unit: 'templateItems',
+    title: 'templateRuleCount',
+    why: 'templateRuleWhy',
+  },
+  {
+    value: String(stats.skills),
+    unit: 'templateItems',
+    title: 'templateSkillCount',
+    why: 'templateSkillWhy',
+  },
 ] as const
 
 export function ArchitectureMap() {

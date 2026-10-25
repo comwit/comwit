@@ -229,7 +229,7 @@ export function ExhibitionLanding() {
           <Link href="/blog">
             <Copy id="text126" />
           </Link>
-          <a href="https://github.com/burrr-ai/comwit/blob/latest/LICENSE">MIT</a>
+          <a href="https://github.com/comwit/comwit/blob/main/LICENSE">MIT</a>
           <a href="/llms.txt">LLMS.TXT</a>
           <Button
             variant="plain"

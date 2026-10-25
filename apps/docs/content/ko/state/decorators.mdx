@@ -123,7 +123,7 @@ await flushDebounce(this.draftActions, 'persistSoon')
 
 ### `instance.method.flush()` 대신 도우미를 사용하는 이유
 
-es-toolkit과 비슷한 `instance.persistSoon.flush()`가 더 편리한 API일 수 있습니다. 하지만 comwit의 인터셉터 파이프라인(`composeInterceptors`)은 호출 시그니처만 전달하므로 v1.x에서는 도우미를 선택했습니다. 스택에서 다른 데코레이터가 `@Debounce` 바깥을 감싸면 함수에 붙은 속성(`.flush`, `.cancel`)이 조용히 사라집니다. 메서드 형태를 바꾸려면 모든 인터셉터가 부착 속성을 전달한다는 계약과 `StageMethodDecorator` 전반의 타입 변경이 필요합니다. 이는 여러 부분을 함께 바꿔야 하는 작업이므로 추후 선택적으로 도입할 예정입니다([#71](https://github.com/burrr-ai/comwit/issues/71)). 여기 소개한 도우미는 슬라이스 간 호출의 표준 방법으로 유지되며 변경 없이 계속 동작합니다.
+es-toolkit과 비슷한 `instance.persistSoon.flush()`가 더 편리한 API일 수 있습니다. 하지만 comwit의 인터셉터 파이프라인(`composeInterceptors`)은 호출 시그니처만 전달하므로 v1.x에서는 도우미를 선택했습니다. 스택에서 다른 데코레이터가 `@Debounce` 바깥을 감싸면 함수에 붙은 속성(`.flush`, `.cancel`)이 조용히 사라집니다. 메서드 형태를 바꾸려면 모든 인터셉터가 부착 속성을 전달한다는 계약과 `StageMethodDecorator` 전반의 타입 변경이 필요합니다. 이는 여러 부분을 함께 바꿔야 하는 작업이므로 추후 선택적으로 도입할 예정입니다([#71](https://github.com/comwit/comwit/issues/71)). 여기 소개한 도우미는 슬라이스 간 호출의 표준 방법으로 유지되며 변경 없이 계속 동작합니다.
 
 <a id="custom-decorators-with-intercept"></a>
 

@@ -1,66 +1,26 @@
 # create-comwit
 
-**The Comwit Next.js template as one command.** Screens sliced by service and
-domain, four layers that depend one way, an `.ai.md` rulebook next to every
-layer, and agent skills for the app shell, auth and SEO. The State and UI
-libraries come pre-wired.
+Create a Next.js app from the maintained [Comwit template](https://github.com/comwit/template):
 
 ```bash
 npm create comwit@latest my-app
-# or
-npx create-comwit@latest my-app
-# Cloudflare Workers through OpenNext
-npm create comwit@latest my-app -- --opennext
 ```
 
-```
-page → state → api → repository
-```
+Source is `templates/base` in the parent repository. `pnpm pack` runs `prepack`,
+exports the pinned public files and verifies their contents. The ignored `template/`
+directory is packaging output, not a separately maintained template. In a source
+checkout the CLI reads the submodule directly; published tarballs carry the same
+snapshot. Project name substitution is the only default source change.
 
-## What you get
+The source includes Comwit Cloud configuration, skills and rules. No real credentials,
+local databases, uploads or build output are packaged. Use `.env.example` for setup.
+The application installs independently of this workspace.
 
-```
-src/
-  app/                      Next.js App Router — routing only
-  services/
-    .ai.md · api.ai.md · state.ai.md · page.ai.md · design.md
-    app/                    end-user service
-      api/{domain}/         server actions shaped for the screen
-      state/{domain}/       @comwit/state model · actions · hook
-      page/{route}/         sections that read state and call actions
-    admin/                  separate operator service (own auth, own UI)
-  lib/                      shared code; comwit-ui components installed as source
-  server/repository/        the only gateway to data
-.agents/skills/             app-setup · auth-setup · seo-optimize
-.storybook/                 page-level stories, api mocks, stories/.ai.md
-eslint-rules/               Oxlint rules that enforce the layer boundaries
-AGENTS.md                   the rules file every coding agent reads
-```
+Options: `--name`, `--pm`, `--no-install`, `--no-git`, `--cwd`, `--dry` and
+`--opennext`. The explicit OpenNext option replaces the build adapter in the generated
+project for Cloudflare Workers; it never changes the maintained template source.
 
-- **Next.js 16** App Router with Cache Components, a service worker and offline page.
-- **@comwit/state** domain hooks, **comwit-ui** components you own, Tailwind v4 tokens.
-- **Better Auth + Drizzle** wired by the `auth-setup` skill once a database is connected.
-- **Storybook** set up: real pages and layouts, the api boundary mocked, one story per page.
-- **No infrastructure lock-in.** The template does not assume a database, a bucket
-  or a hosting platform; `AGENTS.md` explains how to add each. `--opennext` opts
-  into Cloudflare Workers (`@opennextjs/cloudflare` + wrangler) up front.
+This change does not publish a new npm release. Existing registry versions remain as
+published until a maintainer requests a release.
 
-## Options
-
-| Flag                          | Effect                                                                                                    |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `--name <name>`               | package name (default: the directory name)                                                                |
-| `--pm <pnpm\|npm\|yarn\|bun>` | package manager (default: pnpm when installed)                                                            |
-| `--no-install`                | skip dependency installation                                                                              |
-| `--no-git`                    | skip `git init` and the initial commit                                                                    |
-| `--cwd <dir>`                 | create the project relative to this directory                                                             |
-| `--dry`                       | list the files that would be written                                                                      |
-| `--opennext`                  | Cloudflare Workers via OpenNext: adds `wrangler.jsonc`, `open-next.config.ts`, `preview`/`deploy` scripts |
-
-## Docs
-
-Why the folders look this way, the layer rules and the agent workflow:
-https://library.comwit.io/template
-
-Existing project? The agent guide has a migration procedure:
-https://library.comwit.io/template/llms.txt
+Documentation: https://library.comwit.io/template

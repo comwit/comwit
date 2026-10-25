@@ -3,6 +3,11 @@
 A Next.js project template with agent instructions, setup skills and custom lint
 rules for folder structure and key dependency boundaries.
 
+Source: https://github.com/comwit/template (templates/base in comwit/comwit).
+The source includes editable Comwit integrations and the brrrd build adapter by default.
+The root create-comwit pack step exports this pinned source; no separate generic
+snapshot is maintained. This migration does not publish a new npm version.
+
 ## Start
 
 npm create comwit@latest my-app
@@ -25,6 +30,25 @@ Implement from repository to page. API domains contain index.ts, types.ts and ac
 state domains also contain model.ts. API actions use createAction and are exposed
 through resolveActions. Server Components may fetch initial data for hydration.
 
+## Default integrations
+
+This is an open-source Next.js template that can be used and modified freely.
+Some defaults integrate with Comwit, a service for building and deploying apps
+through conversation: https://comwit.io.
+
+- brrrd: next.config.ts adapterPath and scripts/brrrd-adapter.mjs produce dist/brrrd.
+  For other hosting, adapt the adapter, dependencies and deployment instructions.
+- MCP: .mcp.json, .codex/config.toml and .agents/scripts/comwit-mcp.mjs register
+  Comwit tools. Change these registrations and AGENTS.md when using other tools.
+- Data services: .env.example, src/server/config.ts and .agents/scaffolds/ define
+  bindings and clients. Adapt them and repository implementations for other services.
+
+Base screens use mock data; development, validation, builds and Storybook work
+without an account. Only actual Comwit tools/resources/deployment require project
+setup and login. Follow the project's setup prompt and source README when keeping
+these integrations. Never print or commit real environment credentials.
+Customization: https://library.comwit.io/template/docs/integrations
+
 ## Instructions and skills
 
 Read AGENTS.md first, then the relevant layer guide:
@@ -33,7 +57,7 @@ Read AGENTS.md first, then the relevant layer guide:
 - src/app/.ai.md: routing and layouts.
 - src/server/repository/.ai.md: data models and access.
 - src/services/admin/.ai.md: admin routes and accounts.
-- src/services/design.md: UI and style tokens.
+- .storybook/stories/design-system/design.mdx: UI and style tokens.
 - .storybook/stories/.ai.md: page stories and API mocks.
 
 CLAUDE.md references AGENTS.md. Skills live in .agents/skills/;
@@ -41,6 +65,8 @@ CLAUDE.md references AGENTS.md. Skills live in .agents/skills/;
 - app-setup: bottom tabs, detail screens, page transitions and PWA install UI.
 - auth-setup: per-service Better Auth and Drizzle tables after a database is connected.
 - seo-optimize: metadata, JSON-LD, sitemap and robots.
+- refactoring: mock-to-database migration when explicitly requested.
+- video-offload: move site videos out of the app package.
 
 ## Validation
 

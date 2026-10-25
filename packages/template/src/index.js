@@ -7,13 +7,15 @@
 // The complete template is bundled in template/. Uses only Node built-ins.
 // Substitute the project name in package.json and README; copy other files unchanged.
 // ─────────────────────────────────────────────────────────────────────────
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execFileSync, spawnSync } from 'node:child_process'
 
+import { templateSource, sourceFiles } from './source.js'
+
 const HERE = dirname(fileURLToPath(import.meta.url))
-const TEMPLATE = join(HERE, '..', 'template')
+const TEMPLATE = templateSource
 const VARIANTS = join(HERE, '..', 'variants')
 const DOCS = 'https://library.comwit.io/template'
 
@@ -127,7 +129,7 @@ if (
 )
   die(`${target} already exists and is not empty`)
 
-const files = walk(TEMPLATE)
+const files = sourceFiles(TEMPLATE)
 const variantFiles = flags.opennext ? walk(join(VARIANTS, 'opennext', 'files')) : []
 log(
   `${c.bold('create-comwit')} → ${c.cyan(relative(process.cwd(), target) || '.')} ${c.dim(`(${files.length + variantFiles.length} files${flags.opennext ? ', opennext' : ''})`)}`
@@ -181,11 +183,13 @@ function applyOpenNext(target, name, variantFiles) {
   const pkg = JSON.parse(read('package.json'))
   for (const key of ['scripts', 'dependencies', 'devDependencies'])
     pkg[key] = { ...pkg[key], ...patch[key] }
+  delete pkg.dependencies?.['@brrrd/adapter']
   write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
+  rmSync(join(target, 'pnpm-lock.yaml'), { force: true })
 
   // workerd installs the platform binary used by Cloudflare development and previews.
   // Keep both pnpm 10 and pnpm 11 build allowlists in the generated project.
-  const workspace = read('pnpm-workspace.yaml')
+  const workspace = read('pnpm-workspace.yaml').replace(/patchedDependencies:[\s\S]*$/, '')
   if (!workspace.includes('onlyBuiltDependencies:\n') || !workspace.includes('allowBuilds:\n'))
     die('pnpm-workspace.yaml changed shape; the opennext overlay needs updating')
   write(
@@ -202,6 +206,10 @@ function applyOpenNext(target, name, variantFiles) {
   write(
     'next.config.ts',
     nextConfig
+      .replace(/^.*adapterPath:.*\n/gm, '')
+      .replace(/^\s*partialPrefetching:.*\n/gm, '')
+      .replace('const require = createRequire(import.meta.url);', '')
+      .replace('import { createRequire } from "node:module";', '')
       .replace(
         'import type { NextConfig } from "next";',
         'import type { NextConfig } from "next";\nimport { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";'

@@ -49,7 +49,7 @@ export default async function TemplateOverview() {
         <Link href="/ui">
           <Copy id="text087" />
         </Link>
-        <a href="https://github.com/burrr-ai/comwit" target="_blank" rel="noreferrer">
+        <a href="https://github.com/comwit/comwit" target="_blank" rel="noreferrer">
           GitHub
         </a>
         <a href="/template/llms.txt">llms.txt</a>

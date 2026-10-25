@@ -19,7 +19,7 @@ const manrope = Manrope({
 
 // Set --font-pretendard on html so the library's --font-sans token resolves at :root.
 const pretendard = localFont({
-  src: '../../ui-dev/app/fonts/PretendardVariable.woff2',
+  src: '../../../packages/ui/apps/ui-dev/app/fonts/PretendardVariable.woff2',
   variable: '--font-pretendard',
   weight: '45 920',
   display: 'swap',

@@ -1,90 +1,78 @@
-<h1>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="apps/docs/public/brand/comwit-wordmark-dark.svg">
-    <img src="apps/docs/public/brand/comwit-wordmark.svg" alt="Comwit" height="40">
-  </picture>
-</h1>
+# Comwit
 
-**The building blocks behind [comwit.io](https://comwit.io).**
+[Comwit](https://github.com/comwit/comwit) is the shared development workspace,
+documentation and integration test repository for independent State, UI and templates.
 
-Open-source State and UI libraries used in Comwit templates, and the template itself as one command. Use any of them on its own, or all together.
+| Repository                                                      | Checkout                                        | Owns                                                                    |
+| --------------------------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
+| [comwit/state](https://github.com/comwit/state)                 | `packages/state`                                | `core/`: `@comwit/state`                                                |
+| [comwit/ui](https://github.com/comwit/ui)                       | `packages/ui`                                   | `core/`, `templates/`, `cli/`, Storybook and the UI development catalog |
+| [comwit/template](https://github.com/comwit/template)           | `templates/base`                                | Maintained base Next.js app, including its settings, skills and rules   |
+| [comwit/template-shop](https://github.com/comwit/template-shop) | `templates/shop`                                | Shop app source, skills and rules                                       |
+| This repository                                                 | `apps/docs`, `apps/state-playground`, `scripts` | Shared docs, examples and integration checks                            |
 
-[Website](https://library.comwit.io) · [Releases](https://github.com/burrr-ai/comwit/releases)
+State and UI are independent products. Public npm package names and APIs stay the same.
+The base template matches the maintainer's `comwit-template` working-tree snapshot;
+shop matches the maintained shop backend. Each template's `PUBLIC_SOURCE.json`
+records the original public files and their hashes. The former infrastructure-neutral
+copy is removed. `create-comwit` packages the pinned `templates/base` source.
 
-| Library      | What it does                                                                                           | Get started                                                                  |
-| ------------ | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
-| **State**    | Client state, queries, and actions through one typed domain hook.                                      | [Docs](https://library.comwit.io/state/docs) · [Source](packages/state/core) |
-| **UI**       | Headless behavior and editable component sources you install into your project.                        | [Docs](https://library.comwit.io/ui) · [Source](packages/ui)                 |
-| **Template** | A Next.js 16 project sliced by domain, with one-way layers, `.ai.md` rules per layer and agent skills. | [Docs](https://library.comwit.io/template) · [Source](packages/template)     |
-
-Coding agent? Give it the index, [library.comwit.io/llms.txt](https://library.comwit.io/llms.txt), or the guide for the one library you use.
-
-## State
+## Develop from the root
 
 ```bash
-npm install @comwit/state
-```
-
-Supports React 18 and 19. Follow the [quickstart](https://library.comwit.io/state/docs/guide/quickstart), or give your coding agent [State's llms.txt](https://library.comwit.io/state/llms.txt).
-
-## UI
-
-```bash
-npx comwit-ui@latest init
-npx comwit-ui@latest add button dialog input
-```
-
-The CLI copies styled component sources into your project. You own and edit those files; `@comwit/ui` provides the underlying behavior. The templates use Tailwind CSS v4. See [installation](https://library.comwit.io/ui/docs/installation), [components](https://library.comwit.io/ui/components), or [UI's llms.txt](https://library.comwit.io/ui/llms.txt).
-
-## Template
-
-```bash
-npm create comwit@latest my-app
-npm create comwit@latest my-app -- --opennext   # Cloudflare Workers via OpenNext
-```
-
-`create-comwit` scaffolds the Next.js template: services sliced by domain, `page → state → api → repository`, an `.ai.md` guide beside every layer, Oxlint rules that enforce the boundaries, and skills for the app shell, auth and SEO. State and UI come pre-wired; the database, storage and hosting stay your choice. Storybook ships set up. Read [why the folders look this way](https://library.comwit.io/template/docs/architecture), give your agent [Template's llms.txt](https://library.comwit.io/template/llms.txt), or [migrate an existing project](https://library.comwit.io/template/docs/migrate).
-
-## Workspace
-
-```text
-apps/
-  docs/                 Shared State + UI documentation
-  state-playground/     State development app
-  ui-dev/               UI development catalog
-  storybook/            UI variants and interaction stories
-packages/
-  state/core/           @comwit/state
-  ui/core/              @comwit/ui
-  ui/templates/         @comwit/ui-templates — source for CLI and previews
-  ui/cli/               comwit-ui — component installer
-  template/             create-comwit — project scaffolder (bundled template snapshot)
-```
-
-Each published package keeps its own version. The retired `comwit` compatibility wrapper is no longer maintained in this workspace; use `@comwit/state`.
-
-## Development
-
-Use Node.js 22.16+ and pnpm 11.3.0.
-
-```bash
-pnpm install
+git clone --branch main --recurse-submodules https://github.com/comwit/comwit.git
+cd comwit
+pnpm install --frozen-lockfile
 pnpm dev:docs
 ```
 
-| Command                          | Purpose                                                             |
-| -------------------------------- | ------------------------------------------------------------------- |
-| `pnpm build`                     | Build libraries, generate UI docs, and build the documentation site |
-| `pnpm test`                      | Run State tests and workspace/CLI integration checks                |
-| `pnpm typecheck`                 | Generate artifacts and check all typed workspaces                   |
-| `pnpm dev:state` / `pnpm dev:ui` | Watch the corresponding runtime package                             |
-| `pnpm dev:playground`            | State playground, port 3001                                         |
-| `pnpm dev:ui-catalog`            | UI catalog, port 3007                                               |
-| `pnpm storybook`                 | UI stories, port 6008                                               |
-| `pnpm registry`                  | Regenerate the bundled component registry                           |
+For an existing clone, run `git submodule update --init --recursive` first.
+Edit files directly inside the submodules. Docs import the workspace State/UI
+packages and generate live examples from `packages/ui/apps/storybook/specs/`.
+`pnpm build`, `pnpm test`, `pnpm typecheck` and `pnpm --filter docs lint` check
+integration. `pnpm storybook` opens UI's own Storybook.
 
-For catalog/Storybook development, run `pnpm build:packages` first and keep `pnpm dev:ui` running when editing the headless engine. See [contributing](CONTRIBUTING.md) for documentation generation and release checks.
+Templates keep independent dependency graphs and lockfiles; they are deliberately
+outside the parent pnpm workspace:
 
-## License
+```bash
+pnpm template:install
+pnpm template:validate
+pnpm template:build
+pnpm shop:install
+pnpm shop:validate
+pnpm shop:build
+```
 
-[MIT](LICENSE)
+## Independent clone
+
+Clone any product repository directly and run `pnpm install --frozen-lockfile`.
+State/UI support `pnpm build`, `pnpm test` and `pnpm typecheck`; templates support
+`pnpm validate` and `pnpm build`. See each repository's README or `PUBLIC.md`.
+Template cloud services use your own `.env`; no real credentials or user data ship.
+
+## Branches and pull requests
+
+Submodules check out the exact commit recorded by the parent, usually detached.
+Create a branch in the repository you intend to edit:
+
+```bash
+git -C packages/ui switch -c my-ui-change
+# edit, validate, commit and push inside packages/ui; open its PR
+# after the UI PR is merged, select its merge commit locally
+git -C packages/ui fetch origin
+git -C packages/ui switch --detach origin/main
+git add packages/ui
+git commit -m "chore: update UI reference"
+# push the parent branch and open a separate parent PR
+```
+
+Push submodule commits before the parent reference. Never overwrite local changes
+with a submodule update; inspect `git status` in each repository first.
+Merge product PRs before their dependent parent PR; the parent's gitlinks must refer
+to published commits. Do not mix another repository's or user's pending changes.
+
+Docs: [State](https://library.comwit.io/state/docs),
+[UI](https://library.comwit.io/ui), [Template](https://library.comwit.io/template).
+The representative introduction and Star link is [comwit/comwit](https://github.com/comwit/comwit).
+Stars remain separate for each repository.
