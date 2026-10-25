@@ -11,11 +11,9 @@ description: Run the shop and preview its existing screens.
 
 Node.js 22.16 or later · pnpm 11.3.0
 
-Download the [Shop Template source ZIP](https://github.com/comwit/template-shop/archive/refs/heads/main.zip) and extract it as `my-shop`. `npm create comwit@latest` is for the [base template](/template/docs/getting-started).
-
 ```bash
+npm create comwit@latest my-shop -- --shop --pm pnpm
 cd my-shop
-pnpm install --frozen-lockfile
 pnpm storybook
 ```
 
@@ -25,7 +23,7 @@ Preview pages with mock APIs in Storybook.
 
 ## Connect your project
 
-Prepare the environment with your Comwit project setup prompt, then request `shop-setup`. Follow the [resource connection guide](https://github.com/comwit/template-shop/blob/main/docs/shop-resources.md) for database and storage.
+Prepare the environment with your Comwit project setup prompt, then request `shop-setup`. Follow the <ShopSourceLink path="docs/shop-resources.md">resource connection guide</ShopSourceLink> for database and storage.
 
 ```bash
 pnpm dev

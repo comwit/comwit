@@ -10,7 +10,12 @@ import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import { getTemplateDoc, getTemplateDocs } from '@/lib/template-docs'
-import { ShopGallery, ShopRoutes, ShopAdminScreens } from '../../_components/shop-reference'
+import {
+  ShopGallery,
+  ShopRoutes,
+  ShopAdminScreens,
+  ShopSourceLink,
+} from '../../_components/shop-reference'
 import { ShopSchema } from '../../_components/shop-schema'
 import { TableOfContents } from '../../_components/toc'
 
@@ -46,7 +51,7 @@ export default async function TemplateDocPage({ params }: { params: Promise<{ sl
         <article className="template-guide prose max-w-none">
           <MDXRemote
             source={doc.content}
-            components={{ ShopGallery, ShopRoutes, ShopSchema, ShopAdminScreens }}
+            components={{ ShopGallery, ShopRoutes, ShopSchema, ShopAdminScreens, ShopSourceLink }}
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm, remarkStableAnchors],

@@ -10,6 +10,7 @@ import {
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
+import { execFileSync } from 'node:child_process'
 const source =
   process.env.COMWIT_SHOP_SOURCE ||
   fileURLToPath(new URL('../../../templates/shop/', import.meta.url))
@@ -43,7 +44,18 @@ for (const file of readdirSync(out)) if (!expected.has(file)) rmSync(join(out, f
 writeFileSync(join(out, 'catalog.json'), JSON.stringify(catalog, null, 2) + '\n')
 writeFileSync(
   new URL('../lib/shop-reference.json', import.meta.url),
-  JSON.stringify({ ...schema, catalog, admin }, null, 2) + '\n'
+  JSON.stringify(
+    {
+      ...schema,
+      catalog,
+      admin,
+      sourceCommit: execFileSync('git', ['-C', source, 'rev-parse', 'HEAD'], {
+        encoding: 'utf8',
+      }).trim(),
+    },
+    null,
+    2
+  ) + '\n'
 )
 console.log(
   `Shop docs generated: ${schema.tables.length} tables, ${catalog.brands.length} brands, ${admin.length} admin screenshots.`

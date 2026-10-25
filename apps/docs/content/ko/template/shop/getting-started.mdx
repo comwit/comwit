@@ -11,11 +11,9 @@ description: 쇼핑몰을 설치하고 준비된 화면을 확인합니다.
 
 Node.js 22.16 이상 · pnpm 11.3.0
 
-[Shop Template 소스 ZIP](https://github.com/comwit/template-shop/archive/refs/heads/main.zip)을 내려받아 `my-shop` 폴더로 풉니다. `npm create comwit@latest`는 [기본 Template](/template/docs/getting-started)용입니다.
-
 ```bash
+npm create comwit@latest my-shop -- --shop --pm pnpm
 cd my-shop
-pnpm install --frozen-lockfile
 pnpm storybook
 ```
 
@@ -25,7 +23,7 @@ Storybook에서 목 API를 사용하는 페이지를 확인합니다.
 
 ## 프로젝트 연결
 
-Comwit 프로젝트 설정 프롬프트로 환경을 준비한 뒤 `shop-setup`을 요청하세요. DB·스토리지는 [리소스 연결 안내](https://github.com/comwit/template-shop/blob/main/docs/shop-resources.md)를 따릅니다.
+Comwit 프로젝트 설정 프롬프트로 환경을 준비한 뒤 `shop-setup`을 요청하세요. DB·스토리지는 <ShopSourceLink path="docs/shop-resources.md">리소스 연결 안내</ShopSourceLink>를 따릅니다.
 
 ```bash
 pnpm dev
