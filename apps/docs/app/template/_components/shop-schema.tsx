@@ -6,32 +6,18 @@ import { useLocale } from 'next-intl'
 import reference from '@/lib/shop-reference.json'
 import {
   initialPositions,
-  keyColumns,
+  canvasPadding,
+  movePosition,
+  routeEdges,
   nodeHeight,
   nodeWidth,
-  schemaEdges,
 } from '@/lib/shop-diagram.mjs'
 type Position = { x: number; y: number }
 type Column = { name: string; type: string; nullable: boolean; primaryKey: boolean }
-const firstTables = [
-  'categories',
-  'products',
-  'skus',
-  'inventory_reservations',
-  'carts',
-  'cart_items',
-  'orders',
-  'order_items',
-  'payments',
-  'refunds',
-  'refund_items',
-  'shipments',
-]
-const tables = [...reference.tables].sort((a, b) => {
-  const rank = (name: string) =>
-    firstTables.includes(name) ? firstTables.indexOf(name) : firstTables.length
-  return rank(a.name) - rank(b.name) || a.name.localeCompare(b.name)
-})
+const layout = initialPositions(reference.tables) as Record<string, Position>
+const tables = [...reference.tables].sort(
+  (a, b) => layout[a.name].y - layout[b.name].y || layout[a.name].x - layout[b.name].x
+)
 export function ShopSchema() {
   const ko = useLocale() === 'ko'
   const initial = useMemo(() => initialPositions(tables) as Record<string, Position>, [])
@@ -43,36 +29,35 @@ export function ShopSchema() {
   const drag = useRef<{ id: string; startX: number; startY: number; origin: Position } | null>(null)
   const edges = useMemo(
     () =>
-      schemaEdges(tables) as {
+      routeEdges(tables, positions) as {
         id: string
         source: string
-        column: string
         target: string
+        column: string
         targetColumn: string
+        d: string
       }[],
-    []
+    [positions]
+  )
+  const initialWidth = Math.max(
+    ...Object.values(initial).map((p) => p.x + nodeWidth + canvasPadding)
   )
   useEffect(() => {
-    if (host.current) setZoom(Math.min(1, Math.max(0.35, (host.current.clientWidth - 16) / 1164)))
-  }, [])
-  const width = Math.max(1164, ...Object.values(positions).map((p) => p.x + nodeWidth + 24))
-  const height = Math.max(...tables.map((t) => positions[t.name].y + nodeHeight(t) + 24))
+    if (host.current)
+      setZoom(
+        host.current.clientWidth < 640
+          ? 0.8
+          : Math.min(1, (host.current.clientWidth - 16) / initialWidth)
+      )
+  }, [initialWidth])
+  const width = Math.max(
+    initialWidth,
+    ...Object.values(positions).map((p) => p.x + nodeWidth + canvasPadding)
+  )
+  const height = Math.max(...tables.map((t) => positions[t.name].y + nodeHeight(t) + canvasPadding))
   const active = tables.find((t) => t.name === selected)
   const move = (id: string, x: number, y: number) =>
-    setPositions((p) => ({ ...p, [id]: { x: Math.max(0, x), y: Math.max(0, y) } }))
-  const rowY = (name: string, column: string) => {
-    const table = tables.find((t) => t.name === name)!
-    const rows = keyColumns(table) as Column[]
-    return (
-      positions[name].y +
-      48 +
-      Math.max(
-        0,
-        rows.findIndex((c) => c.name === column)
-      ) *
-        24
-    )
-  }
+    setPositions((p) => movePosition(tables, p, id, x, y))
   return (
     <section
       className="shop-schema not-prose"
@@ -122,8 +107,8 @@ export function ShopSchema() {
       </div>
       <p className="shop-reference-note">
         {ko
-          ? '노드 제목을 드래그하거나, 제목에 포커스 후 방향키로 이동하세요. 선택하면 전체 컬럼을 볼 수 있습니다.'
-          : 'Drag a node heading, or focus it and use arrow keys. Select a table to inspect all columns.'}
+          ? '노드 제목을 드래그하거나, 제목에 포커스 후 방향키로 이동하세요. 선택하면 외래키 연결을 볼 수 있습니다.'
+          : 'Drag a node heading, or focus it and use arrow keys. Select a table to inspect its foreign keys.'}
       </p>
       <div
         ref={host}
@@ -151,17 +136,12 @@ export function ShopSchema() {
                 </marker>
               </defs>
               {edges.map((edge) => {
-                const from = positions[edge.source],
-                  to = positions[edge.target],
-                  sx = from.x + nodeWidth,
-                  sy = rowY(edge.source, edge.column),
-                  tx = to.x,
-                  ty = rowY(edge.target, edge.targetColumn)
                 const highlighted = selected === edge.source || selected === edge.target
                 return (
                   <path
                     key={edge.id}
-                    d={`M ${sx} ${sy} C ${sx + 50} ${sy}, ${tx - 50} ${ty}, ${tx} ${ty}`}
+                    d={edge.d}
+                    data-edge={edge.id}
                     fill="none"
                     markerEnd="url(#shop-fk-arrow)"
                     className={highlighted ? 'is-active' : ''}
@@ -171,11 +151,12 @@ export function ShopSchema() {
             </svg>
             {tables.map((table) => {
               const point = positions[table.name],
-                rows = keyColumns(table) as Column[]
+                rows = table.columns as Column[]
               return (
                 <div
                   key={table.name}
                   className="shop-schema-node"
+                  data-table={table.name}
                   data-selected={selected === table.name || undefined}
                   data-dimmed={
                     (search && !table.name.toLowerCase().includes(search.toLowerCase())) ||
@@ -185,7 +166,7 @@ export function ShopSchema() {
                     left: point.x,
                     top: point.y,
                     width: nodeWidth,
-                    minHeight: nodeHeight(table),
+                    height: nodeHeight(table),
                   }}
                 >
                   <Button
@@ -239,8 +220,20 @@ export function ShopSchema() {
                     {rows.length ? (
                       rows.map((column) => (
                         <li key={column.name}>
-                          <span>{column.name}</span>
-                          <small>{column.primaryKey ? 'PK' : 'FK'}</small>
+                          <span title={column.name}>{column.name}</span>
+                          <small>{column.type}</small>
+                          <small title={column.nullable ? 'NULL' : 'NOT NULL'}>
+                            {column.nullable ? 'NULL' : 'NN'}
+                          </small>
+                          <small>
+                            {[
+                              column.primaryKey && 'PK',
+                              table.foreignKeys.some((f) => f.columns.includes(column.name)) &&
+                                'FK',
+                            ]
+                              .filter(Boolean)
+                              .join('/') || '—'}
+                          </small>
                         </li>
                       ))
                     ) : (
