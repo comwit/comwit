@@ -2,14 +2,14 @@
 title: 전용 스킬
 group: Shop Template
 order: 24
-description: 첫 쇼핑몰 요청부터 이후 개발까지.
+description: shop-setup으로 첫 쇼핑몰 구성하기.
 ---
 
 <a id="skills"></a>
 
-# 전용 스킬
+# shop-setup
 
-`shop-setup`은 첫 쇼핑몰 요청을 다룹니다. [실제 예시](/template/docs/shop/overview)에서 방향을 정하고 기존 페이지를 수정하며, 목 API를 쓰는 Storybook 상태를 함께 구성합니다. 공통 지침은 [에이전트 가이드](/template/docs/agents)를 따릅니다.
+`shop-setup`은 Shop Template의 첫 쇼핑몰 구성을 위한 전용 스킬입니다. [실제 예시](/template/docs/shop/overview)에서 방향을 정하고 기존 페이지를 수정하며, 목 API를 쓰는 Storybook 상태를 함께 구성합니다. <ShopSourceLink path=".agents/skills/shop-setup/SKILL.md">스킬 원문</ShopSourceLink>
 
 <a id="resources"></a>
 
@@ -19,8 +19,6 @@ description: 첫 쇼핑몰 요청부터 이후 개발까지.
 
 <a id="complete"></a>
 
-## 한 번 준비하고 계속 개발하기
+## 설정을 마치면
 
 페이지·Storybook 구성과 검증이 끝나면 일회성 스킬이 제거됩니다. 미완료 작업은 `.agents/state/shop-setup.json`에서 이어갑니다.
-
-이후 개발에는 `refactoring`, `seo-optimize`, `video-offload`를 사용합니다.
