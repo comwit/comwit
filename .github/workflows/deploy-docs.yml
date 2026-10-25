@@ -32,7 +32,6 @@ jobs:
       COMWIT_PROJECT: ${{ vars.COMWIT_PROJECT }}
       COMWIT_APP: ${{ vars.COMWIT_APP }}
       COMWIT_API_URL: ${{ vars.COMWIT_API_URL }}
-      COMWIT_CONFIG: ${{ runner.temp }}/comwit-docs-config.json
     steps:
       - uses: actions/checkout@v4
         with:
@@ -82,7 +81,10 @@ jobs:
           token = os.environ.get('COMWIT_DEPLOY_TOKEN', '')
           if not token.startswith(('cwt_', 'cwp_')):
               raise SystemExit('Configure COMWIT_DEPLOY_TOKEN with a scoped app:read/app:deploy token.')
-          fd = os.open(os.environ['COMWIT_CONFIG'], os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+          config = os.path.join(os.environ['RUNNER_TEMP'], 'comwit-docs-config.json')
+          with open(os.environ['GITHUB_ENV'], 'a') as exported:
+              exported.write('COMWIT_CONFIG=' + config + '\n')
+          fd = os.open(config, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
           with os.fdopen(fd, 'w') as file:
               json.dump({'token': token, 'default_project': os.environ['COMWIT_PROJECT']}, file)
           PY
@@ -116,4 +118,4 @@ jobs:
           PY
       - name: Remove the temporary CLI credential
         if: always()
-        run: rm -f "$COMWIT_CONFIG"
+        run: rm -f "$RUNNER_TEMP/comwit-docs-config.json"
