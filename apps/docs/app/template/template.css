@@ -1720,7 +1720,8 @@
 .shop-schema-canvas > svg > path {
   stroke: var(--tp-muted);
   stroke-width: 1.5;
-  opacity: 0.45;
+  stroke-linejoin: miter;
+  opacity: 0.65;
 }
 .shop-schema-canvas > svg > path.is-active {
   stroke: var(--tp-mat);
@@ -1736,7 +1737,8 @@
   overflow: hidden;
 }
 .shop-schema-node[data-selected] {
-  border: 2px solid var(--tp-mat);
+  border-color: var(--tp-mat);
+  box-shadow: 0 0 0 1px var(--tp-mat);
 }
 .shop-schema-node[data-dimmed] {
   opacity: 0.25;
@@ -1762,17 +1764,25 @@
   margin: 4px 0 !important;
   padding: 0 !important;
 }
-.shop-schema-node li {
-  display: flex;
+.shop-schema .shop-schema-node li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 52px 30px 24px;
+  gap: 4px;
   height: 24px;
   padding: 0 12px !important;
   margin: 0 !important;
   align-items: center;
   justify-content: space-between;
-  font: 12px var(--tp-mono);
+  font: 14px var(--tp-mono);
+}
+.shop-schema-node li > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .shop-schema-node small {
-  font-size: 10px;
+  white-space: nowrap;
+  font-size: 11px;
   color: var(--tp-mat);
 }
 .shop-schema-inspector {
