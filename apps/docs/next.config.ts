@@ -1,7 +1,13 @@
 import type { NextConfig } from 'next'
+import { createRequire } from 'node:module'
 import createNextIntlPlugin from 'next-intl/plugin'
 
+const require = createRequire(import.meta.url)
+
 const nextConfig: NextConfig = {
+  adapterPath: require.resolve('@brrrd/adapter'),
+  outputFileTracingIncludes: { '/*': ['./content/**/*', './app/og/assets/**/*'] },
+  env: { NEXT_PUBLIC_BUILD_REVISION: process.env.GIT_SHA || 'local' },
   devIndicators: false,
   transpilePackages: ['@comwit/ui', '@comwit/ui-templates'],
   async redirects() {

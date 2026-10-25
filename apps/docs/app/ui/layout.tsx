@@ -1,3 +1,4 @@
+import { siteUrl } from '@/lib/site-url'
 import { localizeMetadata } from '@/i18n/metadata'
 
 import { Copy } from '@/i18n/copy'
@@ -10,7 +11,7 @@ import './ui.css'
 const metadata: Metadata = {
   title: { default: 'Comwit UI', template: '%s · Comwit UI' },
   description: 'Mobile-first React components you install as source and own.',
-  other: { llmstxt: 'https://library.comwit.io/ui/llms.txt' },
+  other: { llmstxt: siteUrl('/ui/llms.txt') },
 }
 
 export default function UiLayout({ children }: { children: React.ReactNode }) {

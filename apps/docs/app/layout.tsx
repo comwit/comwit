@@ -1,3 +1,4 @@
+import { siteUrl, siteOrigin } from '@/lib/site-url'
 import { localizeMetadata } from '@/i18n/metadata'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
@@ -33,7 +34,7 @@ const geistMono = Geist_Mono({
 const metadata: Metadata = {
   title: 'Comwit — State, UI & Template',
   description: 'React state, UI components, and a Next.js starter. The tools behind comwit.io.',
-  metadataBase: new URL('https://library.comwit.io'),
+  metadataBase: new URL(siteOrigin),
   openGraph: {
     title: 'Comwit — State, UI & Template',
     description: 'State, UI, and a full-stack starter for your next app.',
@@ -42,7 +43,7 @@ const metadata: Metadata = {
     images: ['/og/libraries'],
   },
   twitter: { card: 'summary_large_image', images: ['/og/libraries'] },
-  other: { llmstxt: 'https://library.comwit.io/llms.txt' },
+  other: { llmstxt: siteUrl('/llms.txt') },
   // Generate raster icons from public/icon.svg with scripts/gen-icons.mjs. Declare the ICO size as 32px
   // so Chrome selects SVG instead. The State layout overrides this with its panda icon.
   icons: {

@@ -47,7 +47,8 @@
     "shop:install": "pnpm --dir templates/shop install --frozen-lockfile",
     "shop:validate": "pnpm --dir templates/shop validate",
     "shop:build": "pnpm --dir templates/shop build",
-    "test:submodules": "node --test scripts/submodules.test.mjs"
+    "test:submodules": "node --test scripts/submodules.test.mjs",
+    "docs:deploy": "node scripts/deploy-docs.mjs"
   },
   "lint-staged": {
     "*.{js,cjs,mjs,jsx,ts,tsx,json,yaml,yml,md,mdx,css,scss,html}": [
