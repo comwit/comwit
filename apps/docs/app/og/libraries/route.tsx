@@ -1,3 +1,4 @@
+import { siteHost } from '@/lib/site-url'
 import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -50,7 +51,7 @@ export async function GET() {
         <span>to architecture.</span>
       </div>
       <div style={{ display: 'flex', position: 'absolute', bottom: 40, left: 50, fontSize: 19 }}>
-        library.comwit.io
+        {siteHost}
       </div>
     </div>,
     {

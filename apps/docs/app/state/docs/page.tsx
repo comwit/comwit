@@ -1,3 +1,4 @@
+import { siteUrl, siteHost } from '@/lib/site-url'
 import { localizeMetadata } from '@/i18n/metadata'
 
 import { Copy } from '@/i18n/copy'
@@ -33,7 +34,7 @@ export default function StateIntroduction() {
               <Copy id="text022" /> <a href="/state/llms.txt">llms.txt</a>.
             </p>
             <div className="hero-actions">
-              <CopyButton text="https://library.comwit.io/state/llms.txt" className="button-lilac">
+              <CopyButton text={siteUrl('/state/llms.txt')} className="button-lilac">
                 <Copy id="text024" />{' '}
               </CopyButton>
               <Link href="/state/docs/guide/quickstart" className="hero-docs-link">
@@ -122,8 +123,8 @@ export default function StateIntroduction() {
           </h2>
         </div>
         <div>
-          <CopyButton text="https://library.comwit.io/state/llms.txt" className="agent-url">
-            <code>library.comwit.io/state/llms.txt</code>
+          <CopyButton text={siteUrl('/state/llms.txt')} className="agent-url">
+            <code>{siteHost}/state/llms.txt</code>
           </CopyButton>
         </div>
       </section>

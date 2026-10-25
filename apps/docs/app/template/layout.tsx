@@ -1,3 +1,4 @@
+import { siteUrl } from '@/lib/site-url'
 import { localizeMetadata } from '@/i18n/metadata'
 import { getLocale } from 'next-intl/server'
 
@@ -21,7 +22,7 @@ const metadata: Metadata = {
   title: { default: 'Comwit Template', template: '%s · Comwit Template' },
   description:
     'A Next.js template with agent skills, project instructions and lint checks for folder structure and dependency boundaries.',
-  other: { llmstxt: 'https://library.comwit.io/template/llms.txt' },
+  other: { llmstxt: siteUrl('/template/llms.txt') },
 }
 
 export default async function TemplateLayout({ children }: { children: React.ReactNode }) {

@@ -1,0 +1,121 @@
+name: Deploy docs to Comwit Cloud
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      vars.COMWIT_DEPLOY_ENABLED == 'true' &&
+      ((github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'push' && github.event.workflow_run.head_repository.full_name == github.repository) ||
+       (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'))
+    runs-on: ubuntu-latest
+    environment:
+      name: docs-production
+      url: ${{ vars.SITE_URL }}
+    env:
+      DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      GIT_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      SITE_URL: ${{ vars.SITE_URL }}
+      COMWIT_PROJECT: ${{ vars.COMWIT_PROJECT }}
+      COMWIT_APP: ${{ vars.COMWIT_APP }}
+      COMWIT_API_URL: ${{ vars.COMWIT_API_URL }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.DEPLOY_SHA }}
+          submodules: recursive
+          persist-credentials: false
+      - name: Select the current main revision only
+        id: current
+        shell: bash
+        run: |
+          set -euo pipefail
+          remote_sha="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [ "$remote_sha" = "$DEPLOY_SHA" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "A newer main revision exists; this deployment is skipped."
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.current.outputs.deploy == 'true'
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+        if: steps.current.outputs.deploy == 'true'
+        with:
+          version: 11.3.0
+      - name: Build the exact source revision
+        if: steps.current.outputs.deploy == 'true'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+          node scripts/deploy-docs.mjs --check
+      - name: Install the verified Comwit CLI release
+        if: steps.current.outputs.deploy == 'true'
+        uses: burrr-ai/comwit-cli@250b847d6c9052df4879e2d292ff5a7d7aace72a
+        with:
+          version: v0.1.11
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Configure a deployment-only credential
+        if: steps.current.outputs.deploy == 'true'
+        env:
+          COMWIT_DEPLOY_TOKEN: ${{ secrets.COMWIT_DEPLOY_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          token = os.environ.get('COMWIT_DEPLOY_TOKEN', '')
+          if not token.startswith(('cwt_', 'cwp_')):
+              raise SystemExit('Configure COMWIT_DEPLOY_TOKEN with a scoped app:read/app:deploy token.')
+          config = os.path.join(os.environ['RUNNER_TEMP'], 'comwit-docs-config.json')
+          with open(os.environ['GITHUB_ENV'], 'a') as exported:
+              exported.write('COMWIT_CONFIG=' + config + '\n')
+          fd = os.open(config, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+          with os.fdopen(fd, 'w') as file:
+              json.dump({'token': token, 'default_project': os.environ['COMWIT_PROJECT']}, file)
+          PY
+      - name: Deploy docs
+        if: steps.current.outputs.deploy == 'true'
+        run: pnpm docs:deploy
+      - name: Verify public revision and docs routes
+        if: steps.current.outputs.deploy == 'true'
+        run: |
+          python3 - <<'PY'
+          import json, os, time, urllib.request
+          origin = os.environ['SITE_URL'].rstrip('/')
+          expected = os.environ['DEPLOY_SHA']
+          for attempt in range(12):
+              try:
+                  with urllib.request.urlopen(origin + '/api/health', timeout=20) as response:
+                      if json.load(response).get('revision') == expected:
+                          break
+              except Exception:
+                  pass
+              if attempt == 11:
+                  raise SystemExit('Public health revision did not match the deployed main commit.')
+              time.sleep(5)
+          for locale in ['en', 'ko']:
+              for path in ['/', '/state/docs', '/state/docs/guide/quickstart', '/ui/components', '/template/docs/integrations', '/blog', '/template/llms.txt']:
+                  request = urllib.request.Request(origin + path, headers={'Accept-Language': locale})
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      if response.status != 200:
+                          raise SystemExit('Public docs verification failed: ' + path)
+                  print(locale, path, 'OK')
+          PY
+      - name: Remove the temporary CLI credential
+        if: always()
+        run: rm -f "$RUNNER_TEMP/comwit-docs-config.json"

@@ -1,3 +1,4 @@
+import { siteUrl } from '@/lib/site-url'
 import { localizeMetadata } from '@/i18n/metadata'
 import type { Metadata } from 'next'
 
@@ -11,7 +12,7 @@ const metadata: Metadata = {
     images: ['/og/panda-garden'],
   },
   twitter: { card: 'summary_large_image', images: ['/og/panda-garden'] },
-  other: { llmstxt: 'https://library.comwit.io/state/llms.txt' },
+  other: { llmstxt: siteUrl('/state/llms.txt') },
 }
 
 export default function StateLayout({ children }: { children: React.ReactNode }) {

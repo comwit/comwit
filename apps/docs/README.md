@@ -29,6 +29,6 @@ first. Update its parent reference in a separate parent PR. Independent clones
 use the product repository's own pnpm workspace. See the root README for commands.
 
 The CI branch is `main`. Vercel-specific repository configuration has been removed;
-CI validates builds but does not configure or publish to another hosting provider.
+CI validates builds; Comwit Cloud automation is documented in `../../docs/deployment.md`.
 Sibling `comwit-state`, `comwit-ui` and template clones are independent working
 trees; edits reach this workspace through pushed commits and submodule updates.
