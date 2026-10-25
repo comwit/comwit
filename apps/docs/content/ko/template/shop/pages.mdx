@@ -9,7 +9,7 @@ description: 실제 App Router 경로와 준비된 관리자 화면.
 
 # 페이지 구조
 
-라우터는 `src/app/`, 화면 구현은 `src/services/app/page/`와 `src/services/admin/page/`에 있습니다. 아래 목록은 실제 shop 소스에서 생성합니다.
+라우터는 `src/app/`, 화면 구현은 `src/services/app/page/`와 `src/services/admin/page/`에 있습니다.
 
 <ShopRoutes />
 
@@ -17,8 +17,14 @@ description: 실제 App Router 경로와 준비된 관리자 화면.
 
 ## 준비된 관리자 화면
 
-기본 공개 진입 경로는 `/관리자`이며 `NEXT_PUBLIC_ADMIN_BASE_PATH`로 바꿀 수 있습니다. 내부 `/admin` 파일 구조는 유지하고, `/admin` 직접 요청은 404를 반환합니다. 링크는 `adminRoutes`를 사용하며 서버 권한 검사를 유지합니다. 아래 화면은 기존 페이지에 Storybook 목 데이터를 넣어 캡처한 것으로, 운영 데이터가 아닙니다.
+첫 설정에서 `/관리자-<10자리 16진수>` 경로를 만듭니다. `.env`의 `NEXT_PUBLIC_ADMIN_BASE_PATH`로 최종 경로를 바꿀 수 있습니다.
+
+```dotenv
+NEXT_PUBLIC_ADMIN_BASE_PATH=/운영실
+```
+
+변경 후 개발 서버를 재시작하세요. 배포할 때는 같은 값으로 다시 빌드합니다. `/admin`은 내부 라우터 경로입니다.
 
 <ShopAdminScreens />
 
-기존 스토리는 `src/stories/admin/`, API 목은 `src/stories/mocks/`에 있습니다. 화면 수정 시 이 경계를 유지하세요. 공통 레이어 규칙은 [프로젝트 구조](/template/docs/structure)에 있습니다.
+기존 스토리는 `src/stories/admin/`, API 목은 `src/stories/mocks/`에 있습니다. 공통 레이어 규칙은 [프로젝트 구조](/template/docs/structure)에 있습니다.

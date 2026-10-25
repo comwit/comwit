@@ -30,20 +30,18 @@ AGENTS.md                     # Project instructions
 
 <a id="layers"></a>
 
-## Why separate the layers?
+## Layer responsibilities
 
-Each layer gives new code a clear home and limits how much needs to change together. Agents can also narrow their reading to the code and guides relevant to the task.
+| Path                | Role                             |
+| ------------------- | -------------------------------- |
+| `src/app`           | URLs and layouts                 |
+| `page/{route}`      | Screen implementation            |
+| `state/{domain}`    | State, queries and actions       |
+| `api/{domain}`      | Server operations and validation |
+| `server/repository` | Data reads and writes            |
+| `lib`               | Shared UI and utilities          |
 
-| Path                | Purpose and benefit                                                                                            |
-| ------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `src/app`           | Separates URLs from screen implementation, so route changes require fewer changes inside screens.              |
-| `page/{route}`      | Keeps presentation separate, reducing the impact of design changes on data processing.                         |
-| `state/{domain}`    | Manages shared state and changes in one place, reducing duplicate handling and inconsistencies across screens. |
-| `api/{domain}`      | Centralizes server work for screens, so each screen does not repeat data assembly and validation.              |
-| `server/repository` | Contains storage-specific code, limiting changes when connecting or replacing a database.                      |
-| `lib`               | Shares common UI and tools across features, so the same problems do not need to be solved repeatedly.          |
-
-The default dependency direction is `page → state → api → repository`. User and admin screens live in separate services to keep their different requirements from becoming entangled.
+Dependency direction: `page → state → api → repository`.
 
 <a id="what-enforces-it"></a>
 

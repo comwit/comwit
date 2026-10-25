@@ -9,7 +9,9 @@ description: Run the shop and preview its existing screens.
 
 # Getting started
 
-Use Node.js 22.16 or later and pnpm 11.3.0. Download the [Shop Template source ZIP](https://github.com/comwit/template-shop/archive/refs/heads/main.zip) and extract it as `my-shop`. This copies source without the original Git history. `npm create comwit@latest` currently creates the [base template](/template/docs/getting-started).
+Node.js 22.16 or later · pnpm 11.3.0
+
+Download the [Shop Template source ZIP](https://github.com/comwit/template-shop/archive/refs/heads/main.zip) and extract it as `my-shop`. `npm create comwit@latest` is for the [base template](/template/docs/getting-started).
 
 ```bash
 cd my-shop
@@ -17,18 +19,16 @@ pnpm install --frozen-lockfile
 pnpm storybook
 ```
 
-Storybook renders the real pages with mock APIs. It does not need a database, storage or a payment account.
+Preview pages with mock APIs in Storybook.
 
 <a id="connect"></a>
 
 ## Connect your project
 
-For a running commerce app, use your Comwit project setup prompt and the shipped MCP bridge. Ask the agent to use `shop-setup`: it checks existing bindings, guides database/storage setup when authorized and preserves the commerce schema. See [the resource guide](https://github.com/comwit/template-shop/blob/main/docs/shop-resources.md).
-
-Run the app after its required project environment is ready:
+Prepare the environment with your Comwit project setup prompt, then request `shop-setup`. Follow the [resource connection guide](https://github.com/comwit/template-shop/blob/main/docs/shop-resources.md) for database and storage.
 
 ```bash
 pnpm dev
 ```
 
-Database migration, live payments and deployment are separate steps. Keep actual environment values outside Git. Shared commands and integration edit points are in [Base Template integrations](/template/docs/integrations).
+For other services, see [integration settings](/template/docs/integrations).

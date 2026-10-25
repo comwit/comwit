@@ -1524,12 +1524,19 @@
 .shop-gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  gap: 18px 14px;
 }
 .shop-reference-card {
+  min-width: 0;
+}
+.shop-image-trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
   overflow: hidden;
-  border: 1px solid var(--tp-rule);
-  background: var(--tp-sheet);
+  border-radius: 2px;
+  cursor: zoom-in;
 }
 .shop-reference-card img {
   display: block;
@@ -1537,24 +1544,89 @@
   height: auto;
   margin: 0 !important;
 }
+.shop-image-hint {
+  position: absolute;
+  right: 9px;
+  bottom: 9px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f7f1dce6;
+  color: #1b1a15;
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 120ms;
+}
+.shop-image-trigger:hover .shop-image-hint,
+.shop-image-trigger:focus-visible .shop-image-hint {
+  opacity: 1;
+}
 .shop-reference-caption {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 14px;
-  font-size: 13px;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 7px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
 }
-.shop-reference-caption span {
+.shop-reference-caption small {
+  font-size: 11px;
   color: var(--tp-muted);
 }
-.shop-reference-card details {
-  border-top: 1px solid var(--tp-rule);
+.shop-image-dialog {
+  width: min(1040px, calc(100vw - 32px)) !important;
+  max-width: min(1040px, calc(100vw - 32px)) !important;
+  max-height: 92svh;
+  overflow: auto;
+  padding: 14px;
+  gap: 12px;
+  background: #f7f1dc;
+  color: #1b1a15;
+}
+.shop-image-dialog-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding-right: 34px;
+}
+.shop-image-dialog-heading [data-slot='dialog-title'] {
+  font-size: 14px;
+}
+.shop-image-dialog-heading [data-slot='dialog-description'] {
+  font-size: 12px;
+  color: #665c47;
+}
+.shop-image-dialog > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(92svh - 125px);
+  object-fit: contain;
+}
+.shop-image-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 12px;
 }
-.shop-reference-card summary {
-  padding: 10px 14px;
-  cursor: pointer;
+.shop-image-tools > div {
+  display: flex;
+  gap: 4px;
+}
+.shop-image-tools button {
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+.shop-image-tools button[aria-pressed='true'] {
+  background: #e2d5ac;
+}
+.shop-image-tools a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .shop-reference-note {
   font-size: 12px !important;
@@ -1756,5 +1828,76 @@
   }
   .shop-schema > details ul {
     columns: 1;
+  }
+}
+
+/* Template selection stays compact as the catalog grows. */
+.template-nav .template-nav-index {
+  font-size: 12px;
+  color: var(--tp-muted);
+  margin-bottom: 8px;
+}
+.template-select-trigger {
+  width: 100%;
+  margin-bottom: 12px;
+  padding-inline: 10px;
+  border-color: var(--tp-rule);
+  background: var(--tp-sheet);
+  color: var(--tp-ink);
+}
+.template-select-menu {
+  background: #f7f1dc;
+  color: #1b1a15;
+  border-color: #cdbd90;
+  max-height: 320px;
+}
+.template-select-menu [role='option']:focus {
+  background: #e2d5ac;
+}
+.template-current-docs {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.template-common-links {
+  border-top: 1px solid var(--tp-rule);
+  margin-top: 14px;
+  padding-top: 10px;
+}
+.template-common-links summary {
+  padding: 7px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--tp-muted);
+}
+.template-nav .template-nav-agent {
+  font-size: 12px;
+  color: var(--tp-muted);
+  margin-top: 10px;
+}
+.tp-doc[data-gallery] .template-guide.prose > h1 {
+  font-size: clamp(28px, 3vw, 38px);
+  margin-bottom: 12px;
+}
+.tp-doc[data-gallery] .template-guide.prose > p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-block: 12px;
+}
+.tp-doc[data-gallery] .shop-filters {
+  gap: 4px;
+  margin: 16px 0 14px;
+}
+.tp-doc[data-gallery] .shop-filters button {
+  padding: 5px 8px;
+  font-size: 11px;
+  border-color: transparent;
+}
+@media (max-width: 640px) {
+  .shop-image-hint {
+    opacity: 1;
+  }
+  .shop-reference-caption {
+    padding-top: 6px;
   }
 }

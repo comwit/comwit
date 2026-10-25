@@ -710,7 +710,9 @@
     "templateSkillWhy": "App setup, auth, SEO, data migration and videos.",
     "templateCommon": "Common guides",
     "templateBase": "Base Template",
-    "templateShopDescription": "A storefront with products, inventory, orders and admin screens."
+    "templateShopDescription": "A storefront with products, inventory, orders and admin screens.",
+    "templateAll": "All templates",
+    "templateChoose": "Choose a template"
   },
   "Locale": {
     "switch": "Switch to Korean"

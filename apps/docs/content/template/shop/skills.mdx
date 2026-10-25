@@ -15,12 +15,12 @@ description: The first shop request and ongoing development.
 
 ## Database and storage through MCP
 
-The skill inspects project context and available Comwit tools first. It reuses existing bindings, and uses `setup_database` / `setup_storage` only when the connection is needed and authorized. `list_cloud_resources` checks readiness; `get_local_env` and the returned `nextSteps` recover local configuration. It does not invent IDs or replace the commerce schema. A mock-only project keeps the user's explicit deferred resource choice.
+Check existing bindings with `list_cloud_resources`; connect needed resources with `setup_database` / `setup_storage`. Apply local settings through the `nextSteps` returned by `get_local_env`. [Connection guide](https://github.com/comwit/template-shop/blob/main/docs/shop-resources.md)
 
 <a id="complete"></a>
 
 ## Finish once, keep developing
 
-After the requested pages, Storybook states and visual checks are complete, the helper runs validation, commerce tests, agent tests and a Storybook build. Only after all succeed does it remove the one-time skill, its Claude pointer and unused reference files inside that skill. Failed or pending work keeps the skill for resuming.
+The one-time skill is removed after page/Storybook setup and validation succeed. Resume unfinished work from `.agents/state/shop-setup.json`.
 
-Pages, stories, public assets, service connections and ongoing skills (`refactoring`, `seo-optimize`, `video-offload`) stay in place. An asset still referenced by the app blocks cleanup until moved to a persistent path. The template source repository always retains its distributable skill. Progress is stored locally in `.agents/state/shop-setup.json`.
+Use `refactoring`, `seo-optimize` and `video-offload` for ongoing development.

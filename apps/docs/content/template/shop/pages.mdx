@@ -9,7 +9,7 @@ description: Actual App Router paths and existing admin pages.
 
 # Page structure
 
-Routes live in `src/app/`; page implementations live in `src/services/app/page/` and `src/services/admin/page/`. The table below is generated from the shop source.
+Routes live in `src/app/`; page implementations live in `src/services/app/page/` and `src/services/admin/page/`.
 
 <ShopRoutes />
 
@@ -17,8 +17,14 @@ Routes live in `src/app/`; page implementations live in `src/services/app/page/`
 
 ## Existing admin screens
 
-The default public entry is `/관리자`; `NEXT_PUBLIC_ADMIN_BASE_PATH` can change it. Internal `/admin` files remain stable and direct `/admin` requests return 404. Use `adminRoutes` for links and preserve server authorization. These are captures of the existing pages in Storybook with fixtures, not production records.
+Initial setup creates `/관리자-<10 hex characters>`. Set the complete path with `NEXT_PUBLIC_ADMIN_BASE_PATH` in `.env`.
+
+```dotenv
+NEXT_PUBLIC_ADMIN_BASE_PATH=/운영실
+```
+
+Restart the dev server after changes; rebuild with the same value for deployment. `/admin` is the internal router path.
 
 <ShopAdminScreens />
 
-The existing stories live in `src/stories/admin/`, with API mocks in `src/stories/mocks/`. Keep those boundaries when changing the screens. Shared layer rules: [Project structure](/template/docs/structure).
+The existing stories live in `src/stories/admin/`, with API mocks in `src/stories/mocks/`. Shared layer rules: [Project structure](/template/docs/structure).

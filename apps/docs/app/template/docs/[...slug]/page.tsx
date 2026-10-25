@@ -37,7 +37,11 @@ export default async function TemplateDocPage({ params }: { params: Promise<{ sl
   const next = index < docs.length - 1 ? docs[index + 1] : null
 
   return (
-    <div className="tp-doc" data-wide={slug.startsWith('shop/') || undefined}>
+    <div
+      className="tp-doc"
+      data-wide={slug.startsWith('shop/') || undefined}
+      data-gallery={slug === 'shop/overview' || undefined}
+    >
       <div className="tp-doc-body">
         <article className="template-guide prose max-w-none">
           <MDXRemote
