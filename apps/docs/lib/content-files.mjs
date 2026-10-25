@@ -2,6 +2,7 @@ import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 // Archive metadata (including macOS AppleDouble ._* files) is never a document.
+/** @param {string} directory @param {boolean} [recursive] @returns {string[]} */
 export function listMdxFiles(directory, recursive = false) {
   const files = []
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
