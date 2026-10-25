@@ -2619,7 +2619,7 @@
   },
   "admin": [
     {
-      "file": "admin-dashboard.png",
+      "file": "admin-dashboard.jpg",
       "title": "Dashboard",
       "titleKo": "대시보드",
       "story": "admin-dashboard--default",
@@ -2629,7 +2629,7 @@
       "sha256": "5bf67eb81462e60bfaf5cf06a4c31de663992ae8072e754f12ebbe354b5f8d8b"
     },
     {
-      "file": "admin-products.png",
+      "file": "admin-products.jpg",
       "title": "Products and SKUs",
       "titleKo": "상품과 SKU",
       "story": "admin-products--default",
@@ -2639,7 +2639,7 @@
       "sha256": "40ad29768523c100156754fc10a32563a1a8ab8f0faf6cd540e6c91b9c642783"
     },
     {
-      "file": "admin-orders.png",
+      "file": "admin-orders.jpg",
       "title": "Orders and shipping",
       "titleKo": "주문과 배송",
       "story": "admin-orders--default",
