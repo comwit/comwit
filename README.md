@@ -96,6 +96,6 @@ Commit and push in the owning checkout, then fetch/select the intended commit in
 the other checkout and update the parent's gitlink in a separate commit/PR.
 Keep credentials and personal settings local to each checkout.
 
-Docs builds are validated by CI on `main`. This repository no longer includes a
-Vercel deployment configuration; merging to `main` does not itself configure a new
-hosting provider.
+Docs builds are validated by CI on `main`. Comwit Cloud deployment is configured
+through environment variables and a dedicated deploy secret; see [deployment](docs/deployment.md).
+Vercel-specific configuration has been removed.

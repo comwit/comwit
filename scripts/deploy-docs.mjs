@@ -19,6 +19,9 @@ const artifact = fileURLToPath(new URL('../apps/docs/dist/brrrd/', import.meta.u
 if (!existsSync(`${artifact}/manifest.json`))
   throw new Error('Run pnpm build before deploying docs')
 const manifest = JSON.parse(readFileSync(`${artifact}/manifest.json`, 'utf8'))
+const revision = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
+if (manifest.buildId !== revision)
+  throw new Error('Rebuild committed source with GIT_SHA before deployment')
 if (!manifest.artifacts?.some((entry) => entry.packagePath?.includes('content/template/'))) {
   throw new Error('The deployment package is missing the traced documentation content')
 }
