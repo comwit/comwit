@@ -2,21 +2,20 @@
 title: 시작하기
 group: How it works
 order: 1
-description: 공개 원본 설치와 Comwit 서비스 연결에 필요한 설정.
+description: 오픈소스 템플릿을 설치하고 실행하는 방법.
 ---
 
 <a id="getting-started"></a>
 
 # 시작하기
 
-이 템플릿은 **Comwit Cloud용 Next.js 프로젝트**입니다. 사용자 관리 원본의 코드·설정·스킬을 그대로 공개하며, brrrd 빌드 어댑터와 Comwit MCP 연결도 포함합니다.
+자유롭게 가져다 쓰고 수정할 수 있는 **오픈소스 Next.js 프로젝트 템플릿**입니다. 폴더 구조, 에이전트 가이드, 스킬과 검사 규칙이 함께 준비되어 있습니다.
 
 ```bash
 git clone https://github.com/comwit/template.git my-app
 cd my-app
 pnpm install --frozen-lockfile
-pnpm run validate
-pnpm run build
+pnpm run dev
 ```
 
 저장소 분리 PR이 병합되기 전에는 `codex/public-source-snapshot` 브랜치를 사용하세요. `npm create comwit@latest`는 기존 npm 배포본이며, 이번 변경으로 새 버전이 발행되지는 않습니다.
@@ -25,51 +24,25 @@ pnpm run build
 
 ## 포함된 구성
 
-Next.js App Router, `@comwit/state`, 소스로 설치된 UI 컴포넌트, Oxlint 규칙, 페이지별 Storybook을 포함합니다. 기본 화면은 목 데이터로 시작합니다.
-
-<a id="comwit-services"></a>
-
-## Comwit 서비스에 의존하는 부분
-
-| 구성         | 하는 일                                                  | 필요한 준비                                                           |
-| ------------ | -------------------------------------------------------- | --------------------------------------------------------------------- |
-| brrrd 어댑터 | Next.js 빌드를 Comwit Cloud용 `dist/brrrd` 패키지로 생성 | 빌드는 로컬에서 가능. 배포에는 Comwit 로그인과 Cloud 프로젝트·앱 필요 |
-| Comwit MCP   | 에이전트가 프로젝트의 DB·스토리지·환경 설정 등을 관리    | 프로젝트 접근 권한, `COMWIT_PROJECT_ID`, `COMWIT_CLOUD_TOKEN`         |
-| DB·스토리지  | 선택한 Cloud 자원에 데이터를 저장하고 파일을 전송        | MCP에서 연결한 자원의 환경 설정. 사용하지 않으면 연결 불필요          |
-
-빌드·검증·Storybook은 실제 서비스 인증정보 없이 실행할 수 있습니다. Cloud 자원 사용과 배포에는 본인의 Comwit 계정·프로젝트 설정이 필요합니다.
-
-<a id="connect-comwit"></a>
-
-## 서비스 연결 준비
-
-1. Comwit 프로젝트에서 제공하는 **프로젝트 설정 프롬프트**를 실행해 CLI와 `.env`를 준비합니다. 프로젝트 ID를 직접 추측해 넣지 않습니다. `COMWIT_PROJECT_ID`는 MCP 프로젝트, `COMWIT_PROJECT`는 Cloud 자원의 프로젝트로 서로 다릅니다.
-2. 로컬에서 로그인하고 토큰을 `.env`에 저장한 뒤 연결을 확인합니다. MCP는 이미 등록되어 있으므로 별도로 추가하지 않습니다.
-
-```bash
-comwit login
-comwit auth export-token --env-out .env
-node .agents/scripts/comwit-mcp.mjs --check
-```
-
-3. 저장 기능이 필요할 때만 MCP의 `setup_database` 또는 `setup_storage`를 실행하고 반환된 `nextSteps`를 따릅니다. 설정이 끝난 뒤 `pnpm run dev`로 앱을 실행합니다. `.env`의 실제 값은 Git에 넣지 않습니다.
+Next.js App Router, `@comwit/state`, 소스로 설치된 UI 컴포넌트, Oxlint 규칙, 페이지별 Storybook을 포함합니다. 기본 화면은 목 데이터로 시작하므로 Comwit 계정 없이 실행하고 수정할 수 있습니다.
 
 <a id="commands"></a>
 
 ## 주요 명령어
 
-| 명령어                    | 용도                                       |
-| ------------------------- | ------------------------------------------ |
-| `pnpm run validate`       | 타입 검사와 린트                           |
-| `pnpm run build`          | 서비스 워커와 `dist/brrrd` 빌드            |
-| `pnpm storybook`          | API를 모킹한 페이지 미리보기               |
-| `pnpm validate:storybook` | Storybook 타입·린트·모킹 경계 검사         |
-| `pnpm agents:test`        | 스킬 참조와 환경 설정·에이전트 회귀 테스트 |
+| 명령어                    | 용도                                    |
+| ------------------------- | --------------------------------------- |
+| `pnpm run dev`            | 개발 서버                               |
+| `pnpm run validate`       | 타입 검사와 린트                        |
+| `pnpm run build`          | 프로덕션 빌드. 기본 출력은 `dist/brrrd` |
+| `pnpm storybook`          | API를 모킹한 페이지 미리보기            |
+| `pnpm validate:storybook` | Storybook 타입·린트·모킹 경계 검사      |
+| `pnpm agents:test`        | 스킬 참조와 에이전트 관련 회귀 테스트   |
 
-<a id="deployment"></a>
+<a id="development"></a>
 
-## 배포
+## 개발 흐름
 
-로컬 배포는 `COMWIT_EXECUTION_ENV=local`에서 검증·빌드 후 Comwit CLI로 수행하며, `COMWIT_APP`이 추가로 필요합니다. 호스팅된 세션에서는 화면의 Deploy 버튼을 사용합니다. 이 저장소 분리 작업 자체는 배포하지 않습니다.
+`AGENTS.md`와 수정할 계층의 가이드를 읽고 작업합니다. 화면을 바꾸면 Storybook도 갱신하고, `pnpm run validate`로 확인합니다.
 
-정확한 환경 계약과 배포 절차는 [원본 README](https://github.com/comwit/template/blob/codex/public-source-snapshot/README.md), [에이전트 지침](https://github.com/comwit/template/blob/codex/public-source-snapshot/AGENTS.md)에 있습니다. brrrd 연결은 `next.config.ts`와 `scripts/brrrd-adapter.mjs`, MCP 연결은 `.agents/scripts/comwit-mcp.mjs`가 담당합니다.
+기본으로 포함된 Comwit 연동을 사용하거나 다른 환경으로 바꾸려면 [기본 연동 설정](/template/docs/integrations)을 참고하세요.

@@ -2,21 +2,20 @@
 title: Getting started
 group: How it works
 order: 1
-description: Install the maintained source and configure its Comwit service connections.
+description: Install, run and develop the open-source template.
 ---
 
 <a id="getting-started"></a>
 
 # Getting started
 
-This is a **Next.js project for Comwit Cloud**. It publishes the maintained source's code, configuration and skills unchanged, including the brrrd build adapter and Comwit MCP connection.
+An **open-source Next.js project template** you can use and modify freely. Folder structure, agent guides, setup skills and validation rules are included.
 
 ```bash
 git clone https://github.com/comwit/template.git my-app
 cd my-app
 pnpm install --frozen-lockfile
-pnpm run validate
-pnpm run build
+pnpm run dev
 ```
 
 Until the repository split PR merges, use the `codex/public-source-snapshot` branch. `npm create comwit@latest` still installs the existing npm release; this migration does not publish a new version.
@@ -25,51 +24,25 @@ Until the repository split PR merges, use the `codex/public-source-snapshot` bra
 
 ## Included setup
 
-Next.js App Router, `@comwit/state`, UI components installed as source, Oxlint rules and page-level Storybook are included. The base screens start with mock data.
-
-<a id="comwit-services"></a>
-
-## Comwit service dependencies
-
-| Component            | Purpose                                                                                     | Prerequisites                                                                       |
-| -------------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| brrrd adapter        | Packages the Next.js build as `dist/brrrd` for Comwit Cloud                                 | Builds locally; deployment requires Comwit login and a Cloud project/app            |
-| Comwit MCP           | Lets agents manage project databases, storage, environment settings and other project tools | Project access, `COMWIT_PROJECT_ID` and `COMWIT_CLOUD_TOKEN`                        |
-| Database and storage | Persist data and transfer files through selected Cloud resources                            | Resource settings returned by MCP setup; unnecessary when those features are unused |
-
-Builds, validation and Storybook run without real service credentials. Cloud resource access and deployment require your own Comwit account and project configuration.
-
-<a id="connect-comwit"></a>
-
-## Connect the services
-
-1. Run the **project setup prompt** provided by your Comwit project to prepare the CLI and `.env`. Do not invent project IDs. `COMWIT_PROJECT_ID` identifies the MCP project; `COMWIT_PROJECT` identifies the Cloud resource project.
-2. Log in locally, export the credential directly into `.env`, and check the connection. MCP is already registered; do not register another server.
-
-```bash
-comwit login
-comwit auth export-token --env-out .env
-node .agents/scripts/comwit-mcp.mjs --check
-```
-
-3. Only when persistence or uploads are needed, call MCP `setup_database` or `setup_storage` and follow its returned `nextSteps`. After setup, run `pnpm run dev`. Keep real `.env` values out of Git.
+Next.js App Router, `@comwit/state`, UI components installed as source, Oxlint rules and page-level Storybook are included. The base screens use mock data and can run and be edited without a Comwit account.
 
 <a id="commands"></a>
 
 ## Main commands
 
-| Command                   | Purpose                                                           |
-| ------------------------- | ----------------------------------------------------------------- |
-| `pnpm run validate`       | Type checking and lint                                            |
-| `pnpm run build`          | Service worker and `dist/brrrd` build                             |
-| `pnpm storybook`          | Page previews with mocked APIs                                    |
-| `pnpm validate:storybook` | Storybook types, lint and API mock boundary checks                |
-| `pnpm agents:test`        | Skill references, environment handling and agent regression tests |
+| Command                   | Purpose                                             |
+| ------------------------- | --------------------------------------------------- |
+| `pnpm run dev`            | Development server                                  |
+| `pnpm run validate`       | Type checking and lint                              |
+| `pnpm run build`          | Production build; default output is `dist/brrrd`    |
+| `pnpm storybook`          | Page previews with mocked APIs                      |
+| `pnpm validate:storybook` | Storybook types, lint and API mock boundary checks  |
+| `pnpm agents:test`        | Skill references and agent-related regression tests |
 
-<a id="deployment"></a>
+<a id="development"></a>
 
-## Deployment
+## Development flow
 
-Local deployment uses `COMWIT_EXECUTION_ENV=local`: validate, build, then deploy through the Comwit CLI with a configured `COMWIT_APP`. Hosted sessions use the on-screen Deploy button. This repository migration itself does not deploy.
+Read `AGENTS.md` and the guide for the layer you are editing. Update Storybook with screen changes and run `pnpm run validate`.
 
-See the [source README](https://github.com/comwit/template/blob/codex/public-source-snapshot/README.md) and [agent instructions](https://github.com/comwit/template/blob/codex/public-source-snapshot/AGENTS.md) for the environment contract and deployment procedure. The brrrd integration lives in `next.config.ts` and `scripts/brrrd-adapter.mjs`; MCP is implemented in `.agents/scripts/comwit-mcp.mjs`.
+To use the included Comwit connections or adapt them to another environment, see [Default integrations](/template/docs/integrations).

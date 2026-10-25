@@ -50,9 +50,14 @@ These refs install and build independently. Use them explicitly while the PRs
 remain unmerged; new template repositories' main branches are initialization
 commits until their source PRs merge. The representative integration branch is
 `codex/independent-repositories`, targeting `main`. No service configuration is
-changed here. The shop application needs its own Cloud/resource/auth environment
+changed here. The shop application needs its own configured resource/auth environment
 for real runtime data; its tests and Storybook use isolated fixtures/mocks.
 
 Parent clean-clone verification passed: recursive GitHub clone, frozen workspace
 install, docs production build, 16 source/submodule/CLI integration checks and the
 State playground build. A live docs Dialog example was opened in the browser.
+
+Docs present the base as an editable open-source Next.js template. Optional default
+Comwit integrations and their edit points are described separately in
+`/template/docs/integrations`; starting the mock-backed base does not require a
+Comwit account. The maintained source itself remains unchanged.

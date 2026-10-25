@@ -4,7 +4,7 @@ A Next.js project template with agent instructions, setup skills and custom lint
 rules for folder structure and key dependency boundaries.
 
 Source: https://github.com/comwit/template (templates/base in comwit/comwit).
-The base source includes Comwit Cloud configuration and the brrrd build adapter.
+The source includes editable Comwit integrations and the brrrd build adapter by default.
 The root create-comwit pack step exports this pinned source; no separate generic
 snapshot is maintained. This migration does not publish a new npm version.
 
@@ -30,22 +30,24 @@ Implement from repository to page. API domains contain index.ts, types.ts and ac
 state domains also contain model.ts. API actions use createAction and are exposed
 through resolveActions. Server Components may fetch initial data for hydration.
 
-## Comwit service setup
+## Default integrations
 
-The base source is designed for Comwit Cloud. @brrrd/adapter produces dist/brrrd
-from next build; scripts/brrrd-adapter.mjs also prepares runtime page manifests.
-The preregistered .agents/scripts/comwit-mcp.mjs forwards agent requests to
-https://comwit.io/mcp with project context and the local Cloud credential.
+This is an open-source Next.js template that can be used and modified freely.
+Some defaults integrate with Comwit, a service for building and deploying apps
+through conversation: https://comwit.io.
 
-Builds, validation and mocked Storybook previews work without real credentials.
-For live services, use the Comwit project's setup prompt to prepare the CLI and
-.env. COMWIT_PROJECT_ID (MCP) and COMWIT_PROJECT (Cloud) are different IDs.
-Run comwit login, then comwit auth export-token --env-out .env; verify with
-node .agents/scripts/comwit-mcp.mjs --check. Never print or commit the token.
-Use MCP setup_database/setup_storage only for needed resources and follow the
-returned nextSteps. Do not invent IDs or register a second MCP server.
-Local deployment requires COMWIT_EXECUTION_ENV=local and COMWIT_APP; hosted
-sessions use their on-screen Deploy button. Follow the source README and AGENTS.md.
+- brrrd: next.config.ts adapterPath and scripts/brrrd-adapter.mjs produce dist/brrrd.
+  For other hosting, adapt the adapter, dependencies and deployment instructions.
+- MCP: .mcp.json, .codex/config.toml and .agents/scripts/comwit-mcp.mjs register
+  Comwit tools. Change these registrations and AGENTS.md when using other tools.
+- Data services: .env.example, src/server/config.ts and .agents/scaffolds/ define
+  bindings and clients. Adapt them and repository implementations for other services.
+
+Base screens use mock data; development, validation, builds and Storybook work
+without an account. Only actual Comwit tools/resources/deployment require project
+setup and login. Follow the project's setup prompt and source README when keeping
+these integrations. Never print or commit real environment credentials.
+Customization: https://library.comwit.io/template/docs/integrations
 
 ## Instructions and skills
 
