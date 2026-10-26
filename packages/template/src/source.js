@@ -9,11 +9,12 @@ export const bundled = join(here, '../template')
 export const shopCanonical = join(here, '../../../templates/shop')
 export const shopBundled = join(here, '../shop-template')
 export const sources = {
-  base: { canonical, bundled, repository: 'https://github.com/comwit/template' },
+  base: { canonical, bundled, repository: 'https://github.com/comwit/template', branch: 'main' },
   shop: {
     canonical: shopCanonical,
     bundled: shopBundled,
-    repository: 'https://github.com/comwit/template-shop',
+    repository: 'https://github.com/comwit/template',
+    branch: 'shop',
   },
 }
 export function sourceFor(name = 'base') {

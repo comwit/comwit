@@ -432,6 +432,8 @@ test('packed create-comwit scaffolds both complete snapshots without upstream Gi
       const files = readdirSync(source, { recursive: true, withFileTypes: true })
         .filter((entry) => entry.isFile())
         .map((entry) => join(entry.parentPath, entry.name))
+      assert.equal(provenance[kind].repository, 'https://github.com/comwit/template')
+      assert.equal(provenance[kind].branch, kind === 'shop' ? 'shop' : 'main')
       assert.equal(provenance[kind].files, files.length)
       assert.equal(provenance[kind].commit, git(join(root, 'templates', kind), 'rev-parse', 'HEAD'))
       for (const file of files) {

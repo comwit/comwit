@@ -18,11 +18,11 @@ Edit original UI components/specs in `packages/ui`, not generated docs.
 Human docs have matching English and Korean MDX files; run
 `pnpm --filter docs test:i18n` and `pnpm --filter docs lint` after changes.
 
-`templates/base` is the maintained source from `comwit/template`;
-`templates/shop` is the shop snapshot from `comwit/template-shop`. Their public
+`templates/base` pins the `main` branch of `comwit/template`;
+`templates/shop` pins its `shop` branch. Their public
 source manifests record the exact snapshot. They install and run independently,
 outside the parent workspace. The `create-comwit` pack step exports the pinned
-base submodule instead of maintaining a separate generic copy.
+base and shop submodules instead of maintaining separate source copies.
 
 For edits inside a submodule, branch, validate, commit, push and open a PR there
 first. Update its parent reference in a separate parent PR. Independent clones

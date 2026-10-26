@@ -257,7 +257,7 @@ export function ShopRoutes() {
                       </td>
                       <td>
                         <a
-                          href={`https://github.com/comwit/template-shop/blob/${reference.sourceCommit}/${r.file}`}
+                          href={`https://github.com/comwit/template/blob/${reference.sourceCommit}/${r.file}`}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -310,7 +310,7 @@ export function ShopAdminScreens() {
 export function ShopSourceLink({ path, children }: { path: string; children: React.ReactNode }) {
   return (
     <a
-      href={`https://github.com/comwit/template-shop/blob/${reference.sourceCommit}/${path}`}
+      href={`https://github.com/comwit/template/blob/${reference.sourceCommit}/${path}`}
       target="_blank"
       rel="noreferrer"
     >
