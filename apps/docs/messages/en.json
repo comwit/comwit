@@ -710,6 +710,8 @@
     "templateSkillWhy": "App setup, auth, SEO, data migration and videos.",
     "templateCommon": "Common guides",
     "templateBase": "Base Template",
+    "templateBaseFoundation": "App & website foundation",
+    "templateShopFoundation": "Products · orders · payments",
     "templateShopDescription": "A storefront with products, inventory, orders and admin screens.",
     "templateAll": "All templates",
     "templateChoose": "Choose a template"
