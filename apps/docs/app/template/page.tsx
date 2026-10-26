@@ -4,6 +4,7 @@ import { Copy } from '@/i18n/copy'
 import { getTemplateDocs } from '@/lib/template-docs'
 import { CopyCommand } from './_components/copy-command'
 import { ArchitectureMap } from './_components/architecture-map'
+import { TemplatePicker } from './_components/template-picker'
 
 export default async function TemplateOverview() {
   const guides = getTemplateDocs(await getLocale()).filter((doc) => !doc.slug.includes('/'))
@@ -24,20 +25,7 @@ export default async function TemplateOverview() {
         </div>
       </header>
 
-      <section className="shop-template-picker">
-        <Link href="/template/docs/getting-started">
-          <strong>
-            <Copy id="templateBase" />
-          </strong>
-          <span>Next.js · State · UI</span>
-        </Link>
-        <Link href="/template/docs/shop/overview">
-          <strong>Shop Template</strong>
-          <span>
-            <Copy id="templateShopDescription" />
-          </span>
-        </Link>
-      </section>
+      <TemplatePicker />
       <ArchitectureMap />
 
       <section className="tp-section" aria-labelledby="tp-read-title">

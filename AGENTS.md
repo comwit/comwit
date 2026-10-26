@@ -12,6 +12,13 @@ Comwit is a pnpm workspace containing independent State and UI libraries used in
 - `pnpm dev:state` / `pnpm dev:ui` — watch-build a runtime.
 - `pnpm dev:playground`, `pnpm dev:ui-catalog`, `pnpm storybook` — development apps.
 
+## Shared development servers
+
+- Share one development server per project and purpose across chats and checkouts. Do not start another Next.js, Storybook, or equivalent server just for a separate task.
+- Before using a server, verify its checkout path, port, PID, and served code version, including local changes. Reuse the existing server when it serves the intended code; do not claim it validates another checkout or revision.
+- Before stopping, restarting, or changing the checkout of a shared server, check whether other work is using it and coordinate the change. Do not terminate servers in bulk.
+- Track temporary verification servers, browser helpers, and child processes started by your task, and clean them up when finished. Leave only the shared preview needed for user review; do not stop another task's processes.
+
 ## Boundaries
 
 - `packages/state/core` (`@comwit/state`) owns state, query/local descriptors, actions and interceptors. `es-toolkit` is its sole runtime dependency. Its Vitest configuration is in `vite.config.ts`; React integration tests use happy-dom.

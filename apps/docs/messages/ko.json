@@ -710,6 +710,8 @@
     "templateSkillWhy": "앱·인증·검색 노출·DB 전환·영상 관리까지.",
     "templateCommon": "공통 안내",
     "templateBase": "기본 Template",
+    "templateBaseFoundation": "앱·사이트의 시작점",
+    "templateShopFoundation": "상품 · 주문 · 결제",
     "templateShopDescription": "상품·재고·주문과 관리자 화면이 준비된 쇼핑몰.",
     "templateAll": "모든 템플릿",
     "templateChoose": "템플릿 선택"
