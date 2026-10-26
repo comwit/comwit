@@ -1,12 +1,13 @@
-# Repository split
+# Repository layout and template branches
 
 The existing representative repository already resolves to `comwit/comwit`;
 its issues, PRs and stars are retained. State/UI retain their extracted public
-history. Base/shop start new history from public working-tree snapshots.
+history. The initial base/shop snapshots started new history from public working-tree sources.
 
-The four product PRs are merged into their own `main` branches. The parent pins
-those published merge commits. The parent integration is PR
-https://github.com/comwit/comwit/pull/141 and uses `main` as its base.
+The initial product split used separate repositories. Base and shop are now
+maintained as `main` and `shop` branches of `comwit/template`; the parent keeps
+two pinned submodule checkouts of that repository. The initial split was integrated
+by https://github.com/comwit/comwit/pull/141; parent PRs continue to target `main`.
 The representative repository uses `main` as its default and CI branch; the former
 `latest` branch has no unique commits and is being retired. npm `latest` tags are
 unchanged.
@@ -26,23 +27,21 @@ isolated fixtures, not real shop payment, notification or production data.
 
 ## Deferred
 
-- Shop skill updates: the owner will update them later; current skills are unchanged.
-- The Comwit service's project-creation default template URL stays unchanged.
-  Moving Prism comwit-template to comwit/template is a separate owner TODO.
 - GitHub monorepo subdirectory import is not implemented.
 - Course templates, npm releases and production docs deployment are out of scope.
 
 ## Handoff to the service integration owner
 
-| Source repository                       | Branch | Source commit pinned by the parent         |
-| --------------------------------------- | ------ | ------------------------------------------ |
-| https://github.com/comwit/template      | `main` | `0d83732d21a07e7bc72be109e7d6e953e6aca37c` |
-| https://github.com/comwit/template-shop | `main` | `5168439c309a723adfdf7a337f8d0c37a8cc0db9` |
+| Source repository                  | Branch | Source commit pinned by the parent |
+| ---------------------------------- | ------ | ---------------------------------- |
+| https://github.com/comwit/template | `main` | See the `templates/base` gitlink   |
+| https://github.com/comwit/template | `shop` | See the `templates/shop` gitlink   |
 
 These refs install and build independently. The shop application needs its own
 configured resource/auth environment for real runtime data; tests and Storybook
-use isolated fixtures/mocks. This repository does not change the Comwit service's
-template URL.
+use isolated fixtures/mocks. Runtime project creation must resolve the selected
+`main` or `shop` branch to a commit in this same repository. The service integration
+owner manages that selection; this parent manages the docs and packaged CLI sources.
 
 Parent clean-clone verification passed: recursive GitHub clone, frozen workspace
 install, docs production build, 16 source/submodule/CLI integration checks and the

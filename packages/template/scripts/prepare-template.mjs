@@ -5,7 +5,7 @@ import { sources, sourceFiles } from '../src/source.js'
 
 const provenance = {}
 for (const [name, source] of Object.entries(sources)) {
-  const { canonical, bundled, repository } = source
+  const { canonical, bundled, repository, branch } = source
   if (!existsSync(join(canonical, 'package.json')))
     throw new Error(
       'Initialize templates/' +
@@ -23,6 +23,7 @@ for (const [name, source] of Object.entries(sources)) {
   }
   provenance[name] = {
     repository,
+    branch,
     commit: execFileSync('git', ['-C', canonical, 'rev-parse', 'HEAD'], {
       encoding: 'utf8',
     }).trim(),

@@ -3,19 +3,19 @@
 [Comwit](https://github.com/comwit/comwit) is the shared development workspace,
 documentation and integration test repository for independent State, UI and templates.
 
-| Repository                                                      | Checkout                                        | Owns                                                                    |
-| --------------------------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
-| [comwit/state](https://github.com/comwit/state)                 | `packages/state`                                | `core/`: `@comwit/state`                                                |
-| [comwit/ui](https://github.com/comwit/ui)                       | `packages/ui`                                   | `core/`, `templates/`, `cli/`, Storybook and the UI development catalog |
-| [comwit/template](https://github.com/comwit/template)           | `templates/base`                                | Maintained base Next.js app, including its settings, skills and rules   |
-| [comwit/template-shop](https://github.com/comwit/template-shop) | `templates/shop`                                | Shop app source, skills and rules                                       |
-| This repository                                                 | `apps/docs`, `apps/state-playground`, `scripts` | Shared docs, examples and integration checks                            |
+| Repository                                                             | Checkout                                        | Owns                                                                    |
+| ---------------------------------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
+| [comwit/state](https://github.com/comwit/state)                        | `packages/state`                                | `core/`: `@comwit/state`                                                |
+| [comwit/ui](https://github.com/comwit/ui)                              | `packages/ui`                                   | `core/`, `templates/`, `cli/`, Storybook and the UI development catalog |
+| [comwit/template · main](https://github.com/comwit/template/tree/main) | `templates/base`                                | Maintained base Next.js app, including its settings, skills and rules   |
+| [comwit/template · shop](https://github.com/comwit/template/tree/shop) | `templates/shop`                                | Shop app source, skills and rules                                       |
+| This repository                                                        | `apps/docs`, `apps/state-playground`, `scripts` | Shared docs, examples and integration checks                            |
 
 State and UI are independent products. Public npm package names and APIs stay the same.
-The base template matches the maintainer's `comwit-template` working-tree snapshot;
-shop matches the maintained shop backend. Each template's `PUBLIC_SOURCE.json`
-records the original public files and their hashes. The former infrastructure-neutral
-copy is removed. `create-comwit` packages the pinned `templates/base` source.
+Base and shop share the `comwit/template` repository. `main` is the common base;
+`shop` adds the storefront, commerce and admin features. Each branch keeps its own
+lockfile, setup and `PUBLIC_SOURCE.json` fingerprints. `create-comwit` packages
+both pinned source trees; `--shop` selects the shop branch.
 
 ## Develop from the root
 
@@ -26,7 +26,8 @@ pnpm install --frozen-lockfile
 pnpm dev:docs
 ```
 
-For an existing clone, run `git submodule update --init --recursive` first.
+For an existing clone, run `git submodule sync --recursive` and then
+`git submodule update --init --recursive` first.
 Edit files directly inside the submodules. Docs import the workspace State/UI
 packages and generate live examples from `packages/ui/apps/storybook/specs/`.
 `pnpm build`, `pnpm test`, `pnpm typecheck` and `pnpm --filter docs lint` check
@@ -49,7 +50,9 @@ pnpm shop:build
 Clone any product repository directly and run `pnpm install --frozen-lockfile`.
 State/UI support `pnpm build`, `pnpm test` and `pnpm typecheck`; templates support
 `pnpm validate` and `pnpm build`. See each repository's README or `PUBLIC.md`.
-Template cloud services use your own `.env`; no real credentials or user data ship.
+Clone the shop variant with `git clone --branch shop https://github.com/comwit/template.git my-shop`.
+The default branch is the base template. Template cloud services use your own `.env`;
+no real credentials or user data ship.
 
 ## Branches and pull requests
 
@@ -86,8 +89,8 @@ A parent workspace and standalone clones can sit next to each other:
   comwit/                # parent, including its own submodule checkouts
   comwit-state/          # comwit/state
   comwit-ui/             # comwit/ui
-  comwit-template/       # comwit/template
-  comwit-template-shop/  # comwit/template-shop
+  comwit-template/       # comwit/template, main branch
+  shop-worktree/         # optional worktree of comwit/template, shop branch
 ```
 
 A sibling clone and its parent submodule use the same remote but have separate

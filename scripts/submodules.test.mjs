@@ -8,14 +8,14 @@ import { join } from 'node:path'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const repositories = {
-  'packages/state': 'state',
-  'packages/ui': 'ui',
-  'templates/base': 'template',
-  'templates/shop': 'template-shop',
+  'packages/state': { repository: 'state', branch: 'main' },
+  'packages/ui': { repository: 'ui', branch: 'main' },
+  'templates/base': { repository: 'template', branch: 'main' },
+  'templates/shop': { repository: 'template', branch: 'shop' },
 }
 
-test('the parent pins four public repositories as gitlinks', () => {
-  for (const [path, name] of Object.entries(repositories)) {
+test('the parent pins product repositories and both template branches as gitlinks', () => {
+  for (const [path, { repository, branch }] of Object.entries(repositories)) {
     const index = execFileSync('git', ['ls-files', '--stage', path], {
       cwd: root,
       encoding: 'utf8',
@@ -25,7 +25,15 @@ test('the parent pins four public repositories as gitlinks', () => {
       cwd: root,
       encoding: 'utf8',
     }).trim()
-    assert.equal(remote, `https://github.com/comwit/${name}.git`)
+    assert.equal(remote, `https://github.com/comwit/${repository}.git`)
+    assert.equal(
+      execFileSync('git', ['config', '-f', '.gitmodules', `submodule.${path}.branch`], {
+        cwd: root,
+        encoding: 'utf8',
+      }).trim(),
+      branch,
+      `${path}: maintained branch`
+    )
     assert.ok(existsSync(join(root, path, 'package.json')), `${path}: initialized source`)
   }
 })

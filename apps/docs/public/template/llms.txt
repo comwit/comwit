@@ -108,7 +108,7 @@ For an existing Next.js App Router project:
 
 ## Shop Template
 
-Shop source: https://github.com/comwit/template-shop
+Shop source: https://github.com/comwit/template/tree/shop (shop branch; base uses main).
 Guides: https://library.comwit.io/template/docs/shop/overview
 Pages/admin: https://library.comwit.io/template/docs/shop/pages
 Schema: https://library.comwit.io/template/docs/shop/data

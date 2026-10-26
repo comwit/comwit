@@ -25,7 +25,7 @@ Comwit is a pnpm workspace containing independent State and UI libraries used in
 - `packages/ui/core` (`@comwit/ui`) owns headless behavior and accessibility, and ships the original icon set as subpath exports (`@comwit/ui/icons`, `/icons/animated`, `/icons/catalog`). `src/icons/{index,animated,catalog}.ts` and `src/icons/generated/` are written by `scripts/generate-icons.mjs` from `src/icons/definitions/`; edit the definitions, never the generated entries.
 - `packages/ui/templates` (`@comwit/ui-templates`) owns editable component source and the shared CSS token contract.
 - `packages/ui/cli` (`comwit-ui`) installs component source into consumer projects. Generate its registry from templates; do not edit generated JSON.
-- `templates/base` and `templates/shop` are independent source repositories. Keep their code, settings and skills aligned with their maintained source; preserve each repository's own pnpm lockfile and standalone setup. Never include them in the parent pnpm workspace.
+- `templates/base` and `templates/shop` pin the `main` and `shop` branches of `comwit/template`. Keep each branch's code, settings and skills aligned with its maintained source; preserve each template's own pnpm lockfile and standalone setup. Never include them in the parent pnpm workspace.
 - `packages/template` (`create-comwit`) exports the pinned `templates/base` and `templates/shop` sources during `prepack`; its ignored `template/` and `shop-template/` directories are generated packaging output, never a second source.
 - `apps/docs` owns the shared site, product-specific human docs and separate llms.txt files. Generate UI previews from Storybook specs and registry source. Template guides live in `content/template`.
 

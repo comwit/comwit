@@ -12,5 +12,5 @@
 	branch = main
 [submodule "templates/shop"]
 	path = templates/shop
-	url = https://github.com/comwit/template-shop.git
-	branch = main
+	url = https://github.com/comwit/template.git
+	branch = shop
