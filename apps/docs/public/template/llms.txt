@@ -3,7 +3,9 @@
 A Next.js project template with agent instructions, setup skills and custom lint
 rules for folder structure and key dependency boundaries.
 
-Source: https://github.com/comwit/template (templates/base in comwit/comwit).
+Source: https://github.com/comwit/template/tree/main (templates/base in comwit/comwit).
+Base setup: https://github.com/comwit/template/blob/main/README.md
+Base environment: https://github.com/comwit/template/blob/main/.env.example
 The source includes editable Comwit integrations and the brrrd build adapter by default.
 
 ## Start
@@ -37,7 +39,7 @@ This is an open-source Next.js template that can be used and modified freely.
 Some defaults integrate with Comwit, a service for building and deploying apps
 through conversation: https://comwit.io.
 
-- brrrd: next.config.ts adapterPath and scripts/brrrd-adapter.mjs produce dist/brrrd.
+- brrrd: next.config.ts adapterPath loads @brrrd/adapter to produce dist/brrrd.
   For other hosting, adapt the adapter, dependencies and deployment instructions.
 - MCP: .mcp.json, .codex/config.toml and .agents/scripts/comwit-mcp.mjs register
   Comwit tools. Change these registrations and AGENTS.md when using other tools.
@@ -109,6 +111,8 @@ For an existing Next.js App Router project:
 ## Shop Template
 
 Shop source: https://github.com/comwit/template/tree/shop (shop branch; base uses main).
+Shop setup: https://github.com/comwit/template/blob/shop/README.md
+Shop environment: https://github.com/comwit/template/blob/shop/.env.example
 Guides: https://library.comwit.io/template/docs/shop/overview
 Pages/admin: https://library.comwit.io/template/docs/shop/pages
 Schema: https://library.comwit.io/template/docs/shop/data

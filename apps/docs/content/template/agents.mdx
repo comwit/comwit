@@ -27,11 +27,13 @@ Project instructions, setup skills and Oxlint checks.
 | `.storybook/stories/design-system/design.mdx`         | UI composition and style token guidance                                |
 | `.storybook/stories/.ai.md`                           | Page story structure and API mocking rules                             |
 
+Use the [base AGENTS.md](https://github.com/comwit/template/blob/main/AGENTS.md) and [Shop AGENTS.md](https://github.com/comwit/template/blob/shop/AGENTS.md) to find the source instructions and each layer’s `.ai.md`.
+
 <a id="skills"></a>
 
 ## Setup skills
 
-Skills live in `.agents/skills/`; `.claude/skills/` references the same source. Use them when the corresponding feature is needed.
+Base setup skills live in [main’s .agents/skills](https://github.com/comwit/template/tree/main/.agents/skills); `.claude/skills/` references the same source. For the storefront, use [shop-setup](/template/docs/shop/skills). Use them when the corresponding feature is needed.
 
 | Skill          | Setup                                                                    |
 | -------------- | ------------------------------------------------------------------------ |
@@ -45,4 +47,4 @@ Skills live in `.agents/skills/`; `.claude/skills/` references the same source. 
 
 ## Storybook
 
-Page states live in `.storybook/stories/`. Stories use real pages, layouts and state, replacing only the API through `.storybook/mocks/api/`. Update stories alongside screen changes and run `pnpm validate:storybook` separately.
+Base page states live in [.storybook/stories](https://github.com/comwit/template/tree/main/.storybook/stories); Shop stories live in [src/stories](https://github.com/comwit/template/tree/shop/src/stories). Stories use real pages, layouts and state, replacing only the API through [base mocks](https://github.com/comwit/template/tree/main/.storybook/mocks/api) or [Shop mocks](https://github.com/comwit/template/tree/shop/src/stories/mocks). Update stories alongside screen changes and run `pnpm validate:storybook` separately.

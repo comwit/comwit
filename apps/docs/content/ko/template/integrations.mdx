@@ -11,10 +11,26 @@ description: 기본으로 포함된 Comwit 연동과 환경별 수정 지점.
 
 템플릿의 일부 설정은 기본으로 Comwit에 맞춰져 있습니다. 필요한 연동만 사용하거나, 원하는 서비스·배포 환경에 맞게 아래 부분을 바꾸면 됩니다.
 
-| 기본 설정        | 역할과 수정 지점                                                                                                                                                                  |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| brrrd 어댑터     | `next.config.ts`의 `adapterPath`와 `scripts/brrrd-adapter.mjs`가 Comwit 배포용 `dist/brrrd`를 만듭니다. 다른 호스팅을 쓰면 어댑터·관련 의존성과 배포 절차를 해당 환경에 맞춥니다. |
-| Comwit MCP       | `.mcp.json`, `.codex/config.toml`, `.agents/scripts/comwit-mcp.mjs`가 에이전트를 Comwit 도구에 연결합니다. 다른 도구를 쓰면 이 등록과 `AGENTS.md`의 연동 지침을 함께 바꿉니다.    |
-| DB·스토리지 연결 | `.env.example`, `src/server/config.ts`, `.agents/scaffolds/`가 연결 설정의 기준입니다. 다른 서비스를 쓰면 클라이언트·환경변수·리포지토리 구현과 관련 가이드를 맞춥니다.           |
+| 기본 설정        | 역할과 수정 지점                                                                                                                                                               |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| brrrd 어댑터     | `next.config.ts`의 `adapterPath`가 `@brrrd/adapter`를 불러와 Comwit 배포용 `dist/brrrd`를 만듭니다. 다른 호스팅을 쓰면 어댑터·관련 의존성과 배포 절차를 해당 환경에 맞춥니다.  |
+| Comwit MCP       | `.mcp.json`, `.codex/config.toml`, `.agents/scripts/comwit-mcp.mjs`가 에이전트를 Comwit 도구에 연결합니다. 다른 도구를 쓰면 이 등록과 `AGENTS.md`의 연동 지침을 함께 바꿉니다. |
+| DB·스토리지 연결 | `.env.example`, `src/server/config.ts`, `.agents/scaffolds/`가 연결 설정의 기준입니다. 다른 서비스를 쓰면 클라이언트·환경변수·리포지토리 구현과 관련 가이드를 맞춥니다.        |
 
-Comwit 도구와 배포를 사용하려면 프로젝트 설정 프롬프트를 따르고 로그인하세요. 환경 설정은 [원본 README](https://github.com/comwit/template/blob/main/README.md)를 참고하세요.
+Comwit 도구와 배포를 사용하려면 프로젝트 설정 프롬프트를 따르고 로그인하세요.
+
+<a id="source-references"></a>
+
+## 설정 소스 레퍼런스
+
+기본 템플릿은 `main`, 쇼핑몰은 `shop` 브랜치의 파일을 참고하세요.
+
+| 설정 파일                        | 기본 템플릿                                                                         | Shop Template                                                                       |
+| -------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `README.md`                      | [main](https://github.com/comwit/template/blob/main/README.md)                      | [shop](https://github.com/comwit/template/blob/shop/README.md)                      |
+| `.env.example`                   | [main](https://github.com/comwit/template/blob/main/.env.example)                   | [shop](https://github.com/comwit/template/blob/shop/.env.example)                   |
+| `src/server/config.ts`           | [main](https://github.com/comwit/template/blob/main/src/server/config.ts)           | [shop](https://github.com/comwit/template/blob/shop/src/server/config.ts)           |
+| `next.config.ts`                 | [main](https://github.com/comwit/template/blob/main/next.config.ts)                 | [shop](https://github.com/comwit/template/blob/shop/next.config.ts)                 |
+| `.mcp.json`                      | [main](https://github.com/comwit/template/blob/main/.mcp.json)                      | [shop](https://github.com/comwit/template/blob/shop/.mcp.json)                      |
+| `.codex/config.toml`             | [main](https://github.com/comwit/template/blob/main/.codex/config.toml)             | [shop](https://github.com/comwit/template/blob/shop/.codex/config.toml)             |
+| `.agents/scripts/comwit-mcp.mjs` | [main](https://github.com/comwit/template/blob/main/.agents/scripts/comwit-mcp.mjs) | [shop](https://github.com/comwit/template/blob/shop/.agents/scripts/comwit-mcp.mjs) |
