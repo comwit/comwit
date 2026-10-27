@@ -27,11 +27,13 @@ description: 에이전트 지침, 설정 스킬, Storybook의 역할.
 | `.storybook/stories/design-system/design.mdx`         | UI 구성과 스타일 토큰 사용 기준                   |
 | `.storybook/stories/.ai.md`                           | 페이지 스토리 구성과 API 모킹 규칙                |
 
+원본 지침과 계층별 `.ai.md`는 [기본 템플릿 AGENTS.md](https://github.com/comwit/template/blob/main/AGENTS.md)와 [Shop AGENTS.md](https://github.com/comwit/template/blob/shop/AGENTS.md)에서 확인하세요.
+
 <a id="skills"></a>
 
 ## 설정 스킬
 
-원본은 `.agents/skills/`에 있고, `.claude/skills/`는 같은 스킬을 참조합니다. 필요한 기능을 설정할 때 사용합니다.
+기본 설정 스킬은 [main의 .agents/skills](https://github.com/comwit/template/tree/main/.agents/skills)에 있고, `.claude/skills/`는 같은 원본을 참조합니다. 쇼핑몰은 [shop-setup](/template/docs/shop/skills)을 사용하세요. 필요한 기능을 설정할 때 사용합니다.
 
 | 스킬           | 설정 내용                                                       |
 | -------------- | --------------------------------------------------------------- |
@@ -45,4 +47,4 @@ description: 에이전트 지침, 설정 스킬, Storybook의 역할.
 
 ## Storybook
 
-`.storybook/stories/`에서 페이지별 상태를 확인합니다. 실제 페이지·레이아웃·상태 코드를 사용하고 `.storybook/mocks/api/`에서 API만 교체합니다. 화면 변경 시 스토리도 갱신하며, `pnpm validate:storybook`으로 별도 검증합니다.
+기본 템플릿의 [페이지 스토리](https://github.com/comwit/template/tree/main/.storybook/stories)에서 상태를 확인합니다. Shop의 스토리는 [src/stories](https://github.com/comwit/template/tree/shop/src/stories)에 있습니다. 실제 페이지·레이아웃·상태 코드를 사용하고 [기본 템플릿 목](https://github.com/comwit/template/tree/main/.storybook/mocks/api) 또는 [Shop 목](https://github.com/comwit/template/tree/shop/src/stories/mocks)에서 API만 교체합니다. 화면 변경 시 스토리도 갱신하며, `pnpm validate:storybook`으로 별도 검증합니다.
