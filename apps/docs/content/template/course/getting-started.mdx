@@ -1,0 +1,36 @@
+---
+title: Getting started
+group: Course Template
+order: 31
+description: Run the course platform and preview its existing screens.
+---
+
+<a id="course-start"></a>
+
+# Getting started
+
+Node.js 22.16 or later · pnpm 11.3.0
+
+```bash
+npm create comwit@latest my-course -- --course --pm pnpm
+cd my-course
+pnpm storybook
+```
+
+Preview pages with mock APIs in Storybook.
+
+The course platform source lives on the same repository’s [`course` branch](https://github.com/comwit/template/tree/course). Refer to the [Course README](https://github.com/comwit/template/blob/course/README.md), [environment example](https://github.com/comwit/template/blob/course/.env.example), and [agent instructions](https://github.com/comwit/template/blob/course/AGENTS.md) for setup.
+
+<a id="connect"></a>
+
+## Connect your project
+
+Prepare the environment with your Comwit project setup prompt, then request `course-setup`. Follow the <CourseSourceLink path="docs/course-resources.md">resource connection guide</CourseSourceLink> for database and storage.
+
+```bash
+pnpm dev
+```
+
+Lesson videos stay outside project storage: each lesson uses an unlisted YouTube video or a direct video URL. Payments use the Toss Payments widget; start with `PAYMENT_MODE=test` and test keys.
+
+For other services, see [integration settings](/template/docs/integrations).

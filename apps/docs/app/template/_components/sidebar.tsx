@@ -19,6 +19,8 @@ import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import type { TemplateDocMeta } from '@/lib/template-docs'
 
 const OVERVIEW = '/template'
+// Frontmatter groups stay identical across locales; product template names are translated here.
+const templateLabels: Record<string, string> = { shop: 'templateShop', course: 'templateCourse' }
 const hrefFor = (doc: TemplateDocMeta) => `/template/docs/${doc.slug}`
 
 function NavContent({ docs, onNavigate }: { docs: TemplateDocMeta[]; onNavigate?: () => void }) {
@@ -77,7 +79,7 @@ function NavContent({ docs, onNavigate }: { docs: TemplateDocMeta[]; onNavigate?
           </SelectItem>
           {templates.map(([id, label]) => (
             <SelectItem key={id} value={id}>
-              {label}
+              {templateLabels[id] ? <Copy id={templateLabels[id]} /> : label}
             </SelectItem>
           ))}
         </SelectContent>

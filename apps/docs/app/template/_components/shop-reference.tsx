@@ -209,20 +209,29 @@ export function ShopGallery() {
     </section>
   )
 }
+type Route = { file: string; path: string; intercepted: boolean }
+type AdminScreen = { file: string; title: string; titleKo: string }
+
 export function ShopRoutes() {
+  return <TemplateRoutes routes={reference.routes} sourceCommit={reference.sourceCommit} />
+}
+/** Learner/storefront and admin App Router paths with links to the pinned router files. */
+export function TemplateRoutes({
+  routes,
+  sourceCommit,
+  appLabel = ['스토어 화면', 'Storefront pages'],
+}: {
+  routes: Route[]
+  sourceCommit: string
+  appLabel?: [string, string]
+}) {
   const ko = useLocale() === 'ko'
   return (
     <div className="shop-routes">
       {['app', 'admin'].map((service) => (
         <section key={service}>
           <h3>
-            {service === 'admin'
-              ? ko
-                ? '관리자 화면'
-                : 'Admin screens'
-              : ko
-                ? '스토어 화면'
-                : 'Storefront pages'}
+            {service === 'admin' ? (ko ? '관리자 화면' : 'Admin screens') : appLabel[ko ? 0 : 1]}
           </h3>
           <div className="shop-table-scroll">
             <table>
@@ -241,7 +250,7 @@ export function ShopRoutes() {
                 </tr>
               </thead>
               <tbody>
-                {reference.routes
+                {routes
                   .filter((r) =>
                     service === 'admin' ? r.path.startsWith('/admin') : !r.path.startsWith('/admin')
                   )
@@ -257,7 +266,7 @@ export function ShopRoutes() {
                       </td>
                       <td>
                         <a
-                          href={`https://github.com/comwit/template/blob/${reference.sourceCommit}/${r.file}`}
+                          href={`https://github.com/comwit/template/blob/${sourceCommit}/${r.file}`}
                           target="_blank"
                           rel="noreferrer"
                         >
@@ -275,42 +284,53 @@ export function ShopRoutes() {
   )
 }
 export function ShopAdminScreens() {
+  return <AdminScreens screens={reference.admin} dir="shop" />
+}
+/** Admin captures from the template's existing Storybook fixtures. */
+export function AdminScreens({ screens, dir }: { screens: AdminScreen[]; dir: string }) {
   const ko = useLocale() === 'ko'
   return (
     <div className="shop-admin-grid not-prose">
-      {reference.admin.map(
-        (screen: {
-          file: string
-          title: string
-          titleKo: string
-          story: string
-          source: string
-        }) => (
-          <figure key={screen.file}>
-            <a href={`/template/shop/${screen.file}`} target="_blank" rel="noreferrer">
-              <Image
-                unoptimized
-                src={`/template/shop/${screen.file}`}
-                alt={ko ? screen.titleKo : screen.title}
-                width={1164}
-                height={655}
-                loading="lazy"
-              />
-            </a>
-            <figcaption>
-              {ko ? screen.titleKo : screen.title} <small>{'Storybook'}</small>
-            </figcaption>
-          </figure>
-        )
-      )}
+      {screens.map((screen) => (
+        <figure key={screen.file}>
+          <a href={`/template/${dir}/${screen.file}`} target="_blank" rel="noreferrer">
+            <Image
+              unoptimized
+              src={`/template/${dir}/${screen.file}`}
+              alt={ko ? screen.titleKo : screen.title}
+              width={1164}
+              height={655}
+              loading="lazy"
+            />
+          </a>
+          <figcaption>
+            {ko ? screen.titleKo : screen.title} <small>{'Storybook'}</small>
+          </figcaption>
+        </figure>
+      ))}
     </div>
   )
 }
 
 export function ShopSourceLink({ path, children }: { path: string; children: React.ReactNode }) {
   return (
+    <SourceLink commit={reference.sourceCommit} path={path}>
+      {children}
+    </SourceLink>
+  )
+}
+export function SourceLink({
+  commit,
+  path,
+  children,
+}: {
+  commit: string
+  path: string
+  children: React.ReactNode
+}) {
+  return (
     <a
-      href={`https://github.com/comwit/template/blob/${reference.sourceCommit}/${path}`}
+      href={`https://github.com/comwit/template/blob/${commit}/${path}`}
       target="_blank"
       rel="noreferrer"
     >

@@ -12,10 +12,11 @@ documentation and integration test repository for independent State, UI and temp
 | This repository                                                        | `apps/docs`, `apps/state-playground`, `scripts` | Shared docs, examples and integration checks                            |
 
 State and UI are independent products. Public npm package names and APIs stay the same.
-Base and shop share the `comwit/template` repository. `main` is the common base;
-`shop` adds the storefront, commerce and admin features. Each branch keeps its own
-lockfile, setup and `PUBLIC_SOURCE.json` fingerprints. `create-comwit` packages
-both pinned source trees; `--shop` selects the shop branch.
+Base, shop and course share the `comwit/template` repository. `main` is the common base;
+`shop` adds the storefront, commerce and admin features; `course` adds the course
+platform with enrollments, payments and admin. Each branch keeps its own lockfile,
+setup and `PUBLIC_SOURCE.json` fingerprints. `create-comwit` packages every pinned
+source tree; `--shop` and `--course` select those branches.
 
 ## Develop from the root
 

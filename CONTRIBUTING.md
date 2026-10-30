@@ -79,6 +79,21 @@ verifies and copies both sets of images and publishes `gallery.json` alongside t
 original `catalog.json`. Capture responsive pages in the browser, without changing
 the page DOM or synthesizing layouts; encode the untouched viewport image as WebP.
 
+## Course Template documentation
+
+Course pages use `templates/course/docs/course-reference.json` from that branch's
+`pnpm reference:generate`, and admin captures with provenance in
+`templates/course/docs/screenshots`. `scripts/gen-course.mjs` verifies the schema
+hashes and images, then generates `lib/course-reference.json` and the ignored
+`public/template/course/` assets. `COMWIT_COURSE_SOURCE` may point to a local checkout
+while developing a course PR.
+
+The course branch ships no example catalog. Example site captures live only in
+`apps/docs/assets/course-gallery`, with the same `captures.json` provenance as the
+shop gallery: home, course list and course detail at 1440 × 960 and 390 × 844.
+`lib/course-diagram.mjs` sets the initial relationship layout; keep every foreign key
+on its own track when tables change.
+
 The docs relationship view follows the Cloud console's key-column nodes and
 column inspector, using native HTML/SVG with four initial columns, draggable
 nodes and keyboard movement. It renders declared foreign keys only and never
@@ -86,8 +101,8 @@ queries or changes a database.
 
 ## Template source and repository ownership
 
-`templates/base` and `templates/shop` are separate submodule checkouts of
-`comwit/template`, pinned to its `main` and `shop` branches. They are not generated
+`templates/base`, `templates/shop` and `templates/course` are separate submodule checkouts of
+`comwit/template`, pinned to its `main`, `shop` and `course` branches. They are not generated
 vendor-neutral snapshots. Their initial public snapshots include the maintainer's
 uncommitted public source and preserve code, settings, skills and rules exactly.
 `PUBLIC_SOURCE.json` records initial fingerprints; review and update it deliberately
@@ -95,12 +110,12 @@ when changing maintained source. Never include real environment values, user dat
 local caches or build output.
 
 `packages/template` preserves the `create-comwit` package. `prepack` exports the
-pinned base and shop submodules to ignored packaging directories and verifies byte equality.
-`--shop` selects the shop snapshot; the default remains the base. The optional
+pinned template submodules to ignored packaging directories and verifies byte equality.
+`--shop` and `--course` select those snapshots; the default remains the base. The optional
 `--opennext` overlay is for the base template only. Packaged `template-sources.json`
-records the shared repository, each source branch and both pinned commits.
-Common changes belong on `main`; shop-specific changes target `shop`. Bring common
-updates into the shop branch through a reviewed change before updating its parent pin.
+records the shared repository, each source branch and its pinned commit.
+Common changes belong on `main`; shop- and course-specific changes target their branches.
+Bring common updates into the shop and course branches before updating their parent pins.
 Never hand-edit the ignored package snapshot.
 
 Work in the repository owning each file, even from the parent workspace. Open its
@@ -124,7 +139,7 @@ Use the browser to check the home page, product navigation, mobile menus, live U
 
 The packages retain independent versions: State, the UI engine, template sources, and the CLI need not be released together. Use package-specific tags for future package releases. A repository/documentation milestone may use a `libraries-YYYY-MM-DD` tag; it does not imply a new npm version.
 
-Before publishing a package, build/typecheck it and inspect its packed contents. For the UI CLI, `prepack` generates its bundled registry. For `create-comwit`, check that `npm pack --dry-run` lists `template/_gitignore`, `shop-template/_gitignore`, `template-sources.json` and `variants/` (npm would drop a `.gitignore`). This repository does not automatically publish npm packages when a GitHub release is created.
+Before publishing a package, build/typecheck it and inspect its packed contents. For the UI CLI, `prepack` generates its bundled registry. For `create-comwit`, check that `npm pack --dry-run` lists `template/_gitignore`, `shop-template/_gitignore`, `course-template/_gitignore`, `template-sources.json` and `variants/` (npm would drop a `.gitignore`). This repository does not automatically publish npm packages when a GitHub release is created.
 
 ## Repository consolidation
 

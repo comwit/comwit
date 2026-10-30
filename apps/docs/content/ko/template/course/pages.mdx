@@ -1,0 +1,38 @@
+---
+title: 페이지 구조
+group: Course Template
+order: 32
+description: 실제 App Router 경로와 준비된 관리자 화면.
+---
+
+<a id="pages"></a>
+
+# 페이지 구조
+
+라우터는 `src/app/`, 화면 구현은 `src/services/app/page/`와 `src/services/admin/page/`에 있습니다. 수강생 화면은 상태가 연결된 최소 화면이며, `course-setup`이 브랜드에 맞게 디자인합니다.
+
+<CourseRoutes />
+
+<a id="admin"></a>
+
+## 준비된 관리자 화면
+
+첫 설정에서 `/관리자-<10자리 16진수>` 경로를 만듭니다. `.env`의 `NEXT_PUBLIC_ADMIN_BASE_PATH`로 최종 경로를 바꿀 수 있습니다.
+
+```dotenv
+NEXT_PUBLIC_ADMIN_BASE_PATH=/운영실
+```
+
+변경 후 개발 서버를 재시작하세요. 배포할 때는 같은 값으로 다시 빌드합니다. `/admin`은 내부 라우터 경로입니다.
+
+관리자 공개 회원가입은 없습니다. 로컬 `.env`에 `ADMIN_INITIAL_EMAIL`, `ADMIN_INITIAL_PASSWORD`를 설정하고 `pnpm admin:create`를 실행한 뒤 두 값을 지우세요.
+
+<CourseSourceLink path=".agents/scripts/setup-admin-path.mjs">
+  관리자 경로 설정 스크립트
+</CourseSourceLink>
+와 <CourseSourceLink path="src/lib/admin-routes.ts">관리자 URL 정의</CourseSourceLink>에서 실제 설정
+코드를 확인할 수 있습니다.
+
+<CourseAdminScreens />
+
+기존 스토리는 `src/stories/admin/`, API 목은 `src/stories/mocks/`에 있습니다. 공통 레이어 규칙은 [프로젝트 구조](/template/docs/structure)에 있습니다.

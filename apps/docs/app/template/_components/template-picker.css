@@ -1,6 +1,6 @@
 .tp-template-picker {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   margin: 28px 0 32px;
 }
@@ -24,6 +24,10 @@
 .tp-template-card-shop {
   --picker-accent: #824521;
   --picker-preview: #edcf9f;
+}
+.tp-template-card-course {
+  --picker-accent: #2f4a7d;
+  --picker-preview: #cfdaee;
 }
 .tp-template-card-preview {
   display: grid;
@@ -91,6 +95,14 @@
 .tp-template-card:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 var(--picker-accent);
+}
+@media (max-width: 960px) and (min-width: 641px) {
+  .tp-template-card-preview {
+    padding: 10px 12px 0;
+  }
+  .tp-template-card-label {
+    padding: 16px 14px;
+  }
 }
 @media (max-width: 640px) {
   .tp-template-picker {

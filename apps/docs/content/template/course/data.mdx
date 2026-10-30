@@ -1,0 +1,22 @@
+---
+title: Data structure
+group: Course Template
+order: 33
+description: Explore the actual Drizzle tables and foreign keys.
+---
+
+<a id="data"></a>
+
+# Data structure
+
+Generated from `src/server/db/tables/` and the app/admin auth schemas. The diagram shows **37 tables, 407 columns and 46 foreign keys**. Each table lists every column with its SQL type, nullability and keys. `NN` means NOT NULL.
+
+<CourseSchema />
+
+<a id="schema-changes"></a>
+
+## Schema changes
+
+Add or edit tables in `src/server/db/tables/<domain>-schema.ts` and export them from `src/server/db/schema.ts`. Generate the migration and review its SQL. Apply it only after explicit approval; it targets the connected database. Courses and curriculum, enrollments and lesson progress, digital products and downloads, orders, payments, refunds and coupons already have dedicated tables. Auth tables separate learner and admin accounts.
+
+The diagram includes declared foreign keys only; a similar column name does not imply a relationship. Data goes through [repositories and the shared layers](/template/docs/structure).

@@ -20,10 +20,10 @@ const rows = [
   ['webhook_events', 'audit_logs', 'app_auth__verification', 'admin_auth__verification'],
   ['media_assets', 'commerce_revision'],
 ]
-export function initialPositions(tables) {
+export function initialPositions(tables, layout = rows) {
   const byName = new Map(tables.map((t) => [t.name, t]))
-  const ordered = rows.map((row) => row.filter((name) => byName.has(name)))
-  const known = new Set(rows.flat())
+  const ordered = layout.map((row) => row.filter((name) => byName.has(name)))
+  const known = new Set(layout.flat())
   const extra = tables
     .filter((t) => !known.has(t.name))
     .map((t) => t.name)

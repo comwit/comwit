@@ -9,7 +9,7 @@ for (const [name, source] of Object.entries(sources)) {
   if (!existsSync(join(canonical, 'package.json')))
     throw new Error(
       'Initialize templates/' +
-        (name === 'base' ? 'base' : 'shop') +
+        name +
         ' with git submodule update --init --recursive before packing create-comwit.'
     )
   if (execFileSync('git', ['-C', canonical, 'status', '--porcelain'], { encoding: 'utf8' }).trim())

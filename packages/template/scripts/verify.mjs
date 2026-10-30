@@ -7,7 +7,7 @@ import { sources, sourceFiles, publicFile } from '../src/source.js'
 for (const [templateName, { canonical, bundled }] of Object.entries(sources)) {
   assert.ok(
     existsSync(join(canonical, 'package.json')),
-    `Initialize templates/${templateName === 'base' ? 'base' : 'shop'} before verification`
+    `Initialize templates/${templateName} before verification`
   )
   const files = sourceFiles(canonical)
   for (const required of [
@@ -27,6 +27,14 @@ for (const [templateName, { canonical, bundled }] of Object.entries(sources)) {
       '.agents/skills/shop-setup/assets/catalog.json',
     ])
       assert.ok(files.includes(required), `Shop template must include ${required}`)
+  }
+  if (templateName === 'course') {
+    for (const required of [
+      'src/server/db/schema.ts',
+      '.agents/skills/course-setup/SKILL.md',
+      'docs/course-resources.md',
+    ])
+      assert.ok(files.includes(required), `Course template must include ${required}`)
   }
   const manifest = JSON.parse(readFileSync(join(canonical, 'PUBLIC_SOURCE.json'), 'utf8'))
   for (const [name, digest] of Object.entries(manifest.files)) {
