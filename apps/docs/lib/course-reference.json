@@ -1,0 +1,3750 @@
+{
+  "schemaFiles": {
+    "src/server/db/schema.ts": "2b15418edc89c287e1746008ba78475e634fff29b971e4159f216447d8212649",
+    "src/server/db/plugin/auth/app-schema.ts": "fa15cb45aa66a18b06a5cdd61e5eb8622b79936ca25a1e2473823ddf3169293f",
+    "src/server/db/plugin/auth/admin-schema.ts": "9a8361b999bf993723dc1ba8d0587b0d09214523186607164a24097afb4c9f83",
+    "src/server/db/tables/catalog-schema.ts": "c51f2be2b4d74c760242d4e3545388541b0d9eb8092bdbb98f2bd3e0ba9af96f",
+    "src/server/db/tables/commerce-schema.ts": "1b4695f2f2a3dd59c0c799611ff7633cc936e2a5da533aef6cd35a96905983b0",
+    "src/server/db/tables/community-schema.ts": "394f0733c89764fbfae910f42d10df3b167080d23ef1ffe9650115c159904fd8",
+    "src/server/db/tables/content-schema.ts": "f17f77c603f8bb0d99154f04363bfc66440f4229e4a17e45a701dd37664cb7be",
+    "src/server/db/tables/coupons-schema.ts": "71ab91877108c69b9c5025000ef844a0320f4a92b4b2e0cb20dadcbc4ffe1c00",
+    "src/server/db/tables/enrollments-schema.ts": "9d68fbeba12b5d2ae82d2d1180628961fd9f3d4393ab3ad3dbf27925221f942c",
+    "src/server/db/tables/operations-schema.ts": "ad63eca0288fb2ed01924e12a3050a895b12965f69093e1343946c4c83d95317",
+    "src/server/db/tables/products-schema.ts": "98ebe121e13c4aa3d8fe923d46aed3977db75dba3f1ad3cc8313a759d325f26b",
+    "src/server/db/tables/shared-schema.ts": "60af2ac77d0740bd0580f486d7e4317ea5107c1b888135b9036be3a656a397da"
+  },
+  "tables": [
+    {
+      "name": "admin_auth__account",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "accountId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "providerId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "accessToken",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "refreshToken",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "idToken",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "accessTokenExpiresAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "refreshTokenExpiresAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "scope",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "password",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "admin_auth__account_userId_admin_auth__user_id_fk",
+          "columns": ["userId"],
+          "targetTable": "admin_auth__user",
+          "targetColumns": ["id"],
+          "onDelete": "cascade"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "admin_auth_account_user_idx",
+          "unique": false,
+          "columns": ["userId"]
+        },
+        {
+          "name": "admin_auth_account_provider_uq",
+          "unique": true,
+          "columns": ["providerId", "accountId"]
+        }
+      ]
+    },
+    {
+      "name": "admin_auth__session",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "expiresAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "token",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "ipAddress",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "userAgent",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "impersonatedBy",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "admin_auth__session_userId_admin_auth__user_id_fk",
+          "columns": ["userId"],
+          "targetTable": "admin_auth__user",
+          "targetColumns": ["id"],
+          "onDelete": "cascade"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "admin_auth_session_user_idx",
+          "unique": false,
+          "columns": ["userId"]
+        },
+        {
+          "name": "admin_auth_session_expiry_idx",
+          "unique": false,
+          "columns": ["expiresAt"]
+        }
+      ]
+    },
+    {
+      "name": "admin_auth__user",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "emailVerified",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "image",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "banned",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "banReason",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "banExpires",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "admin_auth_user_created_idx",
+          "unique": false,
+          "columns": ["createdAt"]
+        }
+      ]
+    },
+    {
+      "name": "admin_auth__verification",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "identifier",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "value",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "expiresAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "admin_auth_verification_identifier_idx",
+          "unique": false,
+          "columns": ["identifier"]
+        }
+      ]
+    },
+    {
+      "name": "app_auth__account",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "accountId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "providerId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "accessToken",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "refreshToken",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "idToken",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "accessTokenExpiresAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "refreshTokenExpiresAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "scope",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "password",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "app_auth__account_userId_app_auth__user_id_fk",
+          "columns": ["userId"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"],
+          "onDelete": "cascade"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "app_auth_account_user_idx",
+          "unique": false,
+          "columns": ["userId"]
+        },
+        {
+          "name": "app_auth_account_provider_uq",
+          "unique": true,
+          "columns": ["providerId", "accountId"]
+        }
+      ]
+    },
+    {
+      "name": "app_auth__session",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "expiresAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "token",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "ipAddress",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "userAgent",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "userId",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "app_auth__session_userId_app_auth__user_id_fk",
+          "columns": ["userId"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"],
+          "onDelete": "cascade"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "app_auth_session_user_idx",
+          "unique": false,
+          "columns": ["userId"]
+        },
+        {
+          "name": "app_auth_session_expiry_idx",
+          "unique": false,
+          "columns": ["expiresAt"]
+        }
+      ]
+    },
+    {
+      "name": "app_auth__user",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "emailVerified",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "image",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "app_auth_user_created_idx",
+          "unique": false,
+          "columns": ["createdAt"]
+        }
+      ]
+    },
+    {
+      "name": "app_auth__verification",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "identifier",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "value",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "expiresAt",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "createdAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "updatedAt",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "app_auth_verification_identifier_idx",
+          "unique": false,
+          "columns": ["identifier"]
+        }
+      ]
+    },
+    {
+      "name": "audit_logs",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "actor_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "action",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "entity_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "detail",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "audit_entity_idx",
+          "unique": false,
+          "columns": ["entity_id", "created_at"]
+        },
+        {
+          "name": "audit_actor_idx",
+          "unique": false,
+          "columns": ["actor_id", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "banners",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "image",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "link_url",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "active",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "starts_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "ends_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "banners_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "active", "position"]
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "categories_slug_uq",
+          "unique": true,
+          "columns": ["slug"]
+        },
+        {
+          "name": "categories_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "name"]
+        }
+      ]
+    },
+    {
+      "name": "certificates",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "number",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "enrollment_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "issued_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "certificates_enrollment_id_enrollments_id_fk",
+          "columns": ["enrollment_id"],
+          "targetTable": "enrollments",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "certificates_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "certificates_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "certificates_number_uq",
+          "unique": true,
+          "columns": ["number"]
+        },
+        {
+          "name": "certificates_enrollment_uq",
+          "unique": true,
+          "columns": ["enrollment_id"]
+        },
+        {
+          "name": "certificates_user_idx",
+          "unique": false,
+          "columns": ["user_id", "issued_at"]
+        }
+      ]
+    },
+    {
+      "name": "commerce_revision",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "revision",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": []
+    },
+    {
+      "name": "coupon_redemptions",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "coupon_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "order_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "discount",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "coupon_redemptions_coupon_id_coupons_id_fk",
+          "columns": ["coupon_id"],
+          "targetTable": "coupons",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "coupon_redemptions_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "coupon_redemptions_order_uq",
+          "unique": true,
+          "columns": ["order_id"]
+        },
+        {
+          "name": "coupon_redemptions_user_idx",
+          "unique": false,
+          "columns": ["coupon_id", "user_id", "status"]
+        }
+      ]
+    },
+    {
+      "name": "coupons",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "code",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "value",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "min_amount",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "max_discount",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "product_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "starts_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "ends_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "usage_limit",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "used_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "per_user_limit",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "active",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "coupons_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "coupons_product_id_products_id_fk",
+          "columns": ["product_id"],
+          "targetTable": "products",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "coupons_code_uq",
+          "unique": true,
+          "columns": ["code"]
+        },
+        {
+          "name": "coupons_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "active", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "courses",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "category_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "instructor_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "thumbnail",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "level",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "price",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "discount_price",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "discount_ends_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "lesson_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "total_duration_seconds",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "enrollment_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "rating_sum",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "review_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "published_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "courses_category_id_categories_id_fk",
+          "columns": ["category_id"],
+          "targetTable": "categories",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "courses_instructor_id_instructors_id_fk",
+          "columns": ["instructor_id"],
+          "targetTable": "instructors",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "courses_slug_uq",
+          "unique": true,
+          "columns": ["slug"]
+        },
+        {
+          "name": "courses_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "status", "published_at"]
+        },
+        {
+          "name": "courses_category_idx",
+          "unique": false,
+          "columns": ["category_id", "deleted_at"]
+        },
+        {
+          "name": "courses_title_idx",
+          "unique": false,
+          "columns": ["title"]
+        }
+      ]
+    },
+    {
+      "name": "download_logs",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "purchase_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "file_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "download_logs_purchase_id_purchases_id_fk",
+          "columns": ["purchase_id"],
+          "targetTable": "purchases",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "download_logs_file_id_product_files_id_fk",
+          "columns": ["file_id"],
+          "targetTable": "product_files",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "download_logs_purchase_idx",
+          "unique": false,
+          "columns": ["purchase_id", "created_at"]
+        },
+        {
+          "name": "download_logs_user_idx",
+          "unique": false,
+          "columns": ["user_id", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "enrollments",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "order_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "source",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "progress_percent",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "completed_lessons",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "last_lesson_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "expires_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "completed_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "granted_by",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "revoke_reason",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "enrollments_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "enrollments_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "enrollments_course_user_uq",
+          "unique": true,
+          "columns": ["course_id", "user_id"]
+        },
+        {
+          "name": "enrollments_user_idx",
+          "unique": false,
+          "columns": ["user_id", "status", "updated_at"]
+        },
+        {
+          "name": "enrollments_course_idx",
+          "unique": false,
+          "columns": ["course_id", "status", "created_at"]
+        },
+        {
+          "name": "enrollments_order_idx",
+          "unique": false,
+          "columns": ["order_id"]
+        }
+      ]
+    },
+    {
+      "name": "instructors",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "bio",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "image",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "instructors_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "name"]
+        }
+      ]
+    },
+    {
+      "name": "leads",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "phone",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "source",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "product_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "order_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "item_title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "consent",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "leads_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "leads_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "leads_product_id_products_id_fk",
+          "columns": ["product_id"],
+          "targetTable": "products",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "leads_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "created_at"]
+        },
+        {
+          "name": "leads_email_idx",
+          "unique": false,
+          "columns": ["email"]
+        },
+        {
+          "name": "leads_source_idx",
+          "unique": false,
+          "columns": ["source", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "lesson_progress",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "enrollment_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "lesson_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "position_seconds",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "completed",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "completed_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "lesson_progress_enrollment_id_enrollments_id_fk",
+          "columns": ["enrollment_id"],
+          "targetTable": "enrollments",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "lesson_progress_lesson_id_lessons_id_fk",
+          "columns": ["lesson_id"],
+          "targetTable": "lessons",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "lesson_progress_uq",
+          "unique": true,
+          "columns": ["enrollment_id", "lesson_id"]
+        },
+        {
+          "name": "lesson_progress_lesson_idx",
+          "unique": false,
+          "columns": ["lesson_id"]
+        }
+      ]
+    },
+    {
+      "name": "lessons",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "section_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "video",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "duration_seconds",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "is_preview",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "lessons_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "lessons_section_id_sections_id_fk",
+          "columns": ["section_id"],
+          "targetTable": "sections",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "lessons_course_idx",
+          "unique": false,
+          "columns": ["course_id", "deleted_at", "position"]
+        },
+        {
+          "name": "lessons_section_idx",
+          "unique": false,
+          "columns": ["section_id", "deleted_at", "position"]
+        }
+      ]
+    },
+    {
+      "name": "media_assets",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "owner_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "storage_key",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "image",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "media_storage_key_uq",
+          "unique": true,
+          "columns": ["storage_key"]
+        },
+        {
+          "name": "media_owner_idx",
+          "unique": false,
+          "columns": ["owner_id", "status", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "notices",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "pinned",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "published_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "notices_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "status", "pinned", "published_at"]
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "number",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "customer_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "customer_email",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "request_key",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "item_type",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "product_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "item_title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "payment_status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "list_price",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "discount",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "coupon_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "coupon_code",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "coupon_discount",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "total",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "expires_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "orders_customer_id_app_auth__user_id_fk",
+          "columns": ["customer_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "orders_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "orders_product_id_products_id_fk",
+          "columns": ["product_id"],
+          "targetTable": "products",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "orders_number_uq",
+          "unique": true,
+          "columns": ["number"]
+        },
+        {
+          "name": "orders_request_uq",
+          "unique": true,
+          "columns": ["customer_id", "request_key"]
+        },
+        {
+          "name": "orders_customer_idx",
+          "unique": false,
+          "columns": ["customer_id", "deleted_at", "created_at"]
+        },
+        {
+          "name": "orders_status_idx",
+          "unique": false,
+          "columns": ["deleted_at", "status", "created_at"]
+        },
+        {
+          "name": "orders_course_idx",
+          "unique": false,
+          "columns": ["course_id", "status"]
+        },
+        {
+          "name": "orders_product_idx",
+          "unique": false,
+          "columns": ["product_id", "status"]
+        },
+        {
+          "name": "orders_expiry_idx",
+          "unique": false,
+          "columns": ["status", "expires_at"]
+        }
+      ]
+    },
+    {
+      "name": "payments",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "order_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "provider_order_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "payment_key",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "refunded_amount",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "pending_refund_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "mode",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "method",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "receipt_url",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "last_error",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "approved_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "payments_order_id_orders_id_fk",
+          "columns": ["order_id"],
+          "targetTable": "orders",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "payments_order_uq",
+          "unique": true,
+          "columns": ["order_id"]
+        },
+        {
+          "name": "payments_provider_order_uq",
+          "unique": true,
+          "columns": ["provider_order_id"]
+        },
+        {
+          "name": "payments_key_uq",
+          "unique": true,
+          "columns": ["payment_key"]
+        },
+        {
+          "name": "payments_idempotency_uq",
+          "unique": true,
+          "columns": ["idempotency_key"]
+        },
+        {
+          "name": "payments_status_idx",
+          "unique": false,
+          "columns": ["status", "updated_at"]
+        },
+        {
+          "name": "payments_date_idx",
+          "unique": false,
+          "columns": ["created_at"]
+        }
+      ]
+    },
+    {
+      "name": "product_courses",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "product_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "product_courses_product_id_products_id_fk",
+          "columns": ["product_id"],
+          "targetTable": "products",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "product_courses_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "product_courses_uq",
+          "unique": true,
+          "columns": ["product_id", "course_id"]
+        },
+        {
+          "name": "product_courses_course_idx",
+          "unique": false,
+          "columns": ["course_id"]
+        }
+      ]
+    },
+    {
+      "name": "product_files",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "product_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "owner_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "storage_key",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "content_type",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "size",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "product_files_product_id_products_id_fk",
+          "columns": ["product_id"],
+          "targetTable": "products",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "product_files_key_uq",
+          "unique": true,
+          "columns": ["storage_key"]
+        },
+        {
+          "name": "product_files_product_idx",
+          "unique": false,
+          "columns": ["product_id", "deleted_at", "position"]
+        }
+      ]
+    },
+    {
+      "name": "products",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "category_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "thumbnail",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "kind",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "price",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "discount_price",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "discount_ends_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "download_limit",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "file_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "course_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "purchase_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "published_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "products_category_id_categories_id_fk",
+          "columns": ["category_id"],
+          "targetTable": "categories",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "products_slug_uq",
+          "unique": true,
+          "columns": ["slug"]
+        },
+        {
+          "name": "products_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "status", "published_at"]
+        },
+        {
+          "name": "products_category_idx",
+          "unique": false,
+          "columns": ["category_id", "deleted_at"]
+        },
+        {
+          "name": "products_title_idx",
+          "unique": false,
+          "columns": ["title"]
+        }
+      ]
+    },
+    {
+      "name": "purchases",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "product_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "order_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "source",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "download_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "last_downloaded_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "granted_by",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "revoke_reason",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "purchases_product_id_products_id_fk",
+          "columns": ["product_id"],
+          "targetTable": "products",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "purchases_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "purchases_product_user_uq",
+          "unique": true,
+          "columns": ["product_id", "user_id"]
+        },
+        {
+          "name": "purchases_user_idx",
+          "unique": false,
+          "columns": ["user_id", "status", "updated_at"]
+        },
+        {
+          "name": "purchases_product_idx",
+          "unique": false,
+          "columns": ["product_id", "status", "created_at"]
+        },
+        {
+          "name": "purchases_order_idx",
+          "unique": false,
+          "columns": ["order_id"]
+        }
+      ]
+    },
+    {
+      "name": "question_comments",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "question_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "author_type",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "author_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "author_name",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "is_answer",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "question_comments_question_id_questions_id_fk",
+          "columns": ["question_id"],
+          "targetTable": "questions",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "question_comments_question_idx",
+          "unique": false,
+          "columns": ["question_id", "deleted_at", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "questions",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "lesson_id",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "pinned",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "comment_count",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "answered_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "questions_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "questions_lesson_id_lessons_id_fk",
+          "columns": ["lesson_id"],
+          "targetTable": "lessons",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "questions_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "questions_course_idx",
+          "unique": false,
+          "columns": ["course_id", "deleted_at", "created_at"]
+        },
+        {
+          "name": "questions_lesson_idx",
+          "unique": false,
+          "columns": ["lesson_id", "deleted_at", "created_at"]
+        },
+        {
+          "name": "questions_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "status", "created_at"]
+        },
+        {
+          "name": "questions_user_idx",
+          "unique": false,
+          "columns": ["user_id", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "refund_requests",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "order_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "decided_by",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "decided_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "refund_requests_order_id_orders_id_fk",
+          "columns": ["order_id"],
+          "targetTable": "orders",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "refund_requests_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "refund_requests_order_idx",
+          "unique": false,
+          "columns": ["order_id", "status"]
+        },
+        {
+          "name": "refund_requests_list_idx",
+          "unique": false,
+          "columns": ["status", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "refunds",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "payment_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "order_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "request_key",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "actor_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "provider_transaction_key",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "last_error",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "refunds_payment_id_payments_id_fk",
+          "columns": ["payment_id"],
+          "targetTable": "payments",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "refunds_order_id_orders_id_fk",
+          "columns": ["order_id"],
+          "targetTable": "orders",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "refunds_request_uq",
+          "unique": true,
+          "columns": ["request_key"]
+        },
+        {
+          "name": "refunds_transaction_uq",
+          "unique": true,
+          "columns": ["provider_transaction_key"]
+        },
+        {
+          "name": "refunds_payment_idx",
+          "unique": false,
+          "columns": ["payment_id", "status"]
+        },
+        {
+          "name": "refunds_order_idx",
+          "unique": false,
+          "columns": ["order_id", "created_at"]
+        },
+        {
+          "name": "refunds_status_idx",
+          "unique": false,
+          "columns": ["status", "updated_at"]
+        }
+      ]
+    },
+    {
+      "name": "reviews",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "user_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "enrollment_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "rating",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "content",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "admin_reply",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "admin_replied_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "reviews_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "reviews_user_id_app_auth__user_id_fk",
+          "columns": ["user_id"],
+          "targetTable": "app_auth__user",
+          "targetColumns": ["id"]
+        },
+        {
+          "name": "reviews_enrollment_id_enrollments_id_fk",
+          "columns": ["enrollment_id"],
+          "targetTable": "enrollments",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "reviews_course_user_uq",
+          "unique": true,
+          "columns": ["course_id", "user_id"]
+        },
+        {
+          "name": "reviews_course_idx",
+          "unique": false,
+          "columns": ["course_id", "status", "created_at"]
+        },
+        {
+          "name": "reviews_list_idx",
+          "unique": false,
+          "columns": ["deleted_at", "status", "created_at"]
+        }
+      ]
+    },
+    {
+      "name": "sections",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "course_id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "sections_course_id_courses_id_fk",
+          "columns": ["course_id"],
+          "targetTable": "courses",
+          "targetColumns": ["id"]
+        }
+      ],
+      "indexes": [
+        {
+          "name": "sections_course_idx",
+          "unique": false,
+          "columns": ["course_id", "deleted_at", "position"]
+        }
+      ]
+    },
+    {
+      "name": "webhook_events",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "event_key",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "payment_key",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "attempts",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "last_error",
+          "type": "text",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "updated_at",
+          "type": "integer",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "integer",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "name": "webhooks_key_uq",
+          "unique": true,
+          "columns": ["event_key"]
+        },
+        {
+          "name": "webhooks_retry_idx",
+          "unique": false,
+          "columns": ["status", "updated_at"]
+        },
+        {
+          "name": "webhooks_payment_idx",
+          "unique": false,
+          "columns": ["payment_key"]
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "file": "src/app/(app)/page.tsx",
+      "path": "/",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/account/page.tsx",
+      "path": "/account",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/account/certificates/[id]/page.tsx",
+      "path": "/account/certificates/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/account/courses/page.tsx",
+      "path": "/account/courses",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/account/orders/page.tsx",
+      "path": "/account/orders",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/account/orders/[id]/page.tsx",
+      "path": "/account/orders/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/account/products/page.tsx",
+      "path": "/account/products",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/page.tsx",
+      "path": "/admin",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/account/page.tsx",
+      "path": "/admin/account",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/banners/page.tsx",
+      "path": "/admin/banners",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/coupons/page.tsx",
+      "path": "/admin/coupons",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/courses/page.tsx",
+      "path": "/admin/courses",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/courses/[id]/page.tsx",
+      "path": "/admin/courses/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/leads/page.tsx",
+      "path": "/admin/leads",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/login/page.tsx",
+      "path": "/admin/login",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/notices/page.tsx",
+      "path": "/admin/notices",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/orders/page.tsx",
+      "path": "/admin/orders",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/payments/page.tsx",
+      "path": "/admin/payments",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/products/page.tsx",
+      "path": "/admin/products",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/products/[id]/page.tsx",
+      "path": "/admin/products/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/questions/page.tsx",
+      "path": "/admin/questions",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/refunds/page.tsx",
+      "path": "/admin/refunds",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/reviews/page.tsx",
+      "path": "/admin/reviews",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/settings/page.tsx",
+      "path": "/admin/settings",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(admin)/admin/(dashboard)/students/page.tsx",
+      "path": "/admin/students",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/checkout/[type]/[id]/page.tsx",
+      "path": "/checkout/[type]/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/checkout/result/page.tsx",
+      "path": "/checkout/result",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/courses/page.tsx",
+      "path": "/courses",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/(.)courses/[id]/page.tsx",
+      "path": "/courses/[id]",
+      "intercepted": true
+    },
+    {
+      "file": "src/app/(app)/courses/[id]/page.tsx",
+      "path": "/courses/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/learn/[courseId]/page.tsx",
+      "path": "/learn/[courseId]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/learn/[courseId]/[lessonId]/page.tsx",
+      "path": "/learn/[courseId]/[lessonId]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/login/page.tsx",
+      "path": "/login",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/notices/page.tsx",
+      "path": "/notices",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/notices/[id]/page.tsx",
+      "path": "/notices/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/offline/page.tsx",
+      "path": "/offline",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/products/page.tsx",
+      "path": "/products",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/(.)products/[id]/page.tsx",
+      "path": "/products/[id]",
+      "intercepted": true
+    },
+    {
+      "file": "src/app/(app)/products/[id]/page.tsx",
+      "path": "/products/[id]",
+      "intercepted": false
+    },
+    {
+      "file": "src/app/(app)/signup/page.tsx",
+      "path": "/signup",
+      "intercepted": false
+    }
+  ],
+  "admin": [
+    {
+      "file": "admin-dashboard.jpg",
+      "title": "Dashboard",
+      "titleKo": "대시보드",
+      "story": "admin-dashboard--default",
+      "source": "src/stories/admin/dashboard.stories.tsx",
+      "captureDate": "2026-10-30",
+      "data": "Existing Storybook fixtures only; no live services",
+      "sha256": "a86babcf4cfe06627dab65915435e359c4cef098d473ed3d1907815b0d382a75"
+    },
+    {
+      "file": "admin-courses.jpg",
+      "title": "Courses",
+      "titleKo": "강의",
+      "story": "admin-courses--default",
+      "source": "src/stories/admin/courses.stories.tsx",
+      "captureDate": "2026-10-30",
+      "data": "Existing Storybook fixtures only; no live services",
+      "sha256": "5924adea454f8d412d991f993805adba2a0f67e39fa852ba15221dd78b59e4e1"
+    },
+    {
+      "file": "admin-course-editor.jpg",
+      "title": "Course editor and curriculum",
+      "titleKo": "강의 편집과 커리큘럼",
+      "story": "admin-course-editor--default",
+      "source": "src/stories/admin/course-editor.stories.tsx",
+      "captureDate": "2026-10-30",
+      "data": "Existing Storybook fixtures only; no live services",
+      "sha256": "6f147887ffef8a1d0bc77ddc562ca98428d6ff49854258d2e81e26b2affdbf15"
+    },
+    {
+      "file": "admin-orders.jpg",
+      "title": "Orders",
+      "titleKo": "주문",
+      "story": "admin-orders--default",
+      "source": "src/stories/admin/orders.stories.tsx",
+      "captureDate": "2026-10-30",
+      "data": "Existing Storybook fixtures only; no live services",
+      "sha256": "740a32709079b08c51a8225d068f73d600d0a6c6d11c948d468f26eb7d33771e"
+    }
+  ],
+  "sourceCommit": "068a629a524e11c4dae9f3c932f4cf9fc99c3b34"
+}

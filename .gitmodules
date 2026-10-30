@@ -14,3 +14,7 @@
 	path = templates/shop
 	url = https://github.com/comwit/template.git
 	branch = shop
+[submodule "templates/course"]
+	path = templates/course
+	url = https://github.com/comwit/template.git
+	branch = course

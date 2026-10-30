@@ -2,7 +2,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 // create-comwit scaffolds a Next.js project from the Comwit template.
 //   npm create comwit@latest my-app
-//   npx create-comwit@latest my-app [--opennext] [--pm pnpm|npm|yarn|bun] [--no-install] [--no-git] [--cwd <dir>]
+//   npx create-comwit@latest my-app [--shop | --course | --opennext] [--pm pnpm|npm|yarn|bun] [--no-install] [--no-git] [--cwd <dir>]
 //
 // The complete template is bundled in template/. Uses only Node built-ins.
 // Substitute the project name in package.json and README; copy other files unchanged.
@@ -60,6 +60,7 @@ function usage() {
 
 Options
   --shop            create the Shop Template with commerce pages and setup skills
+  --course          create the Course Template with course, enrollment and payment pages
   --opennext        deploy target Cloudflare Workers via OpenNext (adds wrangler.jsonc, open-next.config.ts, scripts)
   --name <name>     package name (default: the directory name)
   --pm <manager>    pnpm · npm · yarn · bun (default: pnpm when installed, else the invoking manager)
@@ -103,7 +104,7 @@ const NAME_RE = /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/
 
 // ── main ────────────────────────────────────────────────────────────────
 const { positional, flags } = parseArgs(process.argv.slice(2))
-const templateName = flags.shop ? 'shop' : 'base'
+const templateName = flags.shop ? 'shop' : flags.course ? 'course' : 'base'
 const TEMPLATE = sourceFor(templateName)
 if (flags.help || flags.h) {
   usage()
@@ -118,8 +119,11 @@ if (!dir) {
   usage()
   die('tell me where to create the project: create-comwit <dir>')
 }
-if (flags.shop && flags.opennext)
-  die('--shop cannot be combined with --opennext; use the shop deployment settings')
+if (flags.shop && flags.course) die('choose one of --shop and --course')
+if ((flags.shop || flags.course) && flags.opennext)
+  die(
+    `--${templateName} cannot be combined with --opennext; use the ${templateName} deployment settings`
+  )
 if (!existsSync(join(TEMPLATE, 'package.json')))
   die('the bundled template is missing — reinstall create-comwit')
 

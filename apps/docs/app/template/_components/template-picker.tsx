@@ -72,6 +72,41 @@ function ShopPreview() {
   )
 }
 
+function CoursePreview() {
+  return (
+    <svg viewBox="0 0 320 160" fill="none" aria-hidden="true" focusable="false">
+      <rect
+        x="40"
+        y="18"
+        width="240"
+        height="128"
+        rx="7"
+        fill="#f4f6fb"
+        stroke="#2f4a7d"
+        strokeWidth="2"
+      />
+      <rect x="52" y="30" width="146" height="82" rx="4" fill="#2f4a7d" />
+      <path d="m116 57 22 14-22 14V57Z" fill="#f4f6fb" />
+      <path d="M52 124h146" stroke="#b8c6e0" strokeWidth="4" strokeLinecap="round" />
+      <path d="M52 124h88" stroke="#e08a3c" strokeWidth="4" strokeLinecap="round" />
+      <rect x="210" y="30" width="58" height="18" rx="3" fill="#cfdaee" />
+      <rect x="210" y="54" width="58" height="18" rx="3" fill="#cfdaee" />
+      <rect x="210" y="78" width="58" height="18" rx="3" stroke="#6f86b3" strokeDasharray="3 3" />
+      <rect x="210" y="102" width="58" height="18" rx="3" stroke="#6f86b3" strokeDasharray="3 3" />
+      <circle cx="219" cy="39" r="4" fill="#2f4a7d" />
+      <circle cx="219" cy="63" r="4" fill="#2f4a7d" />
+      <circle cx="219" cy="87" r="4" stroke="#6f86b3" strokeWidth="1.5" />
+      <circle cx="219" cy="111" r="4" stroke="#6f86b3" strokeWidth="1.5" />
+      <path
+        d="M228 39h30m-30 24h24m-30 24h26m-26 24h20"
+        stroke="#4d6697"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 function LinkArrow() {
   return (
     <span className="tp-template-card-arrow" aria-hidden="true">
@@ -121,9 +156,31 @@ export function TemplatePicker() {
         </div>
         <div className="tp-template-card-label">
           <div>
-            <strong id="template-shop-title">Shop Template</strong>
+            <strong id="template-shop-title">
+              <Copy id="templateShop" />
+            </strong>
             <span>
               <Copy id="templateShopFoundation" />
+            </span>
+          </div>
+          <LinkArrow />
+        </div>
+      </Link>
+      <Link
+        href="/template/docs/course/overview"
+        className="tp-template-card tp-template-card-course"
+        aria-labelledby="template-course-title"
+      >
+        <div className="tp-template-card-preview" aria-hidden="true">
+          <CoursePreview />
+        </div>
+        <div className="tp-template-card-label">
+          <div>
+            <strong id="template-course-title">
+              <Copy id="templateCourse" />
+            </strong>
+            <span>
+              <Copy id="templateCourseFoundation" />
             </span>
           </div>
           <LinkArrow />

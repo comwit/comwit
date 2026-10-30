@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@comwit/ui-templates/button'
 import { Input } from '@comwit/ui-templates/input'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useLocale } from 'next-intl'
 import reference from '@/lib/shop-reference.json'
 import {
@@ -14,13 +14,25 @@ import {
 } from '@/lib/shop-diagram.mjs'
 type Position = { x: number; y: number }
 type Column = { name: string; type: string; nullable: boolean; primaryKey: boolean }
-const layout = initialPositions(reference.tables) as Record<string, Position>
-const tables = [...reference.tables].sort(
-  (a, b) => layout[a.name].y - layout[b.name].y || layout[a.name].x - layout[b.name].x
-)
+export type SchemaTable = (typeof reference.tables)[number]
 export function ShopSchema() {
+  return <SchemaDiagram source={reference.tables} />
+}
+/** Relationship view for a template's exported Drizzle tables; `rows` sets the initial four-column order. */
+export function SchemaDiagram({ source, rows }: { source: SchemaTable[]; rows?: string[][] }) {
   const ko = useLocale() === 'ko'
-  const initial = useMemo(() => initialPositions(tables) as Record<string, Position>, [])
+  const arrow = useId()
+  const initial = useMemo(
+    () => initialPositions(source, rows) as Record<string, Position>,
+    [source, rows]
+  )
+  const tables = useMemo(
+    () =>
+      [...source].sort(
+        (a, b) => initial[a.name].y - initial[b.name].y || initial[a.name].x - initial[b.name].x
+      ),
+    [source, initial]
+  )
   const [positions, setPositions] = useState(initial)
   const [selected, setSelected] = useState<string | null>(null)
   const [zoom, setZoom] = useState(0.7)
@@ -37,7 +49,7 @@ export function ShopSchema() {
         targetColumn: string
         d: string
       }[],
-    [positions]
+    [tables, positions]
   )
   const initialWidth = Math.max(
     ...Object.values(initial).map((p) => p.x + nodeWidth + canvasPadding)
@@ -124,7 +136,7 @@ export function ShopSchema() {
             <svg width={width} height={height} aria-hidden="true">
               <defs>
                 <marker
-                  id="shop-fk-arrow"
+                  id={arrow}
                   viewBox="0 0 10 10"
                   refX="9"
                   refY="5"
@@ -143,7 +155,7 @@ export function ShopSchema() {
                     d={edge.d}
                     data-edge={edge.id}
                     fill="none"
-                    markerEnd="url(#shop-fk-arrow)"
+                    markerEnd={`url(#${arrow})`}
                     className={highlighted ? 'is-active' : ''}
                   />
                 )

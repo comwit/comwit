@@ -12,9 +12,10 @@ const repositories = {
   'packages/ui': { repository: 'ui', branch: 'main' },
   'templates/base': { repository: 'template', branch: 'main' },
   'templates/shop': { repository: 'template', branch: 'shop' },
+  'templates/course': { repository: 'template', branch: 'course' },
 }
 
-test('the parent pins product repositories and both template branches as gitlinks', () => {
+test('the parent pins product repositories and every template branch as gitlinks', () => {
   for (const [path, { repository, branch }] of Object.entries(repositories)) {
     const index = execFileSync('git', ['ls-files', '--stage', path], {
       cwd: root,
@@ -38,8 +39,8 @@ test('the parent pins product repositories and both template branches as gitlink
   }
 })
 
-test('both template snapshots match their original public files', () => {
-  for (const dir of ['templates/base', 'templates/shop']) {
+test('every template snapshot match their original public files', () => {
+  for (const dir of ['templates/base', 'templates/shop', 'templates/course']) {
     const manifest = JSON.parse(readFileSync(join(root, dir, 'PUBLIC_SOURCE.json'), 'utf8'))
     for (const [file, hash] of Object.entries(manifest.files)) {
       assert.equal(
@@ -69,7 +70,7 @@ test('the installed parent workspace excludes independent template applications'
   assert.ok(packages.some((item) => item.name === '@comwit/state'))
   assert.ok(packages.some((item) => item.name === '@comwit/ui'))
   assert.ok(packages.some((item) => item.name === 'storybook'))
-  assert.ok(!packages.some((item) => /\/templates\/(base|shop)(\/|$)/.test(item.path)))
+  assert.ok(!packages.some((item) => /\/templates\/(base|shop|course)(\/|$)/.test(item.path)))
   for (const dir of ['packages/state', 'packages/ui']) {
     assert.ok(existsSync(join(root, dir, 'pnpm-lock.yaml')))
     assert.ok(existsSync(join(root, dir, 'tsconfig.base.json')))

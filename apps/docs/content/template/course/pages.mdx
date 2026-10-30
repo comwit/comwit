@@ -1,0 +1,34 @@
+---
+title: Page structure
+group: Course Template
+order: 32
+description: Actual App Router paths and existing admin pages.
+---
+
+<a id="pages"></a>
+
+# Page structure
+
+Routes live in `src/app/`; page implementations live in `src/services/app/page/` and `src/services/admin/page/`. Learner pages are minimal working screens connected to state; `course-setup` designs them for your brand.
+
+<CourseRoutes />
+
+<a id="admin"></a>
+
+## Existing admin screens
+
+Initial setup creates `/관리자-<10 hex characters>`. Set the complete path with `NEXT_PUBLIC_ADMIN_BASE_PATH` in `.env`.
+
+```dotenv
+NEXT_PUBLIC_ADMIN_BASE_PATH=/운영실
+```
+
+Restart the dev server after changes; rebuild with the same value for deployment. `/admin` is the internal router path.
+
+There is no public admin sign-up. Set `ADMIN_INITIAL_EMAIL` and `ADMIN_INITIAL_PASSWORD` in your local `.env`, run `pnpm admin:create`, then remove both values.
+
+See the <CourseSourceLink path=".agents/scripts/setup-admin-path.mjs">admin-path setup script</CourseSourceLink> and <CourseSourceLink path="src/lib/admin-routes.ts">admin URL definitions</CourseSourceLink> for the implementation.
+
+<CourseAdminScreens />
+
+The existing stories live in `src/stories/admin/`, with API mocks in `src/stories/mocks/`. Shared layer rules: [Project structure](/template/docs/structure).

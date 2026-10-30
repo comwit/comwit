@@ -424,6 +424,7 @@ test('packed create-comwit scaffolds both complete snapshots without upstream Gi
     for (const [kind, directory, flags] of [
       ['base', 'template', []],
       ['shop', 'shop-template', ['--shop']],
+      ['course', 'course-template', ['--course']],
     ]) {
       const name = `${kind}-app`
       run(name, ...flags)
@@ -433,7 +434,7 @@ test('packed create-comwit scaffolds both complete snapshots without upstream Gi
         .filter((entry) => entry.isFile())
         .map((entry) => join(entry.parentPath, entry.name))
       assert.equal(provenance[kind].repository, 'https://github.com/comwit/template')
-      assert.equal(provenance[kind].branch, kind === 'shop' ? 'shop' : 'main')
+      assert.equal(provenance[kind].branch, kind === 'base' ? 'main' : kind)
       assert.equal(provenance[kind].files, files.length)
       assert.equal(provenance[kind].commit, git(join(root, 'templates', kind), 'rev-parse', 'HEAD'))
       for (const file of files) {
@@ -472,7 +473,10 @@ test('packed create-comwit scaffolds both complete snapshots without upstream Gi
     for (const brand of catalog.brands)
       for (const screen of brand.screens)
         assert.ok(existsSync(join(shop, '.agents/skills/shop-setup/assets', screen.file)))
+    assert.ok(existsSync(join(fixture, 'course-app/.agents/skills/course-setup/SKILL.md')))
     assert.throws(() => run('unsupported', '--shop', '--opennext'), /cannot be combined/)
+    assert.throws(() => run('unsupported', '--course', '--opennext'), /cannot be combined/)
+    assert.throws(() => run('unsupported', '--shop', '--course'), /choose one/)
     assert.ok(!existsSync(join(fixture, 'unsupported')))
   } finally {
     rmSync(fixture, { recursive: true, force: true })

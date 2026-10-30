@@ -1,0 +1,490 @@
+{
+  "captureMethod": "Dia via Codex Browser Use viewport screenshot at CSS size; no page style or image manipulation; WebP encoding only",
+  "brands": [
+    {
+      "id": "moneyroutine",
+      "name": "머니루틴",
+      "url": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "moneyroutine-home-desktop.webp",
+          "url": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/",
+          "title": "머니루틴 — 퇴근 후 루틴으로 배우는 부업·재테크",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:29:31.305Z",
+          "discoveredFrom": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/",
+          "linkText": null,
+          "sha256": "7f95de21c8a652f6186a0fa79ef2408b0bddeb5dd71edbb320c4ab16c4b1e28a"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "moneyroutine-home-mobile.webp",
+          "url": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/",
+          "title": "머니루틴 — 퇴근 후 루틴으로 배우는 부업·재테크",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:30:31.346Z",
+          "discoveredFrom": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/",
+          "linkText": null,
+          "sha256": "529b736a9b1cb20d44a10fc578bd8617ff96800d9774cb60cee5969a67a5e37f"
+        },
+        {
+          "kind": "courses",
+          "device": "desktop",
+          "file": "moneyroutine-courses-desktop.webp",
+          "url": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/courses",
+          "title": "클래스 | 머니루틴",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:32:03.294Z",
+          "discoveredFrom": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/",
+          "linkText": "클래스",
+          "sha256": "d1371bee51a4218605b96846c95a727569c015d76f5cb26190638f59efae727f"
+        },
+        {
+          "kind": "courses",
+          "device": "mobile",
+          "file": "moneyroutine-courses-mobile.webp",
+          "url": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/courses",
+          "title": "클래스 | 머니루틴",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:32:03.364Z",
+          "discoveredFrom": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/",
+          "linkText": "클래스",
+          "sha256": "1ff58cfed35459ffc32d35f20e62dfe7783d6adf57fdca48dde7542bc2fe282b"
+        },
+        {
+          "kind": "detail",
+          "device": "desktop",
+          "file": "moneyroutine-detail-desktop.webp",
+          "url": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/courses/01a187f8-5a25-71cd-bd6c-48a1ae007860",
+          "title": "AI 로 부업 업무 자동화하기",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:34:03.515Z",
+          "discoveredFrom": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/courses",
+          "linkText": "AI 로 부업 업무 자동화하기",
+          "sha256": "33a38507c734998edb5e57f4a89a204a38360c0eee57474cdc37348747e43560"
+        },
+        {
+          "kind": "detail",
+          "device": "mobile",
+          "file": "moneyroutine-detail-mobile.webp",
+          "url": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/courses/01a187f8-5a25-71cd-bd6c-48a1ae007860",
+          "title": "AI 로 부업 업무 자동화하기",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:34:14.840Z",
+          "discoveredFrom": "https://558b5039f8ef464c92e4c4e916b614a6.app.comwit.link/courses",
+          "linkText": "AI 로 부업 업무 자동화하기",
+          "sha256": "e452d3b3238ddf59a3f7ae458b8d6c55632bc035e9e883ef8378ccc9a745e959"
+        }
+      ]
+    },
+    {
+      "id": "momentumlab",
+      "name": "모멘텀랩",
+      "url": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "momentumlab-home-desktop.webp",
+          "url": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/",
+          "title": "모멘텀랩 — 무료로 시작해 수익으로 잇는 지식 창업 클래스",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:34:34.757Z",
+          "discoveredFrom": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/",
+          "linkText": null,
+          "sha256": "4a83896a9de40ae0a123bea53532b3c00497a50bfc5875f13b87076bcf48e5ff"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "momentumlab-home-mobile.webp",
+          "url": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/",
+          "title": "모멘텀랩 — 무료로 시작해 수익으로 잇는 지식 창업 클래스",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:34:34.812Z",
+          "discoveredFrom": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/",
+          "linkText": null,
+          "sha256": "2b1d5b5a646017fc8829c69256de291ea408cf8139fe24516139bb4eb769eb57"
+        },
+        {
+          "kind": "courses",
+          "device": "desktop",
+          "file": "momentumlab-courses-desktop.webp",
+          "url": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/courses",
+          "title": "강의 | 모멘텀랩",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:35:02.451Z",
+          "discoveredFrom": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/",
+          "linkText": "전체 보기",
+          "sha256": "ab0834d019745aee849aa12b65376f2cc934799c90e553a449093df4ac666925"
+        },
+        {
+          "kind": "courses",
+          "device": "mobile",
+          "file": "momentumlab-courses-mobile.webp",
+          "url": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/courses",
+          "title": "강의 | 모멘텀랩",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:35:02.513Z",
+          "discoveredFrom": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/",
+          "linkText": "전체 보기",
+          "sha256": "67942c6eb3cb58aeea33983f77edaefad4020f4209ef66664fb62bc3f1c42155"
+        },
+        {
+          "kind": "detail",
+          "device": "desktop",
+          "file": "momentumlab-detail-desktop.webp",
+          "url": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/courses/01a187f4-188e-73fe-912c-619d9c705854",
+          "title": "AI로 끝내는 콘텐츠 제작 자동화",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:35:22.330Z",
+          "discoveredFrom": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/courses",
+          "linkText": "AI로 끝내는 콘텐츠 제작 자동화",
+          "sha256": "ef717fc20ae4af12500accbe21334ced1c484d3f63d74d917f1fc2f31dfa9bca"
+        },
+        {
+          "kind": "detail",
+          "device": "mobile",
+          "file": "momentumlab-detail-mobile.webp",
+          "url": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/courses/01a187f4-188e-73fe-912c-619d9c705854",
+          "title": "AI로 끝내는 콘텐츠 제작 자동화",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:35:22.447Z",
+          "discoveredFrom": "https://ae6d79e7804e4e1c9a0ec48411da7740.app.comwit.link/courses",
+          "linkText": "AI로 끝내는 콘텐츠 제작 자동화",
+          "sha256": "fae4ec3d7f90f31dd983d7283541eefd6b1269990ec8f16b17509f6640f39e99"
+        }
+      ]
+    },
+    {
+      "id": "scaleclass",
+      "name": "스케일클래스",
+      "url": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "scaleclass-home-desktop.webp",
+          "url": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/",
+          "title": "스케일클래스 — 작게 시작해 크게 키우는 수익화 클래스",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:35:36.310Z",
+          "discoveredFrom": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/",
+          "linkText": null,
+          "sha256": "3025dc522a222e15683e36fa655bae3e7da784f88c2c47a0c6f0ba80395afdf5"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "scaleclass-home-mobile.webp",
+          "url": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/",
+          "title": "스케일클래스 — 작게 시작해 크게 키우는 수익화 클래스",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:35:36.398Z",
+          "discoveredFrom": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/",
+          "linkText": null,
+          "sha256": "a97c0ff1dc2bb671fed4359099e83c567fc39feb5c229cfcaca784a1e21ca3f4"
+        },
+        {
+          "kind": "courses",
+          "device": "desktop",
+          "file": "scaleclass-courses-desktop.webp",
+          "url": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/courses",
+          "title": "전체 클래스 | 스케일클래스",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:36:01.127Z",
+          "discoveredFrom": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/",
+          "linkText": "전체 클래스",
+          "sha256": "c28e485f560696731daa86a52c653c64867c96d7023496c0b39876e950b400b7"
+        },
+        {
+          "kind": "courses",
+          "device": "mobile",
+          "file": "scaleclass-courses-mobile.webp",
+          "url": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/courses",
+          "title": "전체 클래스 | 스케일클래스",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:36:01.189Z",
+          "discoveredFrom": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/",
+          "linkText": "전체 클래스",
+          "sha256": "68b1a51fe130a466afce69623d9729e6b00744a786f9316a4906a888883b4f01"
+        },
+        {
+          "kind": "detail",
+          "device": "desktop",
+          "file": "scaleclass-detail-desktop.webp",
+          "url": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/courses/01a187ed-c595-700a-82ad-527795cdef99",
+          "title": "강의 하나로 시작하는 지식창업 로드맵",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:36:25.377Z",
+          "discoveredFrom": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/courses",
+          "linkText": "강의 하나로 시작하는 지식창업 로드맵",
+          "sha256": "bc688cb49b3a727aeb4a033c03da1c17cf67769bc5910d34645ac4fd03a38d60"
+        },
+        {
+          "kind": "detail",
+          "device": "mobile",
+          "file": "scaleclass-detail-mobile.webp",
+          "url": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/courses/01a187ed-c595-700a-82ad-527795cdef99",
+          "title": "강의 하나로 시작하는 지식창업 로드맵",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:36:25.477Z",
+          "discoveredFrom": "https://f4a8ac628864437592cbece421d1b6d8.app.comwit.link/courses",
+          "linkText": "강의 하나로 시작하는 지식창업 로드맵",
+          "sha256": "b47ff2fcbf02ebbc0232fccb4154e097ce8c33cf757bdbc14f7f997f65ec0d8c"
+        }
+      ]
+    },
+    {
+      "id": "jisikgotgan",
+      "name": "지식곳간",
+      "url": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "jisikgotgan-home-desktop.webp",
+          "url": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/",
+          "title": "지식곳간 — 지식 창업·수익화 강의와 전자책",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:36:51.920Z",
+          "discoveredFrom": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/",
+          "linkText": null,
+          "sha256": "9182642a9139ade2d5b237fd6bf92bc634e7bd0a0e61de73bee5f1d52c06f532"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "jisikgotgan-home-mobile.webp",
+          "url": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/",
+          "title": "지식곳간 — 지식 창업·수익화 강의와 전자책",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:36:51.999Z",
+          "discoveredFrom": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/",
+          "linkText": null,
+          "sha256": "596f4611b59b0c5d2a5c894af026a5adf37faaf03f78ab8b51faa8727668c7b4"
+        },
+        {
+          "kind": "courses",
+          "device": "desktop",
+          "file": "jisikgotgan-courses-desktop.webp",
+          "url": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/courses",
+          "title": "강의 | 지식곳간",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:40:51.178Z",
+          "discoveredFrom": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/",
+          "linkText": "강의",
+          "sha256": "bd3c181fab0bf8c055246841ff19f818997e4c239ea07d7e1f2a26c5b14d2a98"
+        },
+        {
+          "kind": "courses",
+          "device": "mobile",
+          "file": "jisikgotgan-courses-mobile.webp",
+          "url": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/courses",
+          "title": "강의 | 지식곳간",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:40:51.272Z",
+          "discoveredFrom": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/",
+          "linkText": "강의",
+          "sha256": "00e5a77a48332d501a8a732220c9be5e74c25457cbc6bfa69a9bdf979b703670"
+        },
+        {
+          "kind": "detail",
+          "device": "desktop",
+          "file": "jisikgotgan-detail-desktop.webp",
+          "url": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/courses/01a187ef-bc36-73d8-9d12-d05b263ecf6d",
+          "title": "소액으로 시작하는 배당 포트폴리오",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:41:26.455Z",
+          "discoveredFrom": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/courses",
+          "linkText": "소액으로 시작하는 배당 포트폴리오",
+          "sha256": "761139e3f76270be9fef91478e8831b4125553e5a974c5b8583dd921454906cb"
+        },
+        {
+          "kind": "detail",
+          "device": "mobile",
+          "file": "jisikgotgan-detail-mobile.webp",
+          "url": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/courses/01a187ef-bc36-73d8-9d12-d05b263ecf6d",
+          "title": "소액으로 시작하는 배당 포트폴리오",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:41:26.537Z",
+          "discoveredFrom": "https://01012fa3aaca4a9ca72c2baa466edfd4.app.comwit.link/courses",
+          "linkText": "소액으로 시작하는 배당 포트폴리오",
+          "sha256": "64279994d11383f5c22f2f40575906401b6d285715902fec31c144554e2c41cb"
+        }
+      ]
+    },
+    {
+      "id": "sidenote",
+      "name": "사이드노트",
+      "url": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link",
+      "screens": [
+        {
+          "kind": "home",
+          "device": "desktop",
+          "file": "sidenote-home-desktop.webp",
+          "url": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/",
+          "title": "사이드노트 — 퇴근 후 두 번째 수입을 만드는 강의",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:41:40.939Z",
+          "discoveredFrom": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/",
+          "linkText": null,
+          "sha256": "2ffc9a1a57b03604cb7ef13567d6aca727b0310d8e8a116cfa481f3140f1da0d"
+        },
+        {
+          "kind": "home",
+          "device": "mobile",
+          "file": "sidenote-home-mobile.webp",
+          "url": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/",
+          "title": "사이드노트 — 퇴근 후 두 번째 수입을 만드는 강의",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:41:41.037Z",
+          "discoveredFrom": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/",
+          "linkText": null,
+          "sha256": "4a76e2e458a9ed4a2534669803098e420b40982ef418d35d42dee176aab77c5b"
+        },
+        {
+          "kind": "courses",
+          "device": "desktop",
+          "file": "sidenote-courses-desktop.webp",
+          "url": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/courses",
+          "title": "클래스 | 사이드노트",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:41:53.199Z",
+          "discoveredFrom": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/",
+          "linkText": "클래스",
+          "sha256": "2c880a8995f4a8b87aee9fd75393f508e6461b5f2fab227db9946573ec771f37"
+        },
+        {
+          "kind": "courses",
+          "device": "mobile",
+          "file": "sidenote-courses-mobile.webp",
+          "url": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/courses",
+          "title": "클래스 | 사이드노트",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:41:53.301Z",
+          "discoveredFrom": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/",
+          "linkText": "클래스",
+          "sha256": "37057c7ea070c8a41d429b86f27034737a62da838d9027b4b7dcfff20a418593"
+        },
+        {
+          "kind": "detail",
+          "device": "desktop",
+          "file": "sidenote-detail-desktop.webp",
+          "url": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/courses/01a187ef-65a1-73cf-bd5c-b1d3975e3c99",
+          "title": "지식 창업 로드맵: 강의 상품 설계",
+          "viewport": {
+            "height": 960,
+            "width": 1440
+          },
+          "capturedAt": "2026-10-30T07:42:29.520Z",
+          "discoveredFrom": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/courses",
+          "linkText": "지식 창업 로드맵: 강의 상품 설계",
+          "sha256": "f3a6f6175f74fd2fa1cbad6e38c43d2c655afd2394c33633bfe20a3490c3d648"
+        },
+        {
+          "kind": "detail",
+          "device": "mobile",
+          "file": "sidenote-detail-mobile.webp",
+          "url": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/courses/01a187ef-65a1-73cf-bd5c-b1d3975e3c99",
+          "title": "지식 창업 로드맵: 강의 상품 설계",
+          "viewport": {
+            "height": 844,
+            "width": 390
+          },
+          "capturedAt": "2026-10-30T07:42:29.617Z",
+          "discoveredFrom": "https://05665d5e74e645189ff92717d0c0e266.app.comwit.link/courses",
+          "linkText": "지식 창업 로드맵: 강의 상품 설계",
+          "sha256": "d8ff1396546edd3ef89c468cbd11b9f9fbfdb06a52e99126ee5625f7fdf58377"
+        }
+      ]
+    }
+  ]
+}

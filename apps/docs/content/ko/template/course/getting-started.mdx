@@ -1,0 +1,36 @@
+---
+title: 시작하기
+group: Course Template
+order: 31
+description: 강의 플랫폼을 설치하고 준비된 화면을 확인합니다.
+---
+
+<a id="course-start"></a>
+
+# 시작하기
+
+Node.js 22.16 이상 · pnpm 11.3.0
+
+```bash
+npm create comwit@latest my-course -- --course --pm pnpm
+cd my-course
+pnpm storybook
+```
+
+Storybook에서 목 API를 사용하는 페이지를 확인합니다.
+
+강의 플랫폼 소스는 같은 저장소의 [`course` 브랜치](https://github.com/comwit/template/tree/course)에 있습니다. 설정은 [강의 템플릿 README](https://github.com/comwit/template/blob/course/README.md), [환경변수 예시](https://github.com/comwit/template/blob/course/.env.example), [에이전트 지침](https://github.com/comwit/template/blob/course/AGENTS.md)을 참고하세요.
+
+<a id="connect"></a>
+
+## 프로젝트 연결
+
+Comwit 프로젝트 설정 프롬프트로 환경을 준비한 뒤 `course-setup`을 요청하세요. DB·스토리지는 <CourseSourceLink path="docs/course-resources.md">리소스 연결 안내</CourseSourceLink>를 따릅니다.
+
+```bash
+pnpm dev
+```
+
+강의 영상은 프로젝트 스토리지에 올리지 않습니다. 레슨마다 미공개 YouTube 영상이나 직접 재생할 수 있는 영상 주소를 사용합니다. 결제는 토스페이먼츠 결제위젯을 사용하며, `PAYMENT_MODE=test`와 테스트 키로 시작하세요.
+
+다른 서비스를 사용하려면 [연동 설정](/template/docs/integrations)을 참고하세요.

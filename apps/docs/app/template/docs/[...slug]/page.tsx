@@ -17,6 +17,13 @@ import {
   ShopSourceLink,
 } from '../../_components/shop-reference'
 import { ShopSchema } from '../../_components/shop-schema'
+import {
+  CourseGallery,
+  CourseRoutes,
+  CourseSchema,
+  CourseAdminScreens,
+  CourseSourceLink,
+} from '../../_components/course-reference'
 import { TableOfContents } from '../../_components/toc'
 
 export function generateStaticParams() {
@@ -44,14 +51,25 @@ export default async function TemplateDocPage({ params }: { params: Promise<{ sl
   return (
     <div
       className="tp-doc"
-      data-wide={slug.startsWith('shop/') || undefined}
-      data-gallery={slug === 'shop/overview' || undefined}
+      data-wide={slug.includes('/') || undefined}
+      data-gallery={/^(shop|course)\/overview$/.test(slug) || undefined}
     >
       <div className="tp-doc-body">
         <article className="template-guide prose max-w-none">
           <MDXRemote
             source={doc.content}
-            components={{ ShopGallery, ShopRoutes, ShopSchema, ShopAdminScreens, ShopSourceLink }}
+            components={{
+              ShopGallery,
+              ShopRoutes,
+              ShopSchema,
+              ShopAdminScreens,
+              ShopSourceLink,
+              CourseGallery,
+              CourseRoutes,
+              CourseSchema,
+              CourseAdminScreens,
+              CourseSourceLink,
+            }}
             options={{
               mdxOptions: {
                 remarkPlugins: [remarkGfm, remarkStableAnchors],

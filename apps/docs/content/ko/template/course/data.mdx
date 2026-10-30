@@ -1,0 +1,22 @@
+---
+title: 데이터 구조
+group: Course Template
+order: 33
+description: 실제 Drizzle 테이블과 외래키를 살펴봅니다.
+---
+
+<a id="data"></a>
+
+# 데이터 구조
+
+`src/server/db/tables/`와 app/admin 인증 스키마에서 생성한 **테이블 37개·컬럼 407개·외래키 46개**입니다. 각 테이블에 전체 컬럼과 SQL 타입, NULL 허용 여부, 키를 표시합니다. `NN`은 NOT NULL입니다.
+
+<CourseSchema />
+
+<a id="schema-changes"></a>
+
+## 스키마 변경
+
+`src/server/db/tables/<도메인>-schema.ts`에서 테이블을 추가·수정하고 `src/server/db/schema.ts`에서 내보냅니다. 마이그레이션을 생성한 뒤 SQL을 검토합니다. 연결된 DB에 적용되므로 실행은 명시적인 승인 후 진행합니다. 강의와 커리큘럼, 수강과 레슨 진도, 디지털 상품과 다운로드, 주문, 결제, 환불, 쿠폰을 위한 테이블이 이미 준비되어 있습니다. 수강생과 관리자 인증 테이블도 분리돼 있습니다.
+
+관계도에는 선언된 외래키만 표시합니다. 컬럼 이름이 비슷하다는 이유로 관계를 추측하지 않습니다. 데이터 접근은 [공통 레이어와 저장소](/template/docs/structure)를 따릅니다.
