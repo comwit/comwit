@@ -83,7 +83,7 @@ function Comments({ postId }: { postId: string }) {
 - `enabled` 또는 `dependsOn`이 요청을 막으면 선택자는 현재 상태를 반환합니다.
 - `queryFn`은 SSR 중 서버에서도 실행됩니다. 절대 URL로 Route Handler나 외부 API를 호출하고 JSON 직렬화 가능한 데이터를 반환하세요. 데이터베이스 코드와 Server Function은 [`hydrate()`](#server-data-hydrate-or-suspend)로 처리합니다.
 - 지원 대상은 단일/무한 쿼리와 `local.query()` / `local.infinite()`입니다. 실시간 쿼리와 `AsyncIterable` fetcher는 제외됩니다.
-- `.suspend()`는 실험적 기능으로 표시되어 있습니다. 디스크립터 옵션 `suspense: true`와 `Query.Suspense*` 타입은 더 이상 권장하지 않습니다.
+- 디스크립터 옵션 `suspense: true`와 `Query.Suspense*` 타입은 더 이상 권장하지 않습니다.
 
 <a id="load-from-a-selector"></a>
 

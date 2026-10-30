@@ -154,7 +154,6 @@ function ProductGrid({ page }: { page: number }) {
 - `<Suspense>` 경계는 프로바이더 안에 두세요.
 - 스트리밍된 항목은 서버에서 가져온 시각을 유지하므로 이후 `.load()`와 `.query()` 호출에 `staleTime`이 그대로 적용됩니다.
 - 실시간 쿼리, 스트리밍 `AsyncIterable` fetcher, `renderToString`, Pages Router는 지원하지 않습니다.
-- `.suspend()`와 이 프로바이더 속성은 API에서 아직 실험적 기능으로 표시되어 있습니다.
 
 `useServerInsertedHTML`이 없으면 서버와 브라우저 캐시가 분리되어 브라우저가 하이드레이션 중 `queryFn`을 다시 실행합니다.
 
