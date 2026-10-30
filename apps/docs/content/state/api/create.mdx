@@ -53,8 +53,9 @@ function PostDetail({ slug }: { slug: string }) {
 
 No Server Component fetch or adapter is needed. `queryFn` runs on both server and browser.
 
-Alternative: when the read needs server-only code, await it in a Server Component and seed the
-entry with the hook's `hydrate(entries)` method:
+Alternative: in a framework whose provider has no `useServerInsertedHTML`, a server response cannot
+reach the client cache, so client navigation requests it again. Pass the server result to the hook's
+`hydrate(entries)` method there. Next.js does not need it:
 
 ```tsx
 'use client'

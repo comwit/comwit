@@ -166,7 +166,7 @@ function ProductDetail({ id }: { id: string }) {
 ```
 
 ```tsx
-// Alternative when queryFn cannot run during SSR: seed data a Server Component awaited.
+// Alternative without useServerInsertedHTML: seed the result fetched on the server.
 function ProductRoute({ id, initialDetail }: Props) {
   useProduct.hydrate({ detail: { arg: { id }, data: initialDetail } })
   return <ProductPanel /> // reads state.detail.data

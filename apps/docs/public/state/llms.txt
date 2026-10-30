@@ -149,10 +149,11 @@ function ProductList({ filter }: { filter: ProductFilter }) {
 Use `.load(arg)` when the component renders its own loading and error UI. It does not request
 during SSR.
 
-### Alternative: `hydrate()`
+### SSR alternative: `hydrate()`
 
-Only when `queryFn` cannot run during SSR (database code, Server Functions): await the value in a
-Server Component and seed it in a client adapter before the domain hook is read.
+In a framework whose provider has no `useServerInsertedHTML` (or an equivalent), a server response
+cannot reach the client cache, so client navigation requests it again. There, fetch on the server
+and pass the result to `hydrate()` before the domain hook is read. Next.js does not need this.
 
 ```tsx
 'use client'
@@ -297,7 +298,7 @@ await search(snapshot(this.m.filters))
 - Query arguments and route identities are explicit.
 - Server data uses `.suspend()` in the reading component inside `<Suspense>`; the provider has
   `useServerInsertedHTML`, and `queryFn` works on server and browser.
-- `.load()` owns client-only fetching. `hydrate()` only for reads that must stay on the server.
+- `.load()` owns client-only fetching. `hydrate()` only in frameworks without `useServerInsertedHTML`.
 - Passive selectors do not accidentally fetch.
 - Loading, error, empty, and background-fetch UX is defined.
 - No action or public proxy mutation initializes state during render.

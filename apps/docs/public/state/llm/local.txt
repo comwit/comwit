@@ -126,7 +126,7 @@ call a mutating action during render.
 const list = useProduct((state) => state.list.suspend(filter))
 ```
 
-If `queryFn` cannot run during SSR, seed the entry instead:
+In a framework without `useServerInsertedHTML`, seed the server result instead:
 `useProduct.hydrate({ list: { arg: filter, data: initialList } })`.
 
 ## Query-backed local resources

@@ -213,7 +213,7 @@ import { useServerInsertedHTML } from 'next/navigation'
   19 streaming SSR in the Next.js App Router, not `renderToString` or the Pages Router.
 - Use `.load(arg)` when the component should render its own loading and error states.
 - The deprecated `{ suspense: true }` option and `Query.Suspense*` types are replaced by `.suspend(arg)`.
-- If `queryFn` cannot run during SSR, see `hydrate()` under "Next.js server rendering" below.
+- Frameworks without `useServerInsertedHTML`: see `hydrate()` under "Next.js server rendering" below.
 
 ## Methods
 
@@ -465,9 +465,10 @@ function ProductDetail({ id }: { id: string }) {
 }
 ```
 
-Alternative — `hydrate()`: when `queryFn` cannot run during SSR (database code, Next.js Server
-Functions), await the data in a Server Component and seed it in a client route adapter before the
-domain hook is read. It never calls `queryFn`:
+SSR alternative — `hydrate()`: in a framework whose provider has no `useServerInsertedHTML` (or an
+equivalent), a server response cannot reach the client cache, so client navigation requests it
+again. There, fetch on the server and seed the result before the domain hook is read. It never calls
+`queryFn`. Next.js does not need this:
 
 ```tsx
 function ProductRoute({ id, initialDetail }: Props) {

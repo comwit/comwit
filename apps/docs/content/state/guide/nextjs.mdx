@@ -179,20 +179,23 @@ function ProductReviews({ id }: { id: string }) {
 
 ## Choose who owns the request
 
-| Data owner                           | Pattern                                                    |
-| ------------------------------------ | ---------------------------------------------------------- |
-| A streamed `<Suspense>` boundary     | `.suspend(arg)` with `useServerInsertedHTML`               |
-| A mounted Client Component           | `.load(arg)` and render loading/error state                |
-| Server-only code (database, secrets) | Await in a Server Component, then `useDomain.hydrate(...)` |
-| A user event or coordinated workflow | An action calling `.query(arg)` or `.refetch()`            |
-| An IndexedDB-only fallback           | Standalone `local()` with `.restore(arg)`                  |
+| Data owner                                  | Pattern                                            |
+| ------------------------------------------- | -------------------------------------------------- |
+| A streamed `<Suspense>` boundary            | `.suspend(arg)` with `useServerInsertedHTML`       |
+| A mounted Client Component                  | `.load(arg)` and render loading/error state        |
+| A framework without `useServerInsertedHTML` | Fetch on the server, then `useDomain.hydrate(...)` |
+| A user event or coordinated workflow        | An action calling `.query(arg)` or `.refetch()`    |
+| An IndexedDB-only fallback                  | Standalone `local()` with `.restore(arg)`          |
 
 <a id="3-hydrate-before-the-domain-read"></a>
 
 ## Alternative: `hydrate()`
 
-Use `hydrate()` when `queryFn` cannot run during SSR, for example when the read needs database code
-or a Server Function. Await the value in a Server Component and seed it in a client adapter:
+In a framework whose provider has no `useServerInsertedHTML` (or an equivalent) to pass, a server
+response cannot reach the client cache, so navigating on the client requests it again. There, fetch
+on the server and pass the result to `hydrate()`. Next.js does not need this; pass
+`useServerInsertedHTML` instead.
+The shape of that call:
 
 ```tsx
 // app/products/[id]/page.tsx (Server Component)

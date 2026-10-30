@@ -49,7 +49,7 @@ export const postActions = action<Pick<PostActions, 'init' | 'loadPosts' | 'crea
 ```
 
 Do not call a mutating action directly during render. Read server-rendered data with selector
-`.suspend(arg)` (or `useDomain.hydrate(...)` when the fetch must stay on the server). Actions
+`.suspend(arg)` (or `useDomain.hydrate(...)` in a framework without `useServerInsertedHTML`). Actions
 remain the right place for user events, imperative preloads, and coordinated workflows.
 
 ## Factory parameters

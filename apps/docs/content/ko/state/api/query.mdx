@@ -49,41 +49,7 @@ export type PostState = {
 
 ## 컴포넌트에서 읽기
 
-쿼리에는 요청을 소유하는 선택자 메서드가 두 가지 있습니다. 데이터를 서버에서 렌더링하거나 `<Suspense>` 대체 화면 뒤에서 기다리려면 `.suspend(arg)`를 사용하세요. 컴포넌트가 직접 로딩 상태를 렌더링하면 `.load(arg)`를 사용하세요. 두 메서드 없이 쿼리를 선택하면 수동적으로 읽기만 합니다.
-
-<a id="experimental-selector-suspense"></a>
-
-## `.suspend(arg)`: Suspense와 SSR
-
-```tsx
-'use client'
-
-function PostList() {
-  const posts = usePost((state) => state.posts.suspend())
-  return posts.data.map((post) => <PostCard key={post.id} post={post} />)
-}
-
-function Comments({ postId }: { postId: string }) {
-  const comments = usePost((state) => state.comments.suspend(postId))
-  return comments.data.map((comment) => <CommentItem key={comment.id} comment={comment} />)
-}
-```
-
-```tsx
-<Suspense fallback={<PostSkeleton />}>
-  <PostList />
-</Suspense>
-```
-
-[`ComwitProvider`](/state/docs/api/provider)에 `useServerInsertedHTML`이 있으면 서버 렌더링이 `queryFn`을 실행해 결과를 브라우저 캐시로 스트리밍하고, 하이드레이션은 두 번째 요청 없이 같은 데이터를 렌더링합니다. 데이터를 읽는 컴포넌트가 전체 경로이며 Server Component의 fetch나 라우트 어댑터가 필요 없습니다. [Next.js 가이드](/state/docs/guide/nextjs)를 참고하세요.
-
-- 렌더링 중 키에 해당하는 요청을 시작하거나 재사용하고 대기 중이면 일시 중단합니다(React 19에서는 `use()`, React 18에서는 Promise를 던집니다).
-- 추론된 쿼리 인수만 전달하세요. Promise나 초기 데이터는 받지 않습니다. 인수가 바뀌면 새 키로 다시 일시 중단합니다.
-- 이후 재요청 중에도 성공한 데이터는 계속 보입니다. 새로고침 표시에는 `isFetching`을 사용하고, 최초 실패에 대비해 오류 경계를 추가하세요.
-- `enabled` 또는 `dependsOn`이 요청을 막으면 선택자는 현재 상태를 반환합니다.
-- `queryFn`은 SSR 중 서버에서도 실행됩니다. 절대 URL로 Route Handler나 외부 API를 호출하고 JSON 직렬화 가능한 데이터를 반환하세요. 데이터베이스 코드와 Server Function은 [`hydrate()`](#server-data-hydrate-or-suspend)로 처리합니다.
-- 지원 대상은 단일/무한 쿼리와 `local.query()` / `local.infinite()`입니다. 실시간 쿼리와 `AsyncIterable` fetcher는 제외됩니다.
-- 디스크립터 옵션 `suspense: true`와 `Query.Suspense*` 타입은 더 이상 권장하지 않습니다.
+쿼리에는 요청을 소유하는 선택자 메서드가 두 가지 있습니다. 컴포넌트가 직접 로딩 상태를 렌더링하면 `.load(arg)`를 사용하세요. 데이터를 서버에서 렌더링하거나 `<Suspense>` 대체 화면 뒤에서 기다리려면 `.suspend(arg)`를 사용하세요. 두 메서드 없이 쿼리를 선택하면 수동적으로 읽기만 합니다.
 
 <a id="load-from-a-selector"></a>
 
@@ -121,11 +87,45 @@ const cached = useDashboard((state) => state.list) // passive read
 
 기존 effect 기반 액션도 계속 지원합니다. 요청이 마운트된 화면에 속하면 선택자 `load`를, 로딩이 명령, 연속 실행, 미리 로드, 사용자 이벤트의 일부라면 액션의 `.query()`를 사용하세요.
 
+<a id="experimental-selector-suspense"></a>
+
+## `.suspend(arg)`: Suspense와 SSR
+
+```tsx
+'use client'
+
+function PostList() {
+  const posts = usePost((state) => state.posts.suspend())
+  return posts.data.map((post) => <PostCard key={post.id} post={post} />)
+}
+
+function Comments({ postId }: { postId: string }) {
+  const comments = usePost((state) => state.comments.suspend(postId))
+  return comments.data.map((comment) => <CommentItem key={comment.id} comment={comment} />)
+}
+```
+
+```tsx
+<Suspense fallback={<PostSkeleton />}>
+  <PostList />
+</Suspense>
+```
+
+[`ComwitProvider`](/state/docs/api/provider)에 `useServerInsertedHTML`이 있으면 서버 렌더링이 `queryFn`을 실행해 결과를 브라우저 캐시로 스트리밍하고, 하이드레이션은 두 번째 요청 없이 같은 데이터를 렌더링합니다. 데이터를 읽는 컴포넌트가 전체 경로이며 Server Component의 fetch나 라우트 어댑터가 필요 없습니다. [Next.js 가이드](/state/docs/guide/nextjs)를 참고하세요.
+
+- 렌더링 중 키에 해당하는 요청을 시작하거나 재사용하고 대기 중이면 일시 중단합니다(React 19에서는 `use()`, React 18에서는 Promise를 던집니다).
+- 추론된 쿼리 인수만 전달하세요. Promise나 초기 데이터는 받지 않습니다. 인수가 바뀌면 새 키로 다시 일시 중단합니다.
+- 이후 재요청 중에도 성공한 데이터는 계속 보입니다. 새로고침 표시에는 `isFetching`을 사용하고, 최초 실패에 대비해 오류 경계를 추가하세요.
+- `enabled` 또는 `dependsOn`이 요청을 막으면 선택자는 현재 상태를 반환합니다.
+- `queryFn`은 SSR 중 서버에서도 실행됩니다. 절대 URL로 Route Handler나 외부 API를 호출하고 JSON 직렬화 가능한 데이터를 반환하세요. 데이터베이스 코드를 가져오거나 Server Function을 호출하지 마세요.
+- 지원 대상은 단일/무한 쿼리와 `local.query()` / `local.infinite()`입니다. 실시간 쿼리와 `AsyncIterable` fetcher는 제외됩니다.
+- 디스크립터 옵션 `suspense: true`와 `Query.Suspense*` 타입은 더 이상 권장하지 않습니다.
+
 <a id="server-data-hydrate-or-suspend"></a>
 
-## 대안: `hydrate()`
+## `hydrate()`: SSR 대안
 
-`queryFn`을 SSR 중 실행할 수 없으면 Server Component에서 값을 기다린 뒤 `create()`로 만든 훅으로 클라이언트 어댑터에서 쿼리를 초기화하세요.
+프로바이더에 넘길 `useServerInsertedHTML` 같은 수단이 없는 프레임워크에서는 서버 응답이 클라이언트 캐시로 전달되지 않아 클라이언트에서 이동할 때 한 번 더 호출합니다. 이때 서버에서 받은 값을 `hydrate()`로 넘기세요. Next.js는 `useServerInsertedHTML`을 쓰면 되므로 필요 없습니다. `create()`로 만든 훅이 쿼리를 초기화합니다.
 
 ```tsx
 'use client'
@@ -147,12 +147,12 @@ function Comments({ postId }: { postId: string }) {
 
 ## 메서드
 
-React 선택자에서 쿼리는 `.suspend(arg?)`와 `.load(arg?)`를 제공합니다. `create()`로 생성한 훅은 `.hydrate(entries)`도 제공합니다. 액션의 `state()`로 접근하면 다음 명령형 메서드를 제공합니다.
+React 선택자에서 쿼리는 `.load(arg?)`와 `.suspend(arg?)`를 제공합니다. `create()`로 생성한 훅은 `.hydrate(entries)`도 제공합니다. 액션의 `state()`로 접근하면 다음 명령형 메서드를 제공합니다.
 
 | 메서드                 | 위치   | 설명                                                                                     |
 | ---------------------- | ------ | ---------------------------------------------------------------------------------------- |
-| `.suspend(arg?)`       | 선택자 | 렌더링 중 시작하고 일시 중단합니다. `useServerInsertedHTML`로 SSR 결과를 스트리밍합니다. |
 | `.load(arg?)`          | 선택자 | 중단 없이 로드합니다. 커밋 후 시작하며 로딩 상태를 반환합니다.                           |
+| `.suspend(arg?)`       | 선택자 | 렌더링 중 시작하고 일시 중단합니다. `useServerInsertedHTML`로 SSR 결과를 스트리밍합니다. |
 | `useDomain.hydrate()`  | 훅     | 첫 모델 스냅샷 전에 완료된 서버 쿼리 값을 초기화합니다.                                  |
 | `.query(arg?)`         | 액션   | 데이터를 가져옵니다. staleTime을 따르며 데이터가 최신이면 건너뜁니다.                    |
 | `.refetch()`           | 액션   | 마지막으로 사용한 인수로 강제로 다시 가져옵니다.                                         |

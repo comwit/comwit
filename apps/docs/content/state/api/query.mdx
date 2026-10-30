@@ -47,52 +47,9 @@ export type PostState = {
 
 ## Read in components
 
-A query has two request-owning selector methods. Use `.suspend(arg)` when the data should render on
-the server or behind a `<Suspense>` fallback. Use `.load(arg)` when the component renders its own
-loading state. Selecting the query without either method is a passive read.
-
-<a id="experimental-selector-suspense"></a>
-
-## `.suspend(arg)`: Suspense and SSR
-
-```tsx
-'use client'
-
-function PostList() {
-  const posts = usePost((state) => state.posts.suspend())
-  return posts.data.map((post) => <PostCard key={post.id} post={post} />)
-}
-
-function Comments({ postId }: { postId: string }) {
-  const comments = usePost((state) => state.comments.suspend(postId))
-  return comments.data.map((comment) => <CommentItem key={comment.id} comment={comment} />)
-}
-```
-
-```tsx
-<Suspense fallback={<PostSkeleton />}>
-  <PostList />
-</Suspense>
-```
-
-With `useServerInsertedHTML` on [`ComwitProvider`](/state/docs/api/provider), the server render runs
-`queryFn` and streams the result into the browser cache, and hydration renders the same data without
-a second request. The component that reads the data is the whole path: no Server Component fetch
-and no route adapter. See the [Next.js guide](/state/docs/guide/nextjs).
-
-- It starts or reuses a keyed request during render and suspends while pending (`use()` on React 19,
-  a thrown Promise on React 18).
-- Pass only the inferred query argument, never a Promise or initial data. A new argument suspends
-  for the new key.
-- Later refetches keep successful data visible; use `isFetching` for a refresh indicator. Add an
-  error boundary for initial failures.
-- If `enabled` or `dependsOn` blocks the request, the selector returns the current state.
-- `queryFn` also runs on the server during SSR. Call a Route Handler or an external API with an
-  absolute URL and return JSON-serializable data. Database code and Server Functions go through
-  [`hydrate()`](#server-data-hydrate-or-suspend).
-- Supported: single/infinite queries and `local.query()` / `local.infinite()`. Realtime queries and
-  `AsyncIterable` fetchers are excluded.
-- The descriptor option `suspense: true` and `Query.Suspense*` types are deprecated.
+A query has two request-owning selector methods. Use `.load(arg)` when the component renders its
+own loading state. Use `.suspend(arg)` when the data should render on the server or behind a
+`<Suspense>` fallback. Selecting the query without either method is a passive read.
 
 <a id="load-from-a-selector"></a>
 
@@ -131,12 +88,58 @@ const cached = useDashboard((state) => state.list) // passive read
 
 Existing effect-driven actions remain supported. Use selector `load` when the request belongs to the mounted view; use action `.query()` when loading is part of a command, sequence, preload, or user event.
 
+<a id="experimental-selector-suspense"></a>
+
+## `.suspend(arg)`: Suspense and SSR
+
+```tsx
+'use client'
+
+function PostList() {
+  const posts = usePost((state) => state.posts.suspend())
+  return posts.data.map((post) => <PostCard key={post.id} post={post} />)
+}
+
+function Comments({ postId }: { postId: string }) {
+  const comments = usePost((state) => state.comments.suspend(postId))
+  return comments.data.map((comment) => <CommentItem key={comment.id} comment={comment} />)
+}
+```
+
+```tsx
+<Suspense fallback={<PostSkeleton />}>
+  <PostList />
+</Suspense>
+```
+
+With `useServerInsertedHTML` on [`ComwitProvider`](/state/docs/api/provider), the server render runs
+`queryFn` and streams the result into the browser cache, and hydration renders the same data without
+a second request. The component that reads the data is the whole path: no Server Component fetch
+and no route adapter. See the [Next.js guide](/state/docs/guide/nextjs).
+
+- It starts or reuses a keyed request during render and suspends while pending (`use()` on React 19,
+  a thrown Promise on React 18).
+- Pass only the inferred query argument, never a Promise or initial data. A new argument suspends
+  for the new key.
+- Later refetches keep successful data visible; use `isFetching` for a refresh indicator. Add an
+  error boundary for initial failures.
+- If `enabled` or `dependsOn` blocks the request, the selector returns the current state.
+- `queryFn` also runs on the server during SSR. Call a Route Handler or an external API with an
+  absolute URL and return JSON-serializable data. Do not import database code or call Server
+  Functions there.
+- Supported: single/infinite queries and `local.query()` / `local.infinite()`. Realtime queries and
+  `AsyncIterable` fetchers are excluded.
+- The descriptor option `suspense: true` and `Query.Suspense*` types are deprecated.
+
 <a id="server-data-hydrate-or-suspend"></a>
 
-## Alternative: `hydrate()`
+## `hydrate()`: SSR alternative
 
-When `queryFn` cannot run during SSR, await the value in a Server Component and seed the query in a
-client adapter through the hook generated by `create()`:
+In a framework whose provider has no `useServerInsertedHTML` (or an equivalent) to pass, a server
+response cannot reach the client cache, so navigating on the client requests it again. There, fetch
+on the server and pass the result to `hydrate()`. Next.js does not need this; pass
+`useServerInsertedHTML` instead.
+The hook generated by `create()` seeds the query:
 
 ```tsx
 'use client'
@@ -158,14 +161,14 @@ and never calls `queryFn`. Supported fields: `query()`, `query.infinite()`, `loc
 
 ## Methods
 
-Inside React selectors, a query exposes `.suspend(arg?)` and `.load(arg?)`. A hook
+Inside React selectors, a query exposes `.load(arg?)` and `.suspend(arg?)`. A hook
 generated by `create()` also exposes `.hydrate(entries)`. Once accessed via
 `state()` in an action, it exposes these imperative methods:
 
 | Method                 | Where    | Description                                                                       |
 | ---------------------- | -------- | --------------------------------------------------------------------------------- |
-| `.suspend(arg?)`       | Selector | Start during render and suspend; streams from SSR with `useServerInsertedHTML`.   |
 | `.load(arg?)`          | Selector | Non-suspending load; starts after commit and returns loading state.               |
+| `.suspend(arg?)`       | Selector | Start during render and suspend; streams from SSR with `useServerInsertedHTML`.   |
 | `useDomain.hydrate()`  | Hook     | Initialize resolved server query values before the first model snapshot.          |
 | `.query(arg?)`         | Action   | Fetch data. Respects staleTime — skips if data is fresh.                          |
 | `.refetch()`           | Action   | Force re-fetch with the last used argument.                                       |

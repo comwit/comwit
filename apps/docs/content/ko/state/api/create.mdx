@@ -55,7 +55,7 @@ function PostDetail({ slug }: { slug: string }) {
 
 Server Component의 fetch나 어댑터가 필요 없습니다. `queryFn`은 서버와 브라우저 모두에서 실행됩니다.
 
-대안: 서버 전용 코드가 필요한 읽기는 Server Component에서 기다린 뒤 훅의 `hydrate(entries)` 메서드로 항목을 초기화하세요.
+대안: 프로바이더에 `useServerInsertedHTML`이 없는 프레임워크에서는 서버 응답이 클라이언트 캐시로 전달되지 않아 클라이언트에서 이동할 때 한 번 더 호출합니다. 이때 서버 결과를 훅의 `hydrate(entries)` 메서드로 넘기세요. Next.js에서는 필요 없습니다.
 
 ```tsx
 'use client'

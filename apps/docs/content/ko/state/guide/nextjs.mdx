@@ -179,19 +179,19 @@ function ProductReviews({ id }: { id: string }) {
 
 ## 요청 소유자 선택
 
-| 데이터 소유자                         | 패턴                                                    |
-| ------------------------------------- | ------------------------------------------------------- |
-| 스트리밍되는 `<Suspense>` 경계        | `.suspend(arg)`와 `useServerInsertedHTML`               |
-| 마운트된 Client Component             | `.load(arg)`를 호출하고 로딩/오류 상태 렌더링           |
-| 서버 전용 코드(데이터베이스, 비밀 값) | Server Component에서 기다린 후 `useDomain.hydrate(...)` |
-| 사용자 이벤트 또는 조율된 작업 흐름   | `.query(arg)` 또는 `.refetch()`를 호출하는 액션         |
-| IndexedDB만 사용하는 대체 화면        | 독립형 `local()`과 `.restore(arg)`                      |
+| 데이터 소유자                             | 패턴                                            |
+| ----------------------------------------- | ----------------------------------------------- |
+| 스트리밍되는 `<Suspense>` 경계            | `.suspend(arg)`와 `useServerInsertedHTML`       |
+| 마운트된 Client Component                 | `.load(arg)`를 호출하고 로딩/오류 상태 렌더링   |
+| `useServerInsertedHTML`이 없는 프레임워크 | 서버에서 가져온 뒤 `useDomain.hydrate(...)`     |
+| 사용자 이벤트 또는 조율된 작업 흐름       | `.query(arg)` 또는 `.refetch()`를 호출하는 액션 |
+| IndexedDB만 사용하는 대체 화면            | 독립형 `local()`과 `.restore(arg)`              |
 
 <a id="3-hydrate-before-the-domain-read"></a>
 
 ## 대안: `hydrate()`
 
-데이터베이스 코드나 Server Function이 필요해 `queryFn`을 SSR 중 실행할 수 없을 때 `hydrate()`를 사용하세요. Server Component에서 값을 기다린 뒤 클라이언트 어댑터에서 초기화합니다.
+프로바이더에 넘길 `useServerInsertedHTML` 같은 수단이 없는 프레임워크에서는 서버 응답이 클라이언트 캐시로 전달되지 않아 클라이언트에서 이동할 때 한 번 더 호출합니다. 이때 서버에서 받은 값을 `hydrate()`로 넘기세요. Next.js는 `useServerInsertedHTML`을 쓰면 되므로 필요 없습니다. 호출 형태는 다음과 같습니다.
 
 ```tsx
 // app/products/[id]/page.tsx (Server Component)
