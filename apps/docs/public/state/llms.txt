@@ -9,9 +9,8 @@ set it up, and call it from components and actions. Follow the linked references
 yarn add @comwit/state
 ```
 
-Wrap the client tree once with `ComwitProvider`. In Next.js, pass `getServerSearchParams` when
-`searchParam()` fields need URL values during SSR. Pass `useServerInsertedHTML` when using
-experimental `.suspend()` with SSR to reuse server results in the browser. Omit props you do not use.
+Wrap the client tree once with `ComwitProvider` and pass Next.js `useServerInsertedHTML`. That is
+the whole SSR setup: `.suspend()` results resolved on the server stream into the browser cache.
 
 ```tsx
 'use client'
@@ -19,20 +18,15 @@ experimental `.suspend()` with SSR to reuse server results in the browser. Omit 
 import { ComwitProvider } from '@comwit/state'
 import { useServerInsertedHTML } from 'next/navigation'
 
-<ComwitProvider
-  key={user.id}
-  context={{ router }}
-  getServerSearchParams={getServerSearchParams}
-  useServerInsertedHTML={useServerInsertedHTML}
-  defaultOptions={{
-    query: { staleTime: 30_000, gcTime: 5 * 60_000 },
-    local: { database: 'my-app', scope: `user:${user.id}` },
-  }}
->
-  {children}
-</ComwitProvider>
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ComwitProvider useServerInsertedHTML={useServerInsertedHTML}>{children}</ComwitProvider>
+  )
+}
 ```
 
+Optional props: `context` (values for actions, e.g. `{ router }`), `defaultOptions`
+(`query`, `local`, `persist`, `interceptors`), and `getServerSearchParams` for `searchParam()` SSR.
 Enable `experimentalDecorators` when using decorators.
 
 ## Domain structure
@@ -97,10 +91,13 @@ export const product = model<ProductState>({
 - `local.query()` / `local.infinite()`: query lifecycle plus normalized IndexedDB views.
 - Plain values: client-owned reactive state.
 
-## Read, load, hydrate, or suspend queries
+## Read queries: suspend or load
 
 ```tsx
-// Client fetching: render your own loading and error UI.
+// Server-rendered: SSR runs queryFn and streams the result into the browser cache.
+const detail = useProduct((state) => state.detail.suspend(slug))
+
+// Client-only: renders isLoading first, requests after commit.
 const list = useProduct((state) => state.products.load(filter))
 
 // Passive. Never starts a request.
@@ -110,57 +107,18 @@ const cached = useProduct((state) => state.products)
 const draft = useProduct((state) => state.draft.restore(slug))
 ```
 
-Use `.load(arg)` when the mounted client component owns the request and renders `isLoading` /
-`isError` itself.
+### Server data with `.suspend()`
 
-### Server data: `hydrate()` or `.suspend()` (experimental)
-
-Choose per route:
-
-- Use `hydrate()` for data fetched in a Server Component, including database reads and Server
-  Functions. This is the stable option.
-- Use experimental `.suspend(arg)` to fetch where the component reads the data and show a
-  `<Suspense>` fallback while loading. For SSR, `queryFn` must work on both server and browser.
-
-For `hydrate()`, await the server function, pass the resolved value to a small client route
-adapter, and call `hydrate()` before reading the domain hook:
+Put the reading Client Component inside `<Suspense>`. No Server Component fetch, no route adapter,
+no extra folder: the component that reads the data owns the request.
 
 ```tsx
-// Server Component
-async function ProductDetailLoader({ slug }: { slug: string }) {
-  const initialDetail = await productApi.detail(slug)
-  return <ProductDetailRoute slug={slug} initialDetail={initialDetail} />
-}
-
-// Small Client Component route adapter
-'use client'
-
-function ProductDetailRoute({ slug, initialDetail }: Props) {
-  useProduct.hydrate({ detail: { arg: slug, data: initialDetail } })
-  return <ProductDetail />
-}
-
-// Actual UI reads the domain hook; it receives no server-data prop.
-function ProductDetail() {
-  const detail = useProduct((state) => state.detail.data)
-  if (!detail) return <NotFound />
-  return <ProductView product={detail} />
-}
-```
-
-Call `hydrate()` unconditionally, before any normal domain-hook read for that model. Pass entries
-as `{ field: { arg, data } }`; `null` / `undefined` are allowed when there is no data to supply.
-It returns `void` and uses the supplied data without calling `queryFn`.
-
-For experimental `.suspend(arg)`, put the reading component inside `<Suspense>` under the provider:
-
-```tsx
-// Show the skeleton while the query loads.
+// app/products/[slug]/page.tsx
 <Suspense fallback={<ProductSkeleton />}>
   <ProductDetail slug={slug} />
 </Suspense>
 
-// Client Component — experimental. For SSR, pass useServerInsertedHTML to ComwitProvider.
+// ProductDetail.tsx
 'use client'
 
 function ProductDetail({ slug }: { slug: string }) {
@@ -169,19 +127,41 @@ function ProductDetail({ slug }: { slug: string }) {
 }
 ```
 
-Pass only the query argument to `.suspend(arg)`, not a Promise or initial data. Add an error
-boundary for failed requests. Later refetches keep existing data visible; use `isFetching` for a
-refresh indicator.
+- `queryFn` runs on the server during SSR and in the browser later. Call a Route Handler or an
+  external API with an absolute URL; return JSON-serializable data.
+- Pass only the query argument to `.suspend(arg)`. A new argument suspends for the new key.
+- Add an error boundary for failed requests. Later refetches keep data visible; use `isFetching`.
+- Supported: single/infinite queries and `local.query()` / `local.infinite()`. Not realtime or
+  streaming fetchers. Use `.suspend()` instead of the deprecated `suspense: true` option and
+  `Query.Suspense*` types.
 
-For Next.js SSR, pass `useServerInsertedHTML` to `ComwitProvider` (available in the `2.5.0` beta
-line) to reuse the server result without a second browser request. Without it, the browser fetches
-again during hydration. Use a Route Handler or external API with an absolute URL for server-side
-`fetch`. Do not call Server Functions or import database code in this `queryFn`; use `hydrate()`
-for those cases. Return JSON-serializable data.
+### Client loading with `.load()`
 
-Supported: single/infinite queries and `local.query()` / `local.infinite()`. Realtime and streaming
-fetchers do not support `.suspend()`. Use `.suspend()` in new code instead of the deprecated
-`suspense: true` option and `Query.Suspense*` types.
+```tsx
+function ProductList({ filter }: { filter: ProductFilter }) {
+  const list = useProduct((state) => state.products.load(filter))
+  if (list.isLoading) return <ListSkeleton />
+  if (list.isError) return <ErrorMessage message={list.error} />
+  return <Products items={list.data} />
+}
+```
+
+Use `.load(arg)` when the component renders its own loading and error UI. It does not request
+during SSR.
+
+### Alternative: `hydrate()`
+
+Only when `queryFn` cannot run during SSR (database code, Server Functions): await the value in a
+Server Component and seed it in a client adapter before the domain hook is read.
+
+```tsx
+'use client'
+
+function ProductRoute({ slug, initialDetail }: Props) {
+  useProduct.hydrate({ detail: { arg: slug, data: initialDetail } })
+  return <ProductDetail />
+}
+```
 
 Query state: `data`, `isLoading`, `isFetching`, `isSuccess`, `isError`, `error`. Infinite resources
 also expose `cursor` and `hasMore`; realtime resources expose `connectionStatus` and `isConnected`.
@@ -227,16 +207,14 @@ mutating action during render to initialize the same store.
 
 ## State updates
 
-Call actions from event handlers or imperative workflows. To supply server data, use `hydrate()`
-or the experimental `.suspend()` setup above. Do not call a mutating action or assign model state
-during render.
+Call actions from event handlers or imperative workflows. Server data comes from `.suspend()`
+above. Do not call a mutating action or assign model state during render.
 
 ## Local data
 
 Use `persist()` for browser-owned preferences. Use `local()` to restore exact server snapshots from
 IndexedDB without an API call. Use `local.query()` when the same exact view should revalidate from a
-server query. Resolved server values can initialize `local.query()` through the domain hook's
-`hydrate()` method. Standalone `local()` uses `.restore()` and is not a hydration target. Always
+server query; it supports `.suspend()` like any query. Standalone `local()` uses `.restore()`. Always
 pass a route identity to detail-resource operations.
 
 `local` is not an offline mutation queue or multi-device conflict resolver. Full storage,
@@ -317,10 +295,9 @@ await search(snapshot(this.m.filters))
 ## Delivery checklist
 
 - Query arguments and route identities are explicit.
-- `.load()` owns client fetching. Server data uses `.hydrate()` (Server Component fetch + route
-  adapter) or the experimental `.suspend()` (one component inside `<Suspense>`); either is valid.
-- Experimental `.suspend()` has a `<Suspense>` boundary inside the provider and a query function
-  that works on server and browser. For SSR, pass `useServerInsertedHTML` to reuse server results.
+- Server data uses `.suspend()` in the reading component inside `<Suspense>`; the provider has
+  `useServerInsertedHTML`, and `queryFn` works on server and browser.
+- `.load()` owns client-only fetching. `hydrate()` only for reads that must stay on the server.
 - Passive selectors do not accidentally fetch.
 - Loading, error, empty, and background-fetch UX is defined.
 - No action or public proxy mutation initializes state during render.

@@ -104,7 +104,7 @@ export const product = model({
 })
 ```
 
-`local.query()` retains `.load()`, experimental `.suspend()`, `.query()`, `.refetch()`, `.set()`, and
+`local.query()` retains `.suspend()`, `.load()`, `.query()`, `.refetch()`, `.set()`, and
 the ordinary query state.
 Standalone `local()` exposes `.restore()`, `.set()`, `.remove()`, and the same data/status fields but
 has no API driver.
@@ -154,9 +154,8 @@ under a new URL.
 ### Server-rendered remote data
 
 Standalone `local()` only restores IndexedDB and never starts remote work. For `local.query()` or
-`local.infinite()`, await remote data in a Server Component and initialize the resolved entry with
-the generated domain hook's `hydrate()` method. IndexedDB reconciliation, persistence, and entity
-fanout run after the route adapter commits.
+`local.infinite()`, select `.suspend(arg)` inside `<Suspense>` as with any query. The server skips
+IndexedDB; reconciliation, persistence, and entity fanout run in the browser after commit.
 
 ```ts
 detail: local.query<ProductDetail | null, { id: string }>({
@@ -167,21 +166,26 @@ detail: local.query<ProductDetail | null, { id: string }>({
 ```
 
 ```tsx
-function ProductRoute({ id, initialDetail }: Props) {
-  useProduct.hydrate({ detail: { arg: { id }, data: initialDetail } })
-  return <ProductDetail />
-}
+'use client'
 
-function ProductDetail() {
-  const detail = useProduct((state) => state.detail.data)
-  return detail ? <ProductView product={detail} /> : <NotFound />
+// Inside <Suspense>: rendered on the server, streamed into the browser cache.
+function ProductDetail({ id }: { id: string }) {
+  const detail = useProduct((state) => state.detail.suspend({ id }))
+  return detail.data ? <ProductView product={detail.data} /> : <NotFound />
 }
 ```
 
-Standalone `local()` is restore-only and is not a `hydrate()` target. Keep `.restore(arg)` for an
-exact, non-suspending cached fallback. Experimental `.suspend(arg)` remains available on query-backed
-local resources with isomorphic query functions. Do not call a render-body action that writes a
-resolved server value through `.set()`.
+```tsx
+// Alternative when queryFn cannot run during SSR: seed data a Server Component awaited.
+function ProductRoute({ id, initialDetail }: Props) {
+  useProduct.hydrate({ detail: { arg: { id }, data: initialDetail } })
+  return <ProductPanel /> // reads state.detail.data
+}
+```
+
+Standalone `local()` is restore-only and is neither a `.suspend()` nor a `hydrate()` target. Keep
+`.restore(arg)` for an exact, non-suspending cached fallback. Do not call a render-body action that
+writes a resolved server value through `.set()`.
 
 ### Standalone methods
 
@@ -245,7 +249,7 @@ feed: local.infinite<ProductListItem[], ProductFilter>({
 })
 ```
 
-`query.realtime()` is not supported by the experimental `.suspend()` path.
+`query.realtime()` is not supported by the `.suspend()` path.
 
 ## Slow initial loading
 
@@ -288,7 +292,7 @@ require a provider change.
 If IndexedDB is unavailable or fails, standalone resources retain their in-memory value and query
 adapters degrade to ordinary queries. Server environments skip the IndexedDB lifecycle
 without throwing. Selector `.load()` still waits for client commit before starting a request; use
-`hydrate()` for resolved server data, or an imperative `.query()` in an appropriate non-render workflow.
+`.suspend()` for server-rendered data, or an imperative `.query()` in an appropriate non-render workflow.
 
 ## On-demand normalized storage
 

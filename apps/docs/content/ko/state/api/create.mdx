@@ -36,6 +36,39 @@ const { title, actions } = usePost((s) => ({
 
 선택자는 결과를 깊은 동등성으로 비교합니다. 이 예제는 제목이 바뀔 때 갱신됩니다. 대신 `s.detail`을 선택하면 쿼리 상태와 다른 데이터도 관찰합니다. 선택자 없이 `usePost()`를 호출하면 도메인 전체를 구독합니다.
 
+<a id="server-data-with-suspend"></a>
+
+## `.suspend()`로 서버 데이터 읽기
+
+데이터를 렌더링하는 컴포넌트에서 `.suspend(arg)`를 선택하세요.
+
+```tsx
+'use client'
+
+// Inside <Suspense>: the server render runs queryFn and streams the result
+// when ComwitProvider has useServerInsertedHTML.
+function PostDetail({ slug }: { slug: string }) {
+  const post = usePost((s) => s.detail.suspend(slug))
+  return post.data ? <article>{post.data.title}</article> : null
+}
+```
+
+Server Component의 fetch나 어댑터가 필요 없습니다. `queryFn`은 서버와 브라우저 모두에서 실행됩니다.
+
+대안: 서버 전용 코드가 필요한 읽기는 Server Component에서 기다린 뒤 훅의 `hydrate(entries)` 메서드로 항목을 초기화하세요.
+
+```tsx
+'use client'
+
+// A Server Component awaited initialPost and passed it to this route adapter.
+function PostRoute({ slug, initialPost }: Props) {
+  usePost.hydrate({ detail: { arg: slug, data: initialPost } })
+  return <PostView />
+}
+```
+
+`hydrate(entries)`는 모델에서 쿼리 필드 이름, 인수, 데이터 타입을 추론합니다. 일반 도메인 읽기 전에 조건 없이 호출하세요. 반환값은 `void`이며 `null`이나 `undefined`를 받습니다. [Next.js 가이드](/state/docs/guide/nextjs)를 참고하세요.
+
 <a id="load-a-query"></a>
 
 ## 쿼리 로드
@@ -50,43 +83,7 @@ if (posts.isError && !posts.isSuccess) return <p>{posts.error}</p>
 return posts.data.map((post) => <Card key={post.id} post={post} />)
 ```
 
-`.load(arg)`는 렌더링 중 로딩 상태를 표시하고 커밋 후 요청을 시작합니다. `.load(...)` 없이 `s.posts`를 선택하면 상태를 읽기만 합니다. 명령형 로딩과 여러 작업을 조율하는 흐름에는 액션을 사용하세요. 캐시 키, 최신성, 실험적 `.suspend(arg)`는 [query()](/state/docs/api/query)를 참고하세요.
-
-<a id="server-data-hydrate-or-suspend"></a>
-
-## 서버 데이터: hydrate 또는 suspend
-
-Next.js 서버 데이터를 훅에 전달하는 두 가지 방법입니다. 어느 쪽이든 사용할 수 있습니다.
-
-```tsx
-'use client'
-
-// hydrate(): a Server Component awaited the value and passed it to this route adapter.
-function PostRoute({ slug, initialPost }: Props) {
-  usePost.hydrate({ detail: { arg: slug, data: initialPost } })
-  return <PostDetail />
-}
-
-function PostDetail() {
-  const post = usePost((s) => s.detail.data)
-  return post ? <article>{post.title}</article> : null
-}
-```
-
-```tsx
-'use client'
-
-// .suspend() (experimental): render inside <Suspense>; the server render runs queryFn and
-// streams the result when ComwitProvider has useServerInsertedHTML.
-function PostDetail({ slug }: { slug: string }) {
-  const post = usePost((s) => s.detail.suspend(slug))
-  return post.data ? <article>{post.data.title}</article> : null
-}
-```
-
-`hydrate(entries)`는 모델에서 쿼리 필드 이름, 인수, 데이터 타입을 추론합니다. 일반 도메인 읽기 전에 조건 없이 호출하세요. 반환값은 `void`이며, `null`이나 `undefined`를 전달하면 아무 작업도 하지 않습니다. 새 항목은 첫 스냅샷 전에 초기화되고, 이미 관찰 중인 항목의 변경은 요청한 렌더링이 커밋될 때 적용됩니다.
-
-`.suspend(arg)`는 더 원자적인 방식입니다. 컴포넌트 하나가 데이터를 선언하고 그곳에서 가져오기, 스트리밍, 하이드레이션이 이루어지므로 Server Component의 fetch와 별도 어댑터가 필요하지 않습니다. 두 환경 모두에서 실행 가능한 `queryFn`이 필요하므로 서버에만 있어야 하는 데이터에는 `hydrate()`를 사용하세요. 자세한 내용은 [Next.js 가이드](/state/docs/guide/nextjs)를 참고하세요.
+`.load(arg)`는 렌더링 중 로딩 상태를 표시하고 커밋 후 요청을 시작합니다. `.load(...)` 없이 `s.posts`를 선택하면 상태를 읽기만 합니다. 명령형 로딩과 여러 작업을 조율하는 흐름에는 액션을 사용하세요. 캐시 키, 최신성, `.suspend(arg)`는 [query()](/state/docs/api/query)를 참고하세요.
 
 <a id="call-an-action"></a>
 
