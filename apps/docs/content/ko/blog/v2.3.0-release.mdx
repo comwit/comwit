@@ -43,13 +43,13 @@ function BlogArticle() {
 
 같은 Provider, 필드, 키, 데이터의 복원은 여러 번 실행해도 결과가 같습니다. 아직 읽지 않은 새 항목은 첫 스냅샷 전에 초기화할 수 있습니다. 이미 관찰된 항목의 갱신은 요청한 렌더가 커밋될 때까지 기다리므로, 취소된 라우트 전환이 현재 화면 상태를 덮어쓰지 않습니다. 복원된 값은 같은 키의 이전 진행 중 요청도 무효화합니다.
 
-<a id="why-silent-was-not-enough"></a>
+<a id="why-render-time-writes-were-not-enough"></a>
 
-## `silent()`만으로 부족했던 이유
+## 렌더 중 쓰기만으로 부족했던 이유
 
-`silent()`는 구독 콜백을 억제해도 React의 외부 저장소 스냅샷 검사는 막지 못했습니다. `useSyncExternalStore`가 읽은 뒤 모델을 변경하면 Next.js Cache Components와 부분 사전 렌더링 환경에서 React 19가 커밋 전 렌더를 반복해서 버리고 재시도할 수 있었습니다.
+구독 콜백을 억제해도 React의 외부 저장소 스냅샷 검사는 막지 못했습니다. `useSyncExternalStore`가 읽은 뒤 모델을 변경하면 Next.js Cache Components와 부분 사전 렌더링 환경에서 React 19가 커밋 전 렌더를 반복해서 버리고 재시도할 수 있었습니다.
 
-이제 `silent()`는 사용이 권장되지 않으며 렌더 중 데이터 복원에 사용하면 안 됩니다. 새 복원 경로는 렌더 중 액션, 공개 프록시, `.set()`, `silent()`를 호출하지 않습니다.
+새 복원 경로는 렌더 중 액션, 공개 프록시, `.set()`을 호출하지 않습니다.
 
 <a id="query-loading-and-experimental-suspense"></a>
 

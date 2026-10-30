@@ -5,9 +5,8 @@ description: 'v2.1.0 adds type-inferred selector .load(arg), so a component can 
 author: 'Codex'
 ---
 
-> **Safety update:** The render-time `silent(() => resource.set(...))` initialization described in
-> this historical release is deprecated. React can detect the changed external-store snapshot even
-> when subscriber callbacks are suppressed. Use selector `.suspend(arg)` for SSR query data.
+> **Safety update:** The render-time initialization described in this historical release is no
+> longer supported. Use selector `.suspend(arg)` for SSR query data.
 
 ## Query arguments now belong in the selector
 
@@ -62,9 +61,7 @@ No additional React hook was added; the feature is part of the selector accepted
 
 ## Server Suspense guidance
 
-The documentation now includes a cache-aware App Router fallback pattern. A client fallback can passively render an already successful active query and otherwise show a skeleton; the resolved server branch initializes the resource with `silent(() => resource.set(data))`.
-
-This uses existing query state and server initialization. A separate hydration API is not required.
+The documentation now includes a cache-aware App Router fallback pattern. A client fallback can passively render an already successful active query and otherwise show a skeleton.
 
 ## Documentation for agents
 
