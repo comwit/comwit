@@ -99,9 +99,13 @@
       "foreignKeys": [
         {
           "name": "admin_auth__account_userId_admin_auth__user_id_fk",
-          "columns": ["userId"],
+          "columns": [
+            "userId"
+          ],
           "targetTable": "admin_auth__user",
-          "targetColumns": ["id"],
+          "targetColumns": [
+            "id"
+          ],
           "onDelete": "cascade"
         }
       ],
@@ -109,12 +113,17 @@
         {
           "name": "admin_auth_account_user_idx",
           "unique": false,
-          "columns": ["userId"]
+          "columns": [
+            "userId"
+          ]
         },
         {
           "name": "admin_auth_account_provider_uq",
           "unique": true,
-          "columns": ["providerId", "accountId"]
+          "columns": [
+            "providerId",
+            "accountId"
+          ]
         }
       ]
     },
@@ -179,9 +188,13 @@
       "foreignKeys": [
         {
           "name": "admin_auth__session_userId_admin_auth__user_id_fk",
-          "columns": ["userId"],
+          "columns": [
+            "userId"
+          ],
           "targetTable": "admin_auth__user",
-          "targetColumns": ["id"],
+          "targetColumns": [
+            "id"
+          ],
           "onDelete": "cascade"
         }
       ],
@@ -189,12 +202,16 @@
         {
           "name": "admin_auth_session_user_idx",
           "unique": false,
-          "columns": ["userId"]
+          "columns": [
+            "userId"
+          ]
         },
         {
           "name": "admin_auth_session_expiry_idx",
           "unique": false,
-          "columns": ["expiresAt"]
+          "columns": [
+            "expiresAt"
+          ]
         }
       ]
     },
@@ -273,7 +290,9 @@
         {
           "name": "admin_auth_user_created_idx",
           "unique": false,
-          "columns": ["createdAt"]
+          "columns": [
+            "createdAt"
+          ]
         }
       ]
     },
@@ -322,7 +341,9 @@
         {
           "name": "admin_auth_verification_identifier_idx",
           "unique": false,
-          "columns": ["identifier"]
+          "columns": [
+            "identifier"
+          ]
         }
       ]
     },
@@ -411,9 +432,13 @@
       "foreignKeys": [
         {
           "name": "app_auth__account_userId_app_auth__user_id_fk",
-          "columns": ["userId"],
+          "columns": [
+            "userId"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"],
+          "targetColumns": [
+            "id"
+          ],
           "onDelete": "cascade"
         }
       ],
@@ -421,12 +446,17 @@
         {
           "name": "app_auth_account_user_idx",
           "unique": false,
-          "columns": ["userId"]
+          "columns": [
+            "userId"
+          ]
         },
         {
           "name": "app_auth_account_provider_uq",
           "unique": true,
-          "columns": ["providerId", "accountId"]
+          "columns": [
+            "providerId",
+            "accountId"
+          ]
         }
       ]
     },
@@ -485,9 +515,13 @@
       "foreignKeys": [
         {
           "name": "app_auth__session_userId_app_auth__user_id_fk",
-          "columns": ["userId"],
+          "columns": [
+            "userId"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"],
+          "targetColumns": [
+            "id"
+          ],
           "onDelete": "cascade"
         }
       ],
@@ -495,12 +529,16 @@
         {
           "name": "app_auth_session_user_idx",
           "unique": false,
-          "columns": ["userId"]
+          "columns": [
+            "userId"
+          ]
         },
         {
           "name": "app_auth_session_expiry_idx",
           "unique": false,
-          "columns": ["expiresAt"]
+          "columns": [
+            "expiresAt"
+          ]
         }
       ]
     },
@@ -555,7 +593,9 @@
         {
           "name": "app_auth_user_created_idx",
           "unique": false,
-          "columns": ["createdAt"]
+          "columns": [
+            "createdAt"
+          ]
         }
       ]
     },
@@ -604,7 +644,9 @@
         {
           "name": "app_auth_verification_identifier_idx",
           "unique": false,
-          "columns": ["identifier"]
+          "columns": [
+            "identifier"
+          ]
         }
       ]
     },
@@ -665,12 +707,18 @@
         {
           "name": "audit_entity_idx",
           "unique": false,
-          "columns": ["entity_id", "created_at"]
+          "columns": [
+            "entity_id",
+            "created_at"
+          ]
         },
         {
           "name": "audit_actor_idx",
           "unique": false,
-          "columns": ["actor_id", "created_at"]
+          "columns": [
+            "actor_id",
+            "created_at"
+          ]
         }
       ]
     },
@@ -749,7 +797,11 @@
         {
           "name": "banners_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "active", "position"]
+          "columns": [
+            "deleted_at",
+            "active",
+            "position"
+          ]
         }
       ]
     },
@@ -798,12 +850,17 @@
         {
           "name": "categories_slug_uq",
           "unique": true,
-          "columns": ["slug"]
+          "columns": [
+            "slug"
+          ]
         },
         {
           "name": "categories_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "name"]
+          "columns": [
+            "deleted_at",
+            "name"
+          ]
         }
       ]
     },
@@ -868,38 +925,57 @@
       "foreignKeys": [
         {
           "name": "certificates_enrollment_id_enrollments_id_fk",
-          "columns": ["enrollment_id"],
+          "columns": [
+            "enrollment_id"
+          ],
           "targetTable": "enrollments",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "certificates_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "certificates_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "certificates_number_uq",
           "unique": true,
-          "columns": ["number"]
+          "columns": [
+            "number"
+          ]
         },
         {
           "name": "certificates_enrollment_uq",
           "unique": true,
-          "columns": ["enrollment_id"]
+          "columns": [
+            "enrollment_id"
+          ]
         },
         {
           "name": "certificates_user_idx",
           "unique": false,
-          "columns": ["user_id", "issued_at"]
+          "columns": [
+            "user_id",
+            "issued_at"
+          ]
         }
       ]
     },
@@ -983,27 +1059,41 @@
       "foreignKeys": [
         {
           "name": "coupon_redemptions_coupon_id_coupons_id_fk",
-          "columns": ["coupon_id"],
+          "columns": [
+            "coupon_id"
+          ],
           "targetTable": "coupons",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "coupon_redemptions_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "coupon_redemptions_order_uq",
           "unique": true,
-          "columns": ["order_id"]
+          "columns": [
+            "order_id"
+          ]
         },
         {
           "name": "coupon_redemptions_user_idx",
           "unique": false,
-          "columns": ["coupon_id", "user_id", "status"]
+          "columns": [
+            "coupon_id",
+            "user_id",
+            "status"
+          ]
         }
       ]
     },
@@ -1122,27 +1212,41 @@
       "foreignKeys": [
         {
           "name": "coupons_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "coupons_product_id_products_id_fk",
-          "columns": ["product_id"],
+          "columns": [
+            "product_id"
+          ],
           "targetTable": "products",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "coupons_code_uq",
           "unique": true,
-          "columns": ["code"]
+          "columns": [
+            "code"
+          ]
         },
         {
           "name": "coupons_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "active", "created_at"]
+          "columns": [
+            "deleted_at",
+            "active",
+            "created_at"
+          ]
         }
       ]
     },
@@ -1285,37 +1389,56 @@
       "foreignKeys": [
         {
           "name": "courses_category_id_categories_id_fk",
-          "columns": ["category_id"],
+          "columns": [
+            "category_id"
+          ],
           "targetTable": "categories",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "courses_instructor_id_instructors_id_fk",
-          "columns": ["instructor_id"],
+          "columns": [
+            "instructor_id"
+          ],
           "targetTable": "instructors",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "courses_slug_uq",
           "unique": true,
-          "columns": ["slug"]
+          "columns": [
+            "slug"
+          ]
         },
         {
           "name": "courses_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "status", "published_at"]
+          "columns": [
+            "deleted_at",
+            "status",
+            "published_at"
+          ]
         },
         {
           "name": "courses_category_idx",
           "unique": false,
-          "columns": ["category_id", "deleted_at"]
+          "columns": [
+            "category_id",
+            "deleted_at"
+          ]
         },
         {
           "name": "courses_title_idx",
           "unique": false,
-          "columns": ["title"]
+          "columns": [
+            "title"
+          ]
         }
       ]
     },
@@ -1368,27 +1491,41 @@
       "foreignKeys": [
         {
           "name": "download_logs_purchase_id_purchases_id_fk",
-          "columns": ["purchase_id"],
+          "columns": [
+            "purchase_id"
+          ],
           "targetTable": "purchases",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "download_logs_file_id_product_files_id_fk",
-          "columns": ["file_id"],
+          "columns": [
+            "file_id"
+          ],
           "targetTable": "product_files",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "download_logs_purchase_idx",
           "unique": false,
-          "columns": ["purchase_id", "created_at"]
+          "columns": [
+            "purchase_id",
+            "created_at"
+          ]
         },
         {
           "name": "download_logs_user_idx",
           "unique": false,
-          "columns": ["user_id", "created_at"]
+          "columns": [
+            "user_id",
+            "created_at"
+          ]
         }
       ]
     },
@@ -1495,37 +1632,58 @@
       "foreignKeys": [
         {
           "name": "enrollments_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "enrollments_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "enrollments_course_user_uq",
           "unique": true,
-          "columns": ["course_id", "user_id"]
+          "columns": [
+            "course_id",
+            "user_id"
+          ]
         },
         {
           "name": "enrollments_user_idx",
           "unique": false,
-          "columns": ["user_id", "status", "updated_at"]
+          "columns": [
+            "user_id",
+            "status",
+            "updated_at"
+          ]
         },
         {
           "name": "enrollments_course_idx",
           "unique": false,
-          "columns": ["course_id", "status", "created_at"]
+          "columns": [
+            "course_id",
+            "status",
+            "created_at"
+          ]
         },
         {
           "name": "enrollments_order_idx",
           "unique": false,
-          "columns": ["order_id"]
+          "columns": [
+            "order_id"
+          ]
         }
       ]
     },
@@ -1586,7 +1744,10 @@
         {
           "name": "instructors_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "name"]
+          "columns": [
+            "deleted_at",
+            "name"
+          ]
         }
       ]
     },
@@ -1687,38 +1848,58 @@
       "foreignKeys": [
         {
           "name": "leads_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "leads_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "leads_product_id_products_id_fk",
-          "columns": ["product_id"],
+          "columns": [
+            "product_id"
+          ],
           "targetTable": "products",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "leads_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "created_at"]
+          "columns": [
+            "deleted_at",
+            "created_at"
+          ]
         },
         {
           "name": "leads_email_idx",
           "unique": false,
-          "columns": ["email"]
+          "columns": [
+            "email"
+          ]
         },
         {
           "name": "leads_source_idx",
           "unique": false,
-          "columns": ["source", "created_at"]
+          "columns": [
+            "source",
+            "created_at"
+          ]
         }
       ]
     },
@@ -1783,27 +1964,40 @@
       "foreignKeys": [
         {
           "name": "lesson_progress_enrollment_id_enrollments_id_fk",
-          "columns": ["enrollment_id"],
+          "columns": [
+            "enrollment_id"
+          ],
           "targetTable": "enrollments",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "lesson_progress_lesson_id_lessons_id_fk",
-          "columns": ["lesson_id"],
+          "columns": [
+            "lesson_id"
+          ],
           "targetTable": "lessons",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "lesson_progress_uq",
           "unique": true,
-          "columns": ["enrollment_id", "lesson_id"]
+          "columns": [
+            "enrollment_id",
+            "lesson_id"
+          ]
         },
         {
           "name": "lesson_progress_lesson_idx",
           "unique": false,
-          "columns": ["lesson_id"]
+          "columns": [
+            "lesson_id"
+          ]
         }
       ]
     },
@@ -1886,27 +2080,43 @@
       "foreignKeys": [
         {
           "name": "lessons_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "lessons_section_id_sections_id_fk",
-          "columns": ["section_id"],
+          "columns": [
+            "section_id"
+          ],
           "targetTable": "sections",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "lessons_course_idx",
           "unique": false,
-          "columns": ["course_id", "deleted_at", "position"]
+          "columns": [
+            "course_id",
+            "deleted_at",
+            "position"
+          ]
         },
         {
           "name": "lessons_section_idx",
           "unique": false,
-          "columns": ["section_id", "deleted_at", "position"]
+          "columns": [
+            "section_id",
+            "deleted_at",
+            "position"
+          ]
         }
       ]
     },
@@ -1967,12 +2177,18 @@
         {
           "name": "media_storage_key_uq",
           "unique": true,
-          "columns": ["storage_key"]
+          "columns": [
+            "storage_key"
+          ]
         },
         {
           "name": "media_owner_idx",
           "unique": false,
-          "columns": ["owner_id", "status", "created_at"]
+          "columns": [
+            "owner_id",
+            "status",
+            "created_at"
+          ]
         }
       ]
     },
@@ -2039,7 +2255,12 @@
         {
           "name": "notices_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "status", "pinned", "published_at"]
+          "columns": [
+            "deleted_at",
+            "status",
+            "pinned",
+            "published_at"
+          ]
         }
       ]
     },
@@ -2176,58 +2397,92 @@
       "foreignKeys": [
         {
           "name": "orders_customer_id_app_auth__user_id_fk",
-          "columns": ["customer_id"],
+          "columns": [
+            "customer_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "orders_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "orders_product_id_products_id_fk",
-          "columns": ["product_id"],
+          "columns": [
+            "product_id"
+          ],
           "targetTable": "products",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "orders_number_uq",
           "unique": true,
-          "columns": ["number"]
+          "columns": [
+            "number"
+          ]
         },
         {
           "name": "orders_request_uq",
           "unique": true,
-          "columns": ["customer_id", "request_key"]
+          "columns": [
+            "customer_id",
+            "request_key"
+          ]
         },
         {
           "name": "orders_customer_idx",
           "unique": false,
-          "columns": ["customer_id", "deleted_at", "created_at"]
+          "columns": [
+            "customer_id",
+            "deleted_at",
+            "created_at"
+          ]
         },
         {
           "name": "orders_status_idx",
           "unique": false,
-          "columns": ["deleted_at", "status", "created_at"]
+          "columns": [
+            "deleted_at",
+            "status",
+            "created_at"
+          ]
         },
         {
           "name": "orders_course_idx",
           "unique": false,
-          "columns": ["course_id", "status"]
+          "columns": [
+            "course_id",
+            "status"
+          ]
         },
         {
           "name": "orders_product_idx",
           "unique": false,
-          "columns": ["product_id", "status"]
+          "columns": [
+            "product_id",
+            "status"
+          ]
         },
         {
           "name": "orders_expiry_idx",
           "unique": false,
-          "columns": ["status", "expires_at"]
+          "columns": [
+            "status",
+            "expires_at"
+          ]
         }
       ]
     },
@@ -2340,41 +2595,58 @@
       "foreignKeys": [
         {
           "name": "payments_order_id_orders_id_fk",
-          "columns": ["order_id"],
+          "columns": [
+            "order_id"
+          ],
           "targetTable": "orders",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "payments_order_uq",
           "unique": true,
-          "columns": ["order_id"]
+          "columns": [
+            "order_id"
+          ]
         },
         {
           "name": "payments_provider_order_uq",
           "unique": true,
-          "columns": ["provider_order_id"]
+          "columns": [
+            "provider_order_id"
+          ]
         },
         {
           "name": "payments_key_uq",
           "unique": true,
-          "columns": ["payment_key"]
+          "columns": [
+            "payment_key"
+          ]
         },
         {
           "name": "payments_idempotency_uq",
           "unique": true,
-          "columns": ["idempotency_key"]
+          "columns": [
+            "idempotency_key"
+          ]
         },
         {
           "name": "payments_status_idx",
           "unique": false,
-          "columns": ["status", "updated_at"]
+          "columns": [
+            "status",
+            "updated_at"
+          ]
         },
         {
           "name": "payments_date_idx",
           "unique": false,
-          "columns": ["created_at"]
+          "columns": [
+            "created_at"
+          ]
         }
       ]
     },
@@ -2427,27 +2699,40 @@
       "foreignKeys": [
         {
           "name": "product_courses_product_id_products_id_fk",
-          "columns": ["product_id"],
+          "columns": [
+            "product_id"
+          ],
           "targetTable": "products",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "product_courses_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "product_courses_uq",
           "unique": true,
-          "columns": ["product_id", "course_id"]
+          "columns": [
+            "product_id",
+            "course_id"
+          ]
         },
         {
           "name": "product_courses_course_idx",
           "unique": false,
-          "columns": ["course_id"]
+          "columns": [
+            "course_id"
+          ]
         }
       ]
     },
@@ -2530,21 +2815,31 @@
       "foreignKeys": [
         {
           "name": "product_files_product_id_products_id_fk",
-          "columns": ["product_id"],
+          "columns": [
+            "product_id"
+          ],
           "targetTable": "products",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "product_files_key_uq",
           "unique": true,
-          "columns": ["storage_key"]
+          "columns": [
+            "storage_key"
+          ]
         },
         {
           "name": "product_files_product_idx",
           "unique": false,
-          "columns": ["product_id", "deleted_at", "position"]
+          "columns": [
+            "product_id",
+            "deleted_at",
+            "position"
+          ]
         }
       ]
     },
@@ -2675,31 +2970,46 @@
       "foreignKeys": [
         {
           "name": "products_category_id_categories_id_fk",
-          "columns": ["category_id"],
+          "columns": [
+            "category_id"
+          ],
           "targetTable": "categories",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "products_slug_uq",
           "unique": true,
-          "columns": ["slug"]
+          "columns": [
+            "slug"
+          ]
         },
         {
           "name": "products_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "status", "published_at"]
+          "columns": [
+            "deleted_at",
+            "status",
+            "published_at"
+          ]
         },
         {
           "name": "products_category_idx",
           "unique": false,
-          "columns": ["category_id", "deleted_at"]
+          "columns": [
+            "category_id",
+            "deleted_at"
+          ]
         },
         {
           "name": "products_title_idx",
           "unique": false,
-          "columns": ["title"]
+          "columns": [
+            "title"
+          ]
         }
       ]
     },
@@ -2788,37 +3098,58 @@
       "foreignKeys": [
         {
           "name": "purchases_product_id_products_id_fk",
-          "columns": ["product_id"],
+          "columns": [
+            "product_id"
+          ],
           "targetTable": "products",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "purchases_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "purchases_product_user_uq",
           "unique": true,
-          "columns": ["product_id", "user_id"]
+          "columns": [
+            "product_id",
+            "user_id"
+          ]
         },
         {
           "name": "purchases_user_idx",
           "unique": false,
-          "columns": ["user_id", "status", "updated_at"]
+          "columns": [
+            "user_id",
+            "status",
+            "updated_at"
+          ]
         },
         {
           "name": "purchases_product_idx",
           "unique": false,
-          "columns": ["product_id", "status", "created_at"]
+          "columns": [
+            "product_id",
+            "status",
+            "created_at"
+          ]
         },
         {
           "name": "purchases_order_idx",
           "unique": false,
-          "columns": ["order_id"]
+          "columns": [
+            "order_id"
+          ]
         }
       ]
     },
@@ -2889,16 +3220,24 @@
       "foreignKeys": [
         {
           "name": "question_comments_question_id_questions_id_fk",
-          "columns": ["question_id"],
+          "columns": [
+            "question_id"
+          ],
           "targetTable": "questions",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "question_comments_question_idx",
           "unique": false,
-          "columns": ["question_id", "deleted_at", "created_at"]
+          "columns": [
+            "question_id",
+            "deleted_at",
+            "created_at"
+          ]
         }
       ]
     },
@@ -2987,43 +3326,70 @@
       "foreignKeys": [
         {
           "name": "questions_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "questions_lesson_id_lessons_id_fk",
-          "columns": ["lesson_id"],
+          "columns": [
+            "lesson_id"
+          ],
           "targetTable": "lessons",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "questions_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "questions_course_idx",
           "unique": false,
-          "columns": ["course_id", "deleted_at", "created_at"]
+          "columns": [
+            "course_id",
+            "deleted_at",
+            "created_at"
+          ]
         },
         {
           "name": "questions_lesson_idx",
           "unique": false,
-          "columns": ["lesson_id", "deleted_at", "created_at"]
+          "columns": [
+            "lesson_id",
+            "deleted_at",
+            "created_at"
+          ]
         },
         {
           "name": "questions_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "status", "created_at"]
+          "columns": [
+            "deleted_at",
+            "status",
+            "created_at"
+          ]
         },
         {
           "name": "questions_user_idx",
           "unique": false,
-          "columns": ["user_id", "created_at"]
+          "columns": [
+            "user_id",
+            "created_at"
+          ]
         }
       ]
     },
@@ -3100,27 +3466,41 @@
       "foreignKeys": [
         {
           "name": "refund_requests_order_id_orders_id_fk",
-          "columns": ["order_id"],
+          "columns": [
+            "order_id"
+          ],
           "targetTable": "orders",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "refund_requests_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "refund_requests_order_idx",
           "unique": false,
-          "columns": ["order_id", "status"]
+          "columns": [
+            "order_id",
+            "status"
+          ]
         },
         {
           "name": "refund_requests_list_idx",
           "unique": false,
-          "columns": ["status", "created_at"]
+          "columns": [
+            "status",
+            "created_at"
+          ]
         }
       ]
     },
@@ -3209,42 +3589,63 @@
       "foreignKeys": [
         {
           "name": "refunds_payment_id_payments_id_fk",
-          "columns": ["payment_id"],
+          "columns": [
+            "payment_id"
+          ],
           "targetTable": "payments",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "refunds_order_id_orders_id_fk",
-          "columns": ["order_id"],
+          "columns": [
+            "order_id"
+          ],
           "targetTable": "orders",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "refunds_request_uq",
           "unique": true,
-          "columns": ["request_key"]
+          "columns": [
+            "request_key"
+          ]
         },
         {
           "name": "refunds_transaction_uq",
           "unique": true,
-          "columns": ["provider_transaction_key"]
+          "columns": [
+            "provider_transaction_key"
+          ]
         },
         {
           "name": "refunds_payment_idx",
           "unique": false,
-          "columns": ["payment_id", "status"]
+          "columns": [
+            "payment_id",
+            "status"
+          ]
         },
         {
           "name": "refunds_order_idx",
           "unique": false,
-          "columns": ["order_id", "created_at"]
+          "columns": [
+            "order_id",
+            "created_at"
+          ]
         },
         {
           "name": "refunds_status_idx",
           "unique": false,
-          "columns": ["status", "updated_at"]
+          "columns": [
+            "status",
+            "updated_at"
+          ]
         }
       ]
     },
@@ -3327,38 +3728,61 @@
       "foreignKeys": [
         {
           "name": "reviews_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "reviews_user_id_app_auth__user_id_fk",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "targetTable": "app_auth__user",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         },
         {
           "name": "reviews_enrollment_id_enrollments_id_fk",
-          "columns": ["enrollment_id"],
+          "columns": [
+            "enrollment_id"
+          ],
           "targetTable": "enrollments",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "reviews_course_user_uq",
           "unique": true,
-          "columns": ["course_id", "user_id"]
+          "columns": [
+            "course_id",
+            "user_id"
+          ]
         },
         {
           "name": "reviews_course_idx",
           "unique": false,
-          "columns": ["course_id", "status", "created_at"]
+          "columns": [
+            "course_id",
+            "status",
+            "created_at"
+          ]
         },
         {
           "name": "reviews_list_idx",
           "unique": false,
-          "columns": ["deleted_at", "status", "created_at"]
+          "columns": [
+            "deleted_at",
+            "status",
+            "created_at"
+          ]
         }
       ]
     },
@@ -3411,16 +3835,24 @@
       "foreignKeys": [
         {
           "name": "sections_course_id_courses_id_fk",
-          "columns": ["course_id"],
+          "columns": [
+            "course_id"
+          ],
           "targetTable": "courses",
-          "targetColumns": ["id"]
+          "targetColumns": [
+            "id"
+          ]
         }
       ],
       "indexes": [
         {
           "name": "sections_course_idx",
           "unique": false,
-          "columns": ["course_id", "deleted_at", "position"]
+          "columns": [
+            "course_id",
+            "deleted_at",
+            "position"
+          ]
         }
       ]
     },
@@ -3487,17 +3919,24 @@
         {
           "name": "webhooks_key_uq",
           "unique": true,
-          "columns": ["event_key"]
+          "columns": [
+            "event_key"
+          ]
         },
         {
           "name": "webhooks_retry_idx",
           "unique": false,
-          "columns": ["status", "updated_at"]
+          "columns": [
+            "status",
+            "updated_at"
+          ]
         },
         {
           "name": "webhooks_payment_idx",
           "unique": false,
-          "columns": ["payment_key"]
+          "columns": [
+            "payment_key"
+          ]
         }
       ]
     }

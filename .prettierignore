@@ -10,6 +10,9 @@ package-lock.json
 yarn.lock
 
 apps/docs/app/ui/_generated
+# Written by gen-shop.mjs and gen-course.mjs; keep the generator's output so builds leave no diff.
+apps/docs/lib/shop-reference.json
+apps/docs/lib/course-reference.json
 apps/storybook/src/generated
 packages/ui/cli/registry
 
@@ -24,3 +27,4 @@ packages/template/variants/opennext/files
 /packages/ui
 /templates/base
 /templates/shop
+/templates/course
