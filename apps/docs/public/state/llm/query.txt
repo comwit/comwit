@@ -1,6 +1,6 @@
 # comwit — Query System Reference
 
-> Full API reference for selector `.load()` / `.suspend()`, imperative query methods,
+> Full API reference for selector `.suspend()` / `.load()`, imperative query methods,
 > `query.infinite()`, `query.realtime()`, caching, and resource state.
 
 For IndexedDB-backed normalized list/detail/infinite views, see
@@ -174,11 +174,14 @@ posts: Query.Suspense<Post[]>
 trending: Query.SuspenseInfinite<Post[]>
 ```
 
-## Experimental Suspense Support
+## Server rendering with .suspend()
 
-Choose Suspense where the query is consumed:
+Read server data with `.suspend(arg)` in the Client Component that renders it. Wrap it in
+`<Suspense>`; no Server Component fetch or route adapter is needed.
 
 ```tsx
+'use client'
+
 function PostList() {
   const posts = usePost((state) => state.posts.suspend())
   return posts.data.map((post) => <Card key={post.id} post={post} />)
@@ -189,15 +192,8 @@ function PostList() {
 </Suspense>
 ```
 
-Use experimental `.suspend(arg)` when a `<Suspense>` fallback should handle initial loading.
-Keep the boundary inside `ComwitProvider` and add an error boundary for initial query failures.
-Later refetches keep successful data visible; use `isFetching` for a refresh indicator.
-Use `.load(arg)` when the component should render its own loading and error states.
-
-### Next.js SSR setup
-
-Pass `useServerInsertedHTML` to the provider to reuse server results without a second browser
-request (available in the `2.5.0` beta line):
+Pass `useServerInsertedHTML` to the provider once. The server render runs `queryFn`, and the result
+streams into the browser cache, so hydration renders the same data without a second request:
 
 ```tsx
 'use client'
@@ -208,22 +204,40 @@ import { useServerInsertedHTML } from 'next/navigation'
 <ComwitProvider useServerInsertedHTML={useServerInsertedHTML}>{children}</ComwitProvider>
 ```
 
-- Keep the `<Suspense>` boundary inside this provider.
-- Write `queryFn` to work on both server and browser. Use a Route Handler or external API with an
-  absolute URL for server-side `fetch`; return JSON-serializable data.
-- Use `hydrate()` when fetching requires database code or Next.js Server Functions: await the data
-  in a Server Component, then call `useDomain.hydrate({ field: { arg, data } })` in a client route
-  adapter before reading the domain hook.
+- Keep the `<Suspense>` boundary inside this provider; add an error boundary for initial failures.
+- `queryFn` runs on server and browser. Call a Route Handler or external API with an absolute URL
+  for server-side `fetch`; return JSON-serializable data.
+- Later refetches keep successful data visible; use `isFetching` for a refresh indicator.
 - A server-side failure shows the fallback; the browser retries the request.
-- Without `useServerInsertedHTML`, the browser fetches again during hydration. This SSR setup
-  supports React 19 streaming SSR with the Next.js App Router, not `renderToString` or the Pages Router.
-
-Use `.suspend(arg)` in new code instead of the deprecated `{ suspense: true }` option and
-`Query.Suspense*` types.
+- Without `useServerInsertedHTML`, the browser fetches again during hydration. Supported with React
+  19 streaming SSR in the Next.js App Router, not `renderToString` or the Pages Router.
+- Use `.load(arg)` when the component should render its own loading and error states.
+- The deprecated `{ suspense: true }` option and `Query.Suspense*` types are replaced by `.suspend(arg)`.
+- Frameworks without `useServerInsertedHTML`: see `hydrate()` under "Next.js server rendering" below.
 
 ## Methods
 
 React selectors and actions intentionally expose different loading controls.
+
+### .suspend(arg?) — React selectors
+
+Call `.suspend()` only inside a selector:
+
+```tsx
+const post = usePost((state) => state.post.suspend(postId))
+```
+
+- Pass only the query argument, not a Promise or initial data.
+- Put the component inside `<Suspense>` under `ComwitProvider` to show a fallback while loading.
+- Add an error boundary for initial query failures.
+- Later refetches keep successful data visible; show a refresh indicator with `isFetching`.
+- If `enabled` or `dependsOn` blocks execution, the selector returns the current initial state.
+- For SSR, `queryFn` must work on server and browser. With `useServerInsertedHTML` on the
+  provider, server results stream into the browser cache.
+- Supports value- or Promise-returning single/infinite queries, including `local.query()` and
+  `local.infinite()`. Realtime queries and async-iterable fetchers are not supported.
+
+Use `.load(arg)` instead when the component should render `isLoading` and `isError` itself.
 
 ### .load(arg?) — React selectors
 
@@ -243,26 +257,6 @@ const comments = usePost((state) => state.comments.load(postId))
 - Call-time options are deliberately unavailable. Configure provider/query defaults, or use an action method below for forced or coordinated requests.
 
 Selector loading is additive. Existing `useEffect(() => actions.load(), [])` and event-driven actions continue to work.
-
-### .suspend(arg?) — React selectors
-
-Call `.suspend()` only inside a selector:
-
-```tsx
-const post = usePost((state) => state.post.suspend(postId))
-```
-
-- Pass only the query argument, not a Promise or initial data.
-- Put the component inside `<Suspense>` under `ComwitProvider` to show a fallback while loading.
-- Add an error boundary for initial query failures.
-- Later refetches keep successful data visible; show a refresh indicator with `isFetching`.
-- If `enabled` or `dependsOn` blocks execution, the selector returns the current initial state.
-- For SSR, `queryFn` must work on server and browser. Use the Next.js setup above to reuse server
-  results without a second browser request.
-- Supports value- or Promise-returning single/infinite queries, including `local.query()` and
-  `local.infinite()`. Realtime queries and async-iterable fetchers are not supported.
-
-Use `.load(arg)` instead when the component should render `isLoading` and `isError` itself.
 
 ### .query(arg?, options?)
 
@@ -453,46 +447,37 @@ if (posts.isError) return <p>Error: {posts.error}</p>
 
 ## Next.js server rendering
 
-Two paths. Either is valid; pick per route.
-
-Path 1 — `hydrate()`: await the server function in a Server Component and hydrate the resolved entry
-in a small client route adapter:
+Select `.suspend(arg)` where the component reads the data, inside `<Suspense>` under a
+`ComwitProvider` that has `useServerInsertedHTML`:
 
 ```tsx
-function ProductRoute({ id, initialDetail }: Props) {
-  useProduct.hydrate({ detail: { arg: { id }, data: initialDetail } })
-  return <ProductDetail />
-}
-
-function ProductDetail() {
-  const detail = useProduct((state) => state.detail.data)
-  return detail ? <ProductView product={detail} /> : <NotFound />
-}
-```
-
-Call `hydrate()` unconditionally in the route adapter before reading the domain hook. Read data
-through the hook in the UI; `hydrate()` uses the supplied value without calling `queryFn`. Do not
-initialize the same store by invoking a mutating action during render.
-
-Path 2 — `.suspend(arg)` (experimental): fetch where the component reads the data. Put the
-component inside `<Suspense>` under `ComwitProvider` to show a loading fallback:
-
-```tsx
-// Server Component
+// page.tsx
 <Suspense fallback={<ProductSkeleton />}>
   <ProductDetail id={id} />
 </Suspense>
 
-// Client Component — experimental; needs useServerInsertedHTML on the provider.
+// product-detail.tsx
+'use client'
+
 function ProductDetail({ id }: { id: string }) {
   const detail = useProduct((state) => state.detail.suspend({ id }))
   return detail.data ? <ProductView product={detail.data} /> : <NotFound />
 }
 ```
 
-Use `.suspend()` when `queryFn` can run on both server and browser. Use `hydrate()` for database
-reads or Next.js Server Functions. Pass `useServerInsertedHTML` to the provider to reuse server
-results without a second browser request (see "Next.js SSR setup" above).
+SSR alternative — `hydrate()`: in a framework whose provider has no `useServerInsertedHTML` (or an
+equivalent), a server response cannot reach the client cache, so client navigation requests it
+again. There, fetch on the server and seed the result before the domain hook is read. It never calls
+`queryFn`. Next.js does not need this:
+
+```tsx
+function ProductRoute({ id, initialDetail }: Props) {
+  useProduct.hydrate({ detail: { arg: { id }, data: initialDetail } })
+  return <ProductDetail />
+}
+```
+
+Do not initialize a store by invoking a mutating action during render.
 
 ## Slow initial loading
 

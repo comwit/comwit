@@ -32,15 +32,15 @@ const actions = useProduct((s) => s.actions)
 
 ## 데이터 흐름 선택
 
-| 필요한 작업                                | 사용할 API                                                                                            |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
-| 마운트된 화면의 데이터 가져오기            | [`query()` + `.load(arg)`](/state/docs/api/query)                                                     |
-| Server Component가 가져온 데이터 렌더링    | [`useDomain.hydrate(...)`](/state/docs/guide/nextjs)                                                  |
-| 쿼리와 함께 Suspense 경계 스트리밍(실험적) | [`.suspend(arg)` + `useServerInsertedHTML`](/state/docs/guide/nextjs#streaming-suspense-experimental) |
-| 정확한 IndexedDB 스냅샷 복원 및 재검증     | [`local.query()`](/state/docs/api/local)                                                              |
-| API 호출 없이 캐시 데이터 복원             | [`local()` + `.restore(arg)`](/state/docs/api/local)                                                  |
-| 환경설정이나 로컬 초안 저장                | [`persist()`](/state/docs/api/persist)                                                                |
-| 명령, 낙관적 갱신, 여러 요청 실행          | [`action()`](/state/docs/api/action)                                                                  |
+| 필요한 작업                                     | 사용할 API                                                                            |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 첫 응답에서 서버 데이터 렌더링(SSR)             | [`.suspend(arg)` + `useServerInsertedHTML`](/state/docs/guide/nextjs)                 |
+| 직접 만든 로딩 UI로 브라우저에서 가져오기       | [`query()` + `.load(arg)`](/state/docs/api/query#load-from-a-selector)                |
+| `useServerInsertedHTML`이 없는 프레임워크의 SSR | [`useDomain.hydrate(...)`](/state/docs/guide/nextjs#3-hydrate-before-the-domain-read) |
+| 정확한 IndexedDB 스냅샷 복원 및 재검증          | [`local.query()`](/state/docs/api/local)                                              |
+| API 호출 없이 캐시 데이터 복원                  | [`local()` + `.restore(arg)`](/state/docs/api/local)                                  |
+| 환경설정이나 로컬 초안 저장                     | [`persist()`](/state/docs/api/persist)                                                |
+| 명령, 낙관적 갱신, 여러 요청 실행               | [`action()`](/state/docs/api/action)                                                  |
 
 관련 목록, 상세, 필터, UI 상태는 같은 도메인에 유지합니다. 기능에 필요할 때 파생 값, 유효성 검사, 실행 취소/다시 실행, 액션 데코레이터를 추가하세요.
 

@@ -51,7 +51,7 @@ export const app = model<AppState>({
 
 `model(initial)`은 초기 값 객체를 받아 `Model<T>`를 반환합니다.
 
-- [`query()`](/state/docs/api/query) 필드는 키가 있는 데이터 리소스가 됩니다. 선택자는 클라이언트 데이터 가져오기에 `.load()`를 사용하고, 생성된 도메인 훅은 준비된 서버 데이터에 `.hydrate()`를 사용합니다.
+- [`query()`](/state/docs/api/query) 필드는 키가 있는 데이터 리소스가 됩니다. 선택자는 서버 렌더링 데이터에 `.suspend()`를, 클라이언트 데이터 가져오기에 `.load()`를 사용합니다.
 - [`local()`](/state/docs/api/local) 필드는 IndexedDB의 정확한 뷰를 복원하고 정규 엔티티를 공유합니다.
 - [`persist()`](/state/docs/api/persist) 필드는 저장소와 자동 동기화됩니다.
 - [`searchParam()`](/state/docs/api/router) 필드는 URL 쿼리 매개변수와 자동 동기화됩니다.

@@ -47,8 +47,8 @@ export const app = model<AppState>({
 
 `model(initial)` takes an object of initial values and returns a `Model<T>`.
 
-- Fields using [`query()`](/state/docs/api/query) become keyed data resources; selectors use `.load()`
-  for client fetching and generated domain hooks use `.hydrate()` for resolved server data
+- Fields using [`query()`](/state/docs/api/query) become keyed data resources; selectors use
+  `.suspend()` for server-rendered data and `.load()` for client fetching
 - Fields using [`local()`](/state/docs/api/local) restore exact IndexedDB views and share canonical entities
 - Fields using [`persist()`](/state/docs/api/persist) are automatically synced to storage
 - Fields using [`searchParam()`](/state/docs/api/router) are automatically synced to URL query parameters
