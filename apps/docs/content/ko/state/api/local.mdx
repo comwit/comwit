@@ -96,7 +96,7 @@ export const product = model({
 })
 ```
 
-`local.query()`는 `.load()`, 실험적 `.suspend()`, `.query()`, `.refetch()`, `.set()`과 일반 쿼리 상태를 유지합니다. 독립형 `local()`은 `.restore()`, `.set()`, `.remove()`와 동일한 데이터/상태 필드를 제공하지만 API 실행기는 없습니다.
+`local.query()`는 `.load()`, `.query()`, `.refetch()`, `.set()`과 일반 쿼리 상태를 유지합니다. 로컬 리소스에서는 `.suspend()`를 사용할 수 없습니다(타입 오류이며, 타입이 없는 호출자에게는 예외를 던집니다). 일시 중단하면 영속 복원을 건너뛰게 되므로 `.load(arg)`로 읽으세요. 독립형 `local()`은 `.restore()`, `.set()`, `.remove()`와 동일한 데이터/상태 필드를 제공하지만 API 실행기는 없습니다.
 
 <a id="app-router-exact-cached-fallback"></a>
 
@@ -167,7 +167,7 @@ function ProductDetail() {
 }
 ```
 
-독립형 `local()`은 복원 전용이며 `hydrate()` 대상이 아닙니다. 정확히 일치하는 비중단 캐시 대체 화면에는 `.restore(arg)`를 유지하세요. 서버와 클라이언트 양쪽에서 실행 가능한 쿼리 함수를 가진 쿼리 기반 로컬 리소스에는 실험적 `.suspend(arg)`를 사용할 수 있습니다. 렌더링 본문에서 액션을 호출하여 완료된 서버 값을 `.set()`으로 쓰지 마세요.
+독립형 `local()`은 복원 전용이며 `hydrate()` 대상이 아닙니다. 정확히 일치하는 비중단 캐시 대체 화면에는 `.restore(arg)`를 유지하세요. 어떤 로컬 리소스에서도 `.suspend(arg)`는 사용할 수 없습니다. 렌더링 본문에서 액션을 호출하여 완료된 서버 값을 `.set()`으로 쓰지 마세요.
 
 <a id="standalone-methods"></a>
 
@@ -229,6 +229,8 @@ feed: local.infinite<ProductListItem[], ProductFilter>({
 ```
 
 `query.realtime()`은 실험적 `.suspend()` 경로에서 지원하지 않습니다.
+
+`local.query()`는 `query()`와 같은 [`seed`](/state/docs/api/query#seed-a-detail-from-a-list-item) 옵션을 같은 세 번째 제네릭으로 받습니다. seed가 있으면 `.load(id)`가 seed를 동기적으로 그리고(`isPartial: true`, `isLoading`은 되지 않음), 키에 저장된 IndexedDB 뷰가 전체 값으로 이를 교체한 뒤(`isPartial: false`, `hydrate()`와 같음) 네트워크가 `staleTime`에 따라 재검증합니다. 저장된 행이 없으면 네트워크 결과가 올 때까지 seed가 유지됩니다. 키가 부분 상태인 동안의 수정은 영속화되지 않으며, 이 프로바이더에서 이미 복원된 키는 다시 seed를 보여주지 않습니다. `local.infinite()`는 seed를 받지 않습니다.
 
 <a id="slow-initial-loading"></a>
 
