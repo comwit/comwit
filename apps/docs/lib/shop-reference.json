@@ -2598,11 +2598,6 @@
       "intercepted": false
     },
     {
-      "file": "src/app/(app)/(.)products/[id]/page.tsx",
-      "path": "/products/[id]",
-      "intercepted": true
-    },
-    {
       "file": "src/app/(app)/products/[id]/page.tsx",
       "path": "/products/[id]",
       "intercepted": false
@@ -2907,5 +2902,5 @@
       "sha256": "91482c1e23a38ddd90b8114003785b1f6a5881ac364c75375420aff9d0b04191"
     }
   ],
-  "sourceCommit": "4738d9155e02eee3e7023dbb294103b3fdbc93ef"
+  "sourceCommit": "e975ab1931d6e3343df923357befa74407ce73de"
 }

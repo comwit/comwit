@@ -182,10 +182,9 @@ function ProductReviews({ id }: { id: string }) {
 ## Detail pages opened from a list
 
 Give the detail query a [`seed`](/state/docs/api/query#seed-a-detail-from-a-list-item) and the
-canonical detail route paints the list item at once, so no intercepting route is needed for an
-instant detail paint. The same `.suspend(id)` suspends and streams a direct visit, and paints the
-seed before upgrading in the background when the list is already in the model. Keep intercepting
-routes for real overlays such as modals.
+detail route paints the list item at once. The same `.suspend(id)` suspends and streams a direct
+visit, and paints the seed before upgrading in the background when the list is already in the
+model.
 
 ```ts
 // state/product/index.ts

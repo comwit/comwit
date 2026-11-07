@@ -149,7 +149,7 @@ detail: query<ProductDetail | null, string, ProductSummary>({
 }),
 ```
 
-Opening a detail from the list now paints instantly without an intercepting route, and the same
+Opening a detail from the list now paints instantly, and the same
 `.suspend(id)` still streams a direct visit (`isPartial` is `true` until the full detail arrives). A seed works with both `.load()` and
 `.suspend()`; while a seed exists, `.suspend(id)` behaves like `.load(id)` and does not throw a
 promise: it paints the seed and fetches the full detail after commit.
