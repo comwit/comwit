@@ -195,10 +195,8 @@ detail: query<ProductDetail | null, string, ProductSummary>({
 }),
 ```
 
-A detail opened from the list paints instantly from the item already in the model, so no
-intercepting route is needed for that; the same `.suspend(id)` still suspends and streams a direct
-visit. While partial, `isPartial` is `true` and detail-only fields are optional; a full result always
-replaces the seed. `local.query()` takes the same `seed`.
+Opening a detail from the list now paints instantly without an intercepting route, and the same
+`.suspend(id)` still streams a direct visit (`isPartial` is `true` until the full detail arrives).
 
 Query state: `data`, `isLoading`, `isFetching`, `isSuccess`, `isError`, `error`; seeded queries add
 `isPartial`. Infinite resources also expose `cursor` and `hasMore`; realtime resources expose
