@@ -228,7 +228,7 @@ feed: local.infinite<ProductListItem[], ProductFilter>({
 })
 ```
 
-`query.realtime()`은 실험적 `.suspend()` 경로에서 지원하지 않습니다.
+`query.realtime()`은 `.suspend()` 경로에서 지원하지 않습니다.
 
 `local.query()`는 `query()`와 같은 [`seed`](/state/docs/api/query#seed-a-detail-from-a-list-item) 옵션을 같은 세 번째 제네릭으로 받습니다. seed가 있으면 `.load(id)`가 seed를 동기적으로 그리고(`isPartial: true`, `isLoading`은 되지 않음), 키에 저장된 IndexedDB 뷰가 전체 값으로 이를 교체한 뒤(`isPartial: false`, `hydrate()`와 같음) 네트워크가 `staleTime`에 따라 재검증합니다. 저장된 행이 없으면 네트워크 결과가 올 때까지 seed가 유지됩니다. 키가 부분 상태인 동안의 수정은 영속화되지 않으며, 이 프로바이더에서 이미 복원된 키는 다시 seed를 보여주지 않습니다. `local.infinite()`는 seed를 받지 않습니다.
 

@@ -245,7 +245,7 @@ feed: local.infinite<ProductListItem[], ProductFilter>({
 })
 ```
 
-`query.realtime()` is not supported by the experimental `.suspend()` path.
+`query.realtime()` is not supported by the `.suspend()` path.
 
 `local.query()` takes the same [`seed`](/state/docs/api/query#seed-a-detail-from-a-list-item) option
 as `query()`, through the same third generic. With a seed, `.load(id)` paints it synchronously
