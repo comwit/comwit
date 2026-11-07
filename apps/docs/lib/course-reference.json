@@ -4083,11 +4083,6 @@
       "intercepted": false
     },
     {
-      "file": "src/app/(app)/(.)courses/[id]/page.tsx",
-      "path": "/courses/[id]",
-      "intercepted": true
-    },
-    {
       "file": "src/app/(app)/courses/[id]/page.tsx",
       "path": "/courses/[id]",
       "intercepted": false
@@ -4126,11 +4121,6 @@
       "file": "src/app/(app)/products/page.tsx",
       "path": "/products",
       "intercepted": false
-    },
-    {
-      "file": "src/app/(app)/(.)products/[id]/page.tsx",
-      "path": "/products/[id]",
-      "intercepted": true
     },
     {
       "file": "src/app/(app)/products/[id]/page.tsx",
@@ -4185,5 +4175,5 @@
       "sha256": "740a32709079b08c51a8225d068f73d600d0a6c6d11c948d468f26eb7d33771e"
     }
   ],
-  "sourceCommit": "3702a018d4d250edcc880ca82eb07871ff4340a9"
+  "sourceCommit": "1a6b368f5d1caf25cd73756a9bc406f706a94dfc"
 }
