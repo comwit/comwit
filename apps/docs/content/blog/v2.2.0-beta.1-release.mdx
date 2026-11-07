@@ -4,7 +4,7 @@ date: '2026-08-16'
 description: 'The second 2.2 beta separates IndexedDB resources from queries, adds exact local restore for server-rendered details, and keeps query adapters optional.'
 ---
 
-> **Safety update:** Render-time initialization through `silent()` is deprecated. For data that
+> **Safety update:** Render-time initialization is no longer supported. For data that
 > must block server rendering, use a query-backed resource and select `.suspend(arg)` instead.
 
 The first 2.2 beta introduced normalized IndexedDB-backed query views. This update makes the
@@ -33,17 +33,6 @@ function ProductFallback({ id }: { id: string }) {
   return detail.data ? <ProductView product={detail.data} /> : <ProductSkeleton />
 }
 ```
-
-The resolved server branch initializes the same exact view:
-
-```ts
-silent(() => {
-  model.detail.set(serverProduct, { arg: { id } })
-})
-```
-
-That write updates the visible resource, canonical collection entity, loaded list rows, and
-IndexedDB. If an older restore is still pending, the server value wins.
 
 ## Optional query adapters
 

@@ -49,14 +49,13 @@ can initialize before their first snapshot. Updates to an already observed entry
 requesting render to commit, so an abandoned route transition cannot overwrite the currently
 visible state. A hydrated value also invalidates older pending requests for that key.
 
-## Why `silent()` was not enough
+## Why render-time writes were not enough
 
-`silent()` suppressed subscriber callbacks but did not suppress React external-store snapshot
-checks. Mutating a model after `useSyncExternalStore` had read it could make React 19 discard and
-retry the uncommitted render repeatedly under Next.js Cache Components and partial prerendering.
+Suppressing subscriber callbacks did not suppress React external-store snapshot checks. Mutating a
+model after `useSyncExternalStore` had read it could make React 19 discard and retry the
+uncommitted render repeatedly under Next.js Cache Components and partial prerendering.
 
-`silent()` is now deprecated and must not be used for render-time hydration. The new hydration path
-does not invoke an action, the public proxy, `.set()`, or `silent()` during render.
+The new hydration path does not invoke an action, the public proxy, or `.set()` during render.
 
 ## Query loading and experimental Suspense
 

@@ -43,15 +43,15 @@ export function Providers({ children }: { children: ReactNode }) {
 
 `children`만 필수입니다. `<ComwitProvider>{children}</ComwitProvider>`만으로 설정이 완료됩니다.
 
-| 속성                          | 용도                                                                                                   |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `context`                     | 라우터나 인증 도우미 등 액션 팩토리에서 사용할 공유 값                                                 |
-| `getServerSearchParams`       | [searchParam() 필드](/state/docs/api/router)를 위한 선택적 `() => string \| null` 서버 getter          |
-| `useServerInsertedHTML`       | 서버에서 완료된 [`.suspend()`](/state/docs/api/query) 결과를 스트리밍하는 선택적 프레임워크 훅(실험적) |
-| `defaultOptions.query`        | 전역 `staleTime`, `gcTime`, `placeholderData`                                                          |
-| `defaultOptions.persist`      | 전역 영속화 디바운스 간격                                                                              |
-| `defaultOptions.local`        | IndexedDB 데이터베이스, 기본 범위, 저장소 오류 처리기                                                  |
-| `defaultOptions.interceptors` | 모든 액션 메서드에 적용되는 인터셉터                                                                   |
+| 속성                          | 용도                                                                                           |
+| ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| `context`                     | 라우터나 인증 도우미 등 액션 팩토리에서 사용할 공유 값                                         |
+| `getServerSearchParams`       | [searchParam() 필드](/state/docs/api/router)를 위한 선택적 `() => string \| null` 서버 getter  |
+| `useServerInsertedHTML`       | 서버에서 완료된 [`.suspend()`](/state/docs/api/query) 결과를 스트리밍하는 선택적 프레임워크 훅 |
+| `defaultOptions.query`        | 전역 `staleTime`, `gcTime`, `placeholderData`                                                  |
+| `defaultOptions.persist`      | 전역 영속화 디바운스 간격                                                                      |
+| `defaultOptions.local`        | IndexedDB 데이터베이스, 기본 범위, 저장소 오류 처리기                                          |
+| `defaultOptions.interceptors` | 모든 액션 메서드에 적용되는 인터셉터                                                           |
 
 쿼리 기본값은 쿼리 필드나 명령형 `.query(arg, options)` 호출에서 재정의할 수 있습니다. 선택자의 `.load(arg)`는 쿼리 인수만 받습니다.
 
