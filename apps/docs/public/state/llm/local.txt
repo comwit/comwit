@@ -130,8 +130,9 @@ const list = useProduct((state) => state.list.data)
 ## Query-backed local resources
 
 Use `local.query()` where a mounted client view owns remote loading. Its public interface is the
-ordinary query interface: `.load()`, experimental `.suspend()`, `.query()`, `.refetch()`, `.set()`,
-and the same status fields.
+ordinary query interface: `.load()`, `.query()`, `.refetch()`, `.set()`, and the same status fields.
+`.suspend()` is not available on local resources (a type error and a runtime throw), because
+suspending would bypass the durable restore; read them with `.load(arg)`.
 
 ```ts
 list: local.query<ProductListItem[], ProductFilter>({
@@ -150,6 +151,14 @@ list: local.query<ProductListItem[], ProductFilter>({
 
 Background correction may visibly change data. Use `isFetching` for a subtle indicator and copy
 actively edited forms into separate draft state.
+
+`local.query()` takes the same `seed` option as `query()`, through the same third generic
+(`local.query<TData, TArg, TSeed>`). With a seed, `.load(id)` paints it synchronously
+(`isPartial: true`, never `isLoading`); the IndexedDB view stored for the key then replaces it as a
+full value (`isPartial: false`, like `hydrate()`), and the network revalidates per `staleTime`.
+Without a stored row the seed stays until the network result. Edits made while a key is partial are
+not persisted, and a key already restored in this provider never shows its seed again.
+`local.infinite()` takes no seed.
 
 `local.infinite()` accepts ordinary infinite query options and persists flattened ID order, cursor,
 `hasMore`, and cursor history. Realtime queries are unsupported in this beta.

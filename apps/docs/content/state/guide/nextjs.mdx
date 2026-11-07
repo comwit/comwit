@@ -271,3 +271,46 @@ belongs to a Suspense boundary, and it is experimental until its contract settle
 
 Do not initialize state by calling an action in a render body. Move resolved server query data to
 `hydrate()` or a streamed `.suspend()` and leave normal actions for events and imperative workflows.
+
+## Detail pages opened from a list
+
+Give the detail query a [`seed`](/state/docs/api/query#seed-a-detail-from-a-list-item) and the
+canonical detail route paints the list item at once, so no intercepting route is needed for an
+instant detail paint. The same `.suspend(id)` suspends and streams a direct visit, and paints the
+seed before upgrading in the background when the list is already in the model. Keep intercepting
+routes for real overlays such as modals.
+
+```ts
+// state/product/index.ts
+export type ProductSummary = Pick<Product, 'id' | 'title'>
+
+const product = model({
+  list: query<ProductSummary[]>({ initialData: [], queryFn: () => api.product.list() }),
+  detail: query<Product | null, string, ProductSummary>({
+    initialData: null,
+    queryFn: (id) => api.product.find(id),
+    // paint the list item at once; the full detail replaces it in the background
+    seed: (id, { state }) => state.list.data.find((item) => item.id === id),
+  }),
+})
+```
+
+```tsx
+// app/products/[id]/product-detail.tsx
+'use client'
+
+export function ProductDetail({ id }: { id: string }) {
+  const product = useProduct((s) => s.detail.suspend(id))
+  if (!product.data) return <NotFound />
+
+  return (
+    <article aria-busy={product.isPartial}>
+      <h1>{product.data.title}</h1>
+      {product.isPartial ? <DescriptionSkeleton /> : <p>{product.data.description}</p>}
+    </article>
+  )
+}
+```
+
+`app/products/[id]/page.tsx` stays the static `<Suspense>` route above. The component renders the
+summary fields while `isPartial` is true and the detail-only fields once the upgrade settles.

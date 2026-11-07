@@ -247,3 +247,43 @@ browser: hydrate boundary → suspend(id) reads the script → same snapshot, no
 두 경로 모두 유효합니다. `hydrate()`는 안정된 선택이며 서버에만 있어야 하는 데이터에 사용할 수 있는 유일한 경로입니다. `.suspend()`는 로딩 상태를 Suspense 경계가 담당하는 공개 캐시 가능 읽기에 더 원자적인 선택이며 계약이 안정될 때까지 실험적 기능입니다.
 
 렌더링 본문에서 액션을 호출해 상태를 초기화하지 마세요. 완료된 서버 쿼리 데이터는 `hydrate()` 또는 스트리밍 `.suspend()`로 옮기고 일반 액션은 이벤트와 명령형 작업 흐름에 사용하세요.
+
+<a id="detail-pages-opened-from-a-list"></a>
+
+## 목록에서 여는 상세 페이지
+
+상세 쿼리에 [`seed`](/state/docs/api/query#seed-a-detail-from-a-list-item)를 지정하면 정식 상세 라우트가 목록 항목을 즉시 그리므로, 상세를 즉시 보여주기 위한 인터셉팅 라우트가 필요하지 않습니다. 같은 `.suspend(id)`가 직접 방문에서는 일시 중단 후 스트리밍하고, 목록이 이미 모델에 있으면 seed를 먼저 그린 뒤 백그라운드에서 업그레이드합니다. 인터셉팅 라우트는 모달 같은 실제 오버레이에만 사용하세요.
+
+```ts
+// state/product/index.ts
+export type ProductSummary = Pick<Product, 'id' | 'title'>
+
+const product = model({
+  list: query<ProductSummary[]>({ initialData: [], queryFn: () => api.product.list() }),
+  detail: query<Product | null, string, ProductSummary>({
+    initialData: null,
+    queryFn: (id) => api.product.find(id),
+    // paint the list item at once; the full detail replaces it in the background
+    seed: (id, { state }) => state.list.data.find((item) => item.id === id),
+  }),
+})
+```
+
+```tsx
+// app/products/[id]/product-detail.tsx
+'use client'
+
+export function ProductDetail({ id }: { id: string }) {
+  const product = useProduct((s) => s.detail.suspend(id))
+  if (!product.data) return <NotFound />
+
+  return (
+    <article aria-busy={product.isPartial}>
+      <h1>{product.data.title}</h1>
+      {product.isPartial ? <DescriptionSkeleton /> : <p>{product.data.description}</p>}
+    </article>
+  )
+}
+```
+
+`app/products/[id]/page.tsx`는 위의 정적 `<Suspense>` 라우트 그대로입니다. 컴포넌트는 `isPartial`이 true인 동안 요약 필드를 렌더링하고, 업그레이드가 끝나면 상세 전용 필드를 렌더링합니다.

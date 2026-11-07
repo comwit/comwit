@@ -179,12 +179,30 @@ again during hydration. Use a Route Handler or external API with an absolute URL
 `fetch`. Do not call Server Functions or import database code in this `queryFn`; use `hydrate()`
 for those cases. Return JSON-serializable data.
 
-Supported: single/infinite queries and `local.query()` / `local.infinite()`. Realtime and streaming
-fetchers do not support `.suspend()`. Use `.suspend()` in new code instead of the deprecated
-`suspense: true` option and `Query.Suspense*` types.
+Supported: single/infinite queries. Realtime and streaming fetchers do not support `.suspend()`, and
+local resources (`local()`, `local.query()`, `local.infinite()`) are read with `.load()`: `.suspend()`
+is a type error there. Use `.suspend()` in new code instead of the deprecated `suspense: true` option
+and `Query.Suspense*` types.
 
-Query state: `data`, `isLoading`, `isFetching`, `isSuccess`, `isError`, `error`. Infinite resources
-also expose `cursor` and `hasMore`; realtime resources expose `connectionStatus` and `isConnected`.
+### Seed a detail from a list item
+
+```ts
+detail: query<ProductDetail | null, string, ProductSummary>({
+  initialData: null,
+  queryFn: (id) => api.product.detail(id),
+  // paint the list item at once; the full detail replaces it in the background
+  seed: (id, { state }) => state.list.data.find((item) => item.id === id),
+}),
+```
+
+A detail opened from the list paints instantly from the item already in the model, so no
+intercepting route is needed for that; the same `.suspend(id)` still suspends and streams a direct
+visit. While partial, `isPartial` is `true` and detail-only fields are optional; a full result always
+replaces the seed. `local.query()` takes the same `seed`.
+
+Query state: `data`, `isLoading`, `isFetching`, `isSuccess`, `isError`, `error`; seeded queries add
+`isPartial`. Infinite resources also expose `cursor` and `hasMore`; realtime resources expose
+`connectionStatus` and `isConnected`.
 
 ## Actions
 
@@ -235,9 +253,10 @@ during render.
 
 Use `persist()` for browser-owned preferences. Use `local()` to restore exact server snapshots from
 IndexedDB without an API call. Use `local.query()` when the same exact view should revalidate from a
-server query. Resolved server values can initialize `local.query()` through the domain hook's
-`hydrate()` method. Standalone `local()` uses `.restore()` and is not a hydration target. Always
-pass a route identity to detail-resource operations.
+server query; read it with `.load()`, since `.suspend()` is not available on local resources.
+Resolved server values can initialize `local.query()` through the domain hook's `hydrate()` method.
+Standalone `local()` uses `.restore()` and is not a hydration target. Always pass a route identity to
+detail-resource operations.
 
 `local` is not an offline mutation queue or multi-device conflict resolver. Full storage,
 normalization, mapping, scope, and migration rules: https://library.comwit.io/state/llm/local.txt

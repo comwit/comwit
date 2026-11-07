@@ -36,6 +36,7 @@ export const post = model<PostState>({
 | `staleTime`       | `number`                                    | Milliseconds before cached data is considered stale. Default `0`.                                  |
 | `gcTime`          | `number`                                    | Milliseconds a cache entry survives after the model loses its last observer. Default `5 * 60_000`. |
 | `placeholderData` | `TData \| (arg, previousData) => TData`     | Data shown while fetching. Use `keepPreviousData` helper.                                          |
+| `seed`            | `(arg, { state }) => TSeed \| null \| undefined` | Partial value derived from the model (e.g. the list item), shown until the full result; third generic `query<TData, TArg, TSeed>`. |
 
 ### queryFn Signature
 
@@ -259,8 +260,9 @@ const post = usePost((state) => state.post.suspend(postId))
 - If `enabled` or `dependsOn` blocks execution, the selector returns the current initial state.
 - For SSR, `queryFn` must work on server and browser. Use the Next.js setup above to reuse server
   results without a second browser request.
-- Supports value- or Promise-returning single/infinite queries, including `local.query()` and
-  `local.infinite()`. Realtime queries and async-iterable fetchers are not supported.
+- Supports value- or Promise-returning single/infinite queries. Not available on local resources
+  (`local()`, `local.query()`, `local.infinite()`): a type error and a runtime throw; read them with
+  `.load()`. Realtime queries and async-iterable fetchers are not supported.
 
 Use `.load(arg)` instead when the component should render `isLoading` and `isError` itself.
 
@@ -340,6 +342,7 @@ await this.model.trending.previousFetch()
 | `isSuccess`  | `boolean`        | `true` after at least one successful fetch.             |
 | `isError`    | `boolean`        | `true` when the last fetch failed.                      |
 | `error`      | `string \| null` | Error message from the last failed fetch.               |
+| `isPartial`  | `boolean`        | Seeded queries only: `true` while the key shows its seed. |
 
 ### Infinite-only flags
 
@@ -386,6 +389,48 @@ query<Post[]>({
   queryFn: () => api.post.findAll(),
 })
 ```
+
+## Seed a detail from a list item
+
+Declare the seed shape as the third generic of `query()` and derive it from the model with `seed`.
+The same `.suspend(id)` serves a direct visit (suspends, streams) and an in-app navigation (paints
+the seed, upgrades in the background); `.load(id)` paints the seed instead of reporting `isLoading`.
+
+```ts
+const catalog = model({
+  list: query<ProductSummary[]>({ initialData: [], queryFn: api.product.list }),
+  detail: query<ProductDetail | null, string, ProductSummary>({
+    initialData: null,
+    queryFn: (id) => api.product.find(id),
+    // paint the list item at once; the full detail replaces it in the background
+    seed: (id, { state }) => state.list.data.find((item) => item.id === id),
+  }),
+})
+```
+
+```tsx
+const detail = useCatalog((s) => s.detail.suspend(id))
+if (!detail.data) return <ProductNotFound />
+if (detail.isPartial) return <Product summary={detail.data} /> // detail-only fields are optional
+return <Product summary={detail.data} reviews={detail.data.reviews} />
+```
+
+- The result is a union discriminated on `isPartial`. While partial, `data` is
+  `ProductSummary & Partial<ProductDetail>`, `isLoading` / `isSuccess` are `false`, and `isFetching`
+  is `true` until the upgrade settles. Queries without a seed keep their result type.
+- `seed` runs during render and must be pure. `state` is the owning model's read-only snapshot
+  (typed `any`; annotate with `QuerySeedContext<CatalogState>`). Return `null` / `undefined` when
+  the model holds nothing for the key. `TSeed` may only name fields of the full value.
+- A full result always wins over the seed (fetch, `.set()`, `hydrate()`, streamed server result);
+  `staleTime` is ignored while a key is partial. A rejected upgrade keeps the seed with
+  `isError: true`; an upgrade resolved to `null` gives `data: null`, `isPartial: false`.
+- Seeds are per key. A seed is the same key's partial value; `placeholderData` keeps another key's
+  full result. Infinite and realtime resources take no seed.
+- `local.query()` takes the same `seed` (third generic); see local.txt. `.suspend()` is not
+  available on local resources.
+- Experimental: the seed context also offers `read(model)` for a source in another model
+  (`read(lounge)?.overview.data?.blogs.find(...)`). It returns that model's snapshot or `undefined`
+  until something else has registered it, and never initializes or observes it.
 
 ## Full Example
 
