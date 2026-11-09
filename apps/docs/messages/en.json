@@ -723,7 +723,7 @@
     "switch": "Switch to Korean"
   },
   "Examples": {
-    "example0": "The whole mobile shell from one component: the only scroller, pull to refresh, the scroll intent the app bar and tab bar share, page transitions and history-aware back. Tabs slide sideways under a bar that stays put; a detail drills in and takes the bar with it. Installed for your router (Next.js, React Router, TanStack Router) — this demo is the generic one driven by state.",
+    "example0": "The whole mobile shell from one component: the only scroller, pull to refresh, the scroll intent the app bar and tab bar share, page transitions and history-aware back. AppShell is the provider only; TabShell (an AppGroupLayout with the tab bar inside) and AppScreen are unkeyed page boundaries, so nothing is forced to remount. Tabs slide sideways under a bar that stays put; a detail drills in and takes the tab group with it. Installed for your router (Next.js, React Router, TanStack Router) — this demo is the generic one driven by state, so each screen is keyed by its path.",
     "example1": "Back button, title and actions over a fade glass surface",
     "example2": "Close icon for sheets — pinned, no glass circle",
     "example3": "Large title for a tab root",
@@ -733,7 +733,7 @@
     "example7": "One keyed boundary marks the page. PageTransition lays a layout-only shell (a flex column); inside your own scroller give it min-h-full. The scroller anchors, stacks and clips the leaving page: give it relative z-0 overflow-x-clip, which also keeps sticky bars steady while it scrolls. Give every page a background.",
     "example8": "sheet({ type: \"blur\" }) for compose, filters and other temporary tasks. The page behind recedes and blurs; close it and it comes back untouched.",
     "example9": "zoom({ type: \"expand\" }): the tile you tap expands into the page. Mark the tile with data-zoom-exit-key and the photo with data-zoom-enter-key, same value on both.",
-    "example10": "A persistent shell: the outer boundary keeps a fixed routeKey so the bottom nav survives, and the inner boundary swaps the page. The app bar belongs to the page, so it slides with it, and nothing sits above the inner boundary, so the leaving page stays exactly where it was. ordered + slide(): the tab order decides the direction.",
+    "example10": "The app structure: PageTransition holds the provider and routeFramework, AppGroupLayout is the tab group boundary with the bottom nav inside it, and each page is its own unkeyed boundary (RouteBoundary here, AppScreen in an app). Tab → tab swaps only the page, so the nav stays put; the app bar belongs to the page and slides with it. Nothing is forced to remount: with a router that keeps routes alive, Back restores the page state. Without a router the page is keyed by path so a tab change replaces it. ordered + slide(): the tab order decides the direction.",
     "example11": "Rises from the bottom. Drag the handle down (or tap it) to dismiss; the scrim fades as you pull. Escape and the scrim still close it.",
     "example12": "Give the middle region min-h-0 flex-1 overflow-y-auto. It scrolls like any list; only when it is at the top does dragging down move the sheet.",
     "example13": "A short sheet of actions, the phone-friendly menu. Each button closes the sheet.",
