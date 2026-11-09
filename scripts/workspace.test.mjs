@@ -192,8 +192,9 @@ test('page-transition installs the route boundary that matches the detected rout
     run('init')
     const out = run('add', 'page-transition')
     assert.match(out, /route-boundary\.tsx.*nextjs/)
-    // Next.js and TanStack Router boundaries wrap ssgoi's own adapters.
-    assert.match(boundary(), /from ['"]@ssgoi\/react\/nextjs['"]/)
+    // Every router variant renders ssgoi's unkeyed boundary and reads the route through its own router hook.
+    assert.match(boundary(), /SsgoiPageBoundary.*from ['"]@ssgoi\/react['"]/)
+    assert.match(boundary(), /from ['"]next\/navigation['"]/)
     assert.match(boundary(), /from ['"]@\/lib\/utils['"]/)
     const provider = readFileSync(join(fixture, 'components/ui/page-transition.tsx'), 'utf8')
     assert.match(provider, /from ['"]@ssgoi\/react['"]/)
@@ -231,7 +232,7 @@ test('page-transition installs the route boundary that matches the detected rout
 
     setDeps({ dependencies: { '@tanstack/react-router': '1.0.0' } })
     run('add', 'route-boundary', '--overwrite')
-    assert.match(boundary(), /from ['"]@ssgoi\/react\/tanstack-router['"]/)
+    assert.match(boundary(), /from ['"]@tanstack\/react-router['"]/)
 
     // No supported router → the prop-based boundary, and --router overrides detection.
     setDeps({})
@@ -240,9 +241,9 @@ test('page-transition installs the route boundary that matches the detected rout
       boundary(),
       /from ['"](next\/navigation|react-router|@tanstack\/react-router|@ssgoi\/react\/[\w-]+)['"]/
     )
-    assert.match(boundary(), /path/)
+    assert.match(boundary(), /RoutePathProvider/)
     run('add', 'route-boundary', '--overwrite', '--router', 'nextjs')
-    assert.match(boundary(), /from ['"]@ssgoi\/react\/nextjs['"]/)
+    assert.match(boundary(), /from ['"]next\/navigation['"]/)
     assert.throws(() => run('add', 'route-boundary', '--overwrite', '--router', 'remix'))
   } finally {
     rmSync(fixture, { recursive: true, force: true })

@@ -49,7 +49,7 @@ importers:
         version: 16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       next-intl:
         specifier: ^4.14.9
-        version: 4.14.9(@swc/helpers@0.5.23)(@types/react@19.3.0)(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 4.14.9(@swc/helpers@0.5.23)(@types/react@19.3.0)(next@16.2.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       next-mdx-remote:
         specifier: ^6.0.0
         version: 6.0.0(@types/react@19.3.0)(react@19.2.4)
@@ -86,7 +86,7 @@ importers:
     devDependencies:
       '@brrrd/adapter':
         specifier: 0.1.10
-        version: 0.1.10(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        version: 0.1.10(next@16.2.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.3
@@ -119,7 +119,7 @@ importers:
         version: link:../../packages/state/core
       next:
         specifier: ^16.3.6
-        version: 16.3.6(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 16.3.6(@types/node@20.19.43)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -397,8 +397,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@ssgoi/react':
-        specifier: ^7.3.1
-        version: 7.3.1(@tanstack/react-router@1.170.39(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router@8.4.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        specifier: ^7.5.0
+        version: 7.5.0(@tanstack/react-router@1.170.39(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router@8.4.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1822,12 +1822,12 @@ packages:
   '@schummar/icu-type-parser@1.21.5':
     resolution: {integrity: sha512-bXHSaW5jRTmke9Vd0h5P7BtWZG9Znqb8gSDxZnxaGSJnGwPLDPfS+3g0BKzeWqzgZPsIVZkM7m2tbo18cm5HBw==}
 
-  '@ssgoi/core@7.3.1':
-    resolution: {integrity: sha512-A0o9U0NJxO26zK5i8YjZkrk+y+QiBlxVcTwFca09Uzb0gBklf4QfkSk5WOHeTCe1ts4cO8g9c42bVrOGKdNtMA==}
+  '@ssgoi/core@7.5.0':
+    resolution: {integrity: sha512-H62KSHDzYath4TfLtmsoDP62OIAwEi8qaHPuQYJSWPYqpiBT1dRsj2gPA4x1PXKrtoA8OFcs1McWfJtgI8fBEw==}
     engines: {node: '>=18.0.0'}
 
-  '@ssgoi/react@7.3.1':
-    resolution: {integrity: sha512-Zu8malQ0TDNNqo75tt6kUohoMO9ysU4Wo7xjgxcdg4BiUki+iwNs3hQag0jxG4qeX5So/uhUNwCeeEiKWxVtAA==}
+  '@ssgoi/react@7.5.0':
+    resolution: {integrity: sha512-Jw5exRdv9HHFwsXgqHmlA62NUjATS4ipVYoLuw0sqXbAZIQeP+d8lLdhumRgIjWyQtMp+tuAgEkIHiZXoY2y4g==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@remix-run/react': '*'
@@ -5575,7 +5575,7 @@ snapshots:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@brrrd/adapter@0.1.10(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
+  '@brrrd/adapter@0.1.10(next@16.2.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
     dependencies:
       esbuild: 0.25.12
       next: 16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -6484,12 +6484,12 @@ snapshots:
 
   '@schummar/icu-type-parser@1.21.5': {}
 
-  '@ssgoi/core@7.3.1': {}
+  '@ssgoi/core@7.5.0': {}
 
-  '@ssgoi/react@7.3.1(@tanstack/react-router@1.170.39(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router@8.4.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
+  '@ssgoi/react@7.5.0(@tanstack/react-router@1.170.39(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react-router@8.4.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@babel/core': 7.29.7
-      '@ssgoi/core': 7.3.1
+      '@ssgoi/core': 7.5.0
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
       unplugin: 2.3.11
@@ -9467,7 +9467,7 @@ snapshots:
 
   next-intl-swc-plugin-extractor@4.14.9: {}
 
-  next-intl@4.14.9(@swc/helpers@0.5.23)(@types/react@19.3.0)(next@16.2.7(@babel/core@7.29.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
+  next-intl@4.14.9(@swc/helpers@0.5.23)(@types/react@19.3.0)(next@16.2.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
     dependencies:
       '@eloqnt/config': 0.1.1
       '@eloqnt/format-json': 0.1.0
@@ -9524,7 +9524,7 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  next@16.3.6(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  next@16.3.6(@types/node@20.19.43)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       '@next/env': 16.3.6
       '@swc/helpers': 0.5.23
