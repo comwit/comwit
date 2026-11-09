@@ -45,28 +45,33 @@ For imperative dialogs/sheets, mount `OverlayProvider` from [overlay-kit](https:
 
 ## Mobile app shell
 
-For an app with bottom tabs and full-screen details, `comwit-ui add app-shell app-screen` installs the whole shell for your router and you only place it. `AppShell` is the phone frame around the routed area: the one `<main>` scroller (its structural styles are forced inline by the `AppShell` primitive, so a sticky bottom nav never jitters and the leaving page always anchors to the scroller), pull to refresh, the scroll intent the app bar and tab bar share, page transitions and history-aware back. `TabShell` goes in the layout of the tab screens: the body swaps while the tab bar stays. `AppScreen` and `DetailScreen` wrap each page with its app bar.
+For an app with bottom tabs and full-screen details, `comwit-ui add app-shell app-screen` installs the whole shell for your router and you only place it. `AppShell` is the phone frame around the routed area: the one `<main>` scroller (its structural styles are forced inline by the `AppShell` primitive, so a sticky bottom nav never jitters and the leaving page always anchors to the scroller), pull to refresh, the scroll intent the app bar and tab bar share, page transitions and history-aware back. `AppShell` holds the provider and renders no boundary. `TabShell` goes in the layout of the tab screens: the body swaps while the tab bar stays. `AppGroupLayout` is the same group boundary for layouts without a tab bar. `AppScreen` and `DetailScreen` are each page's top-most element, with its app bar.
 
 ```tsx
-// app/(app)/layout — once around the routed area
+// app/(app)/layout.tsx — the provider only, no boundary
 <AppShell tabs={APP_TABS}>{children}</AppShell>
-// app/(app)/(top-level)/layout.tsx — tab screens
-<TabShell>{children}</TabShell>
+// app/(app)/(tabs)/layout.tsx — tab screens; an intercepted @modal slot stays outside
+<><TabShell>{children}</TabShell>{modal}</>
 // app/(app)/(detail)/layout.tsx — full-screen details
-{children}
+<AppGroupLayout>{children}</AppGroupLayout>
+// every page — the top-most element, no wrapper above it
+<AppScreen bar="tab" title="Home">…</AppScreen>
+<DetailScreen fallback="/">…</DetailScreen>
 ```
+
+`bar="tab" | "back" | "sheet"` picks the app bar. Omit it for a screen that owns its top edge: no app bar, no safe-area spacing, only the boundary.
 
 Tab paths (`tabs[].href`) keep the tab bar and slide sideways in tab order; every other route drills in and takes the bar with it. Pass `transitions={appTransitions(tabPaths, { transitions: [...] })}` from `page-transition` to add sheet or zoom rules on top of that default. The Next.js variant reads each layout's selected segments, so an intercepted `@modal` route keeps the tab underneath; the React Router and TanStack Router variants use the pathname; the generic one takes `path` and `onNavigate`. Nothing in the shell is a black box: the copied `app-shell.tsx` is the composition, and the frame width, background and refresh dial are yours to restyle.
 
 ## Page transitions
 
-`page-transition` installs the provider, a route boundary for your router and the presets (`drill`, `sheet`, `slide`, `axis`, `zoom`, `hero`, `fade`) as plain component source, the same way as any other component. Wrap the routed area once:
+`page-transition` installs the provider, a route boundary for your router and the presets (`drill`, `sheet`, `slide`, `axis`, `zoom`, `hero`, `fade`) as plain component source, the same way as any other component. `AppShell` already mounts the provider. Without it, mount the provider once and pass `routeFramework`, which tells the engine how to read your router:
 
 ```tsx
 'use client'
 
 import { PageTransition, drill, sheet } from '@/components/ui/page-transition'
-import { RouteBoundary } from '@/components/ui/route-boundary'
+import { routeFramework } from '@/components/ui/route-boundary'
 
 const transitions = {
   transitions: [
@@ -77,27 +82,31 @@ const transitions = {
 
 export function AppRoot({ children }: { children: React.ReactNode }) {
   return (
-    <PageTransition config={transitions}>
-      <RouteBoundary>{children}</RouteBoundary>
+    <PageTransition config={transitions} framework={routeFramework}>
+      {children}
     </PageTransition>
   )
 }
 ```
 
-The CLI reads `package.json` and installs the `RouteBoundary` for Next.js, React Router or TanStack Router; pass `--router` to choose, or use the generic one and hand it your router's pathname. The Next.js and TanStack Router versions wrap ssgoi's own adapters (`@ssgoi/react/nextjs`, `@ssgoi/react/tanstack-router`) and only add the `PageBoundary` defaults.
+The CLI reads `package.json` and installs the `route-boundary` variant for Next.js, React Router or TanStack Router; pass `--router` to choose, or use the generic one, where `RoutePathProvider` supplies your router's pathname.
 
-The whole contract is one keyed element: `RouteBoundary` renders a `PageBoundary` whose React key and route id are the pathname. When the key changes, React unmounts the old page and mounts the new one, and the engine keeps the detached node, lays it `position: absolute` over the new page and animates both. That is why it needs no router at all: `PageBoundary` takes `path` directly, so a `useState` value works the same way, which is how the [gallery](/ui/components#page-transition) demos drill, sheet and hero.
+Boundaries follow the route structure:
 
-`PageTransition` lays a layout-only shell (`flex min-h-dvh flex-col`); inside your own scroller pass `className="min-h-full"`. The scroller holds everything else, the way a native app shell is built: it anchors the leaving page (`relative`), contains its stacking (`z-0`) and clips it sideways (`overflow-x-clip`). Give your scroller `relative z-0 overflow-x-clip overflow-y-auto` and put `PageTransition` at its top, or put `relative z-0 overflow-x-clip` on `body` when the document scrolls. Keep any element with its own overflow out of the path between the scroller and a sticky bottom nav, and keep the scroller a stacking context; either one makes iOS Safari reposition the nav late while it scrolls, so it jitters. Use `clip`, never `overflow-x-hidden`, which would turn that element into a scroll container. Give every page a background; `PageBoundary` is `min-h-full` by default so a short page stays as tall as the shell while it leaves and its sticky bars do not ride up. The app bar belongs to the page, inside the boundary, so it moves with the page. A shell that survives tab changes keeps only the bottom nav: an outer boundary with a fixed `routeKey`, and an inner boundary that swaps the page:
+- The root layout holds only the provider and renders no boundary.
+- Every route-group layout renders `AppGroupLayout` (or `TabShell`), with persistent chrome such as the tab bar inside it.
+- Every page renders `AppScreen` or `DetailScreen` as its top-most element, with no wrapper element above it. Suspense and fragments are fine. A custom screen can use `RouteBoundary` instead.
+- Intercepted `@modal` pages are not wrapped. Keep the `{modal}` slot outside the group boundary, as a sibling.
 
-```tsx
-<RouteBoundary routeKey="tabs" className="flex min-h-full flex-col">
-  <RouteBoundary className="flex-1">{children}</RouteBoundary>
-  <BottomNav>…</BottomNav>
-</RouteBoundary>
-```
+These boundaries are unkeyed, built on SSGOI's `SsgoiPageBoundary`. With `cacheComponents`, Next.js keeps visited routes alive in React `<Activity>`: hiding a route is the exit, showing it again is the enter, and Back restores its state because nothing forces a remount. That is why the boundary must be the top-most element. Routers that unmount routes work the same way; give each route its own page component, or key `AppScreen` by path when one component renders several paths.
 
-The leaving page is laid `position: absolute` at the top of its nearest positioned ancestor, so if you ever put chrome above a nested boundary, give that boundary a `relative` parent or it jumps up by the chrome's height.
+Without a router, use the keyed `PageBoundary`. It takes `path` directly, so a `useState` value works, which is how the [gallery](/ui/components#page-transition) demos drill, sheet and hero. When the key changes, the engine keeps the detached node, lays it `position: absolute` over the new page and animates both. Don't mix keyed and unkeyed boundaries in the same region.
+
+Upgrading from 0.7: `AppScreen` without `bar` no longer renders a tab bar, so add `bar="tab"`. The router `RouteBoundary` no longer takes `routeKey`, `resolve` or `path`. Version 0.8 requires `@ssgoi/react` `^7.5.0`.
+
+`PageTransition` lays a layout-only shell (`flex min-h-dvh flex-col`); inside your own scroller pass `className="min-h-full"`. The scroller holds everything else, the way a native app shell is built: it anchors the leaving page (`relative`), contains its stacking (`z-0`) and clips it sideways (`overflow-x-clip`). Give your scroller `relative z-0 overflow-x-clip overflow-y-auto` and put `PageTransition` at its top, or put `relative z-0 overflow-x-clip` on `body` when the document scrolls. Keep any element with its own overflow out of the path between the scroller and a sticky bottom nav, and keep the scroller a stacking context; either one makes iOS Safari reposition the nav late while it scrolls, so it jitters. Use `clip`, never `overflow-x-hidden`, which would turn that element into a scroll container. Give every page a background; `PageBoundary` is `min-h-full` by default so a short page stays as tall as the shell while it leaves and its sticky bars do not ride up. The app bar belongs to the page, inside the boundary, so it moves with the page; `AppScreen` does this.
+
+The leaving page is laid `position: absolute` at the top of its nearest positioned ancestor, so if you ever put chrome above a boundary, give that boundary a `relative` parent or it jumps up by the chrome's height.
 
 `hero()` carries one element between two pages: give it `data-hero-exit-key={id}` where you leave and `data-hero-enter-key={id}` where you arrive, plus `data-hero-radius` (the corner radius in px) on both ends so the corners morph with the box. Rules, every preset, persistent layouts, scroll restoration and troubleshooting are documented by [SSGOI](https://ssgoi.dev/llms.txt), the engine behind it; the config shape is identical, only the component names differ.
 

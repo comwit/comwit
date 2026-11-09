@@ -22,7 +22,7 @@ import { Button } from '@/components/ui/button'
 - Import from the copied files, never from @comwit/ui-templates. ScrollChromeProvider, useScrollChrome, useMobile and useMobileDevice come from @comwit/ui.
 - Default text (button labels, placeholders, screen-reader names) and the picker date locale live in one copied file, lib/ui-text.ts. `init --locale ko` installs the Korean version; edit that file to change wording, or pass the component's labels/placeholder props for one screen.
 - Set the --font-pretendard variable on <html> (for example with next/font/local), or components fall back to the system font.
-- Mount once: the copied Toaster for toast (then call toast() from '@/components/ui/toast', not sonner's), OverlayProvider from overlay-kit for popup, ScrollChromeProvider around the scroller for app-bar and bottom-nav, PageTransition with RouteBoundary around the routed content for page-transition.
+- Mount once: the copied Toaster for toast (then call toast() from '@/components/ui/toast', not sonner's), OverlayProvider from overlay-kit for popup, ScrollChromeProvider around the scroller for app-bar and bottom-nav, PageTransition with framework={routeFramework} in the root layout for page-transition (AppShell does this for you). The root layout renders no boundary: each route-group layout renders AppGroupLayout or TabShell, and each page renders AppScreen or DetailScreen as its top-most element, unkeyed. Intercepted @modal pages are not wrapped.
 - Style with the token utilities (bg-primary, text-muted-foreground, rounded-card …), not hardcoded colors, and merge classes with cn() from lib/utils; a plain twMerge drops token utilities. Keep your own global element rules inside @layer base. Give page content its side margins with px-gutter (the --page-gutter token, safe-area aware) so it lines up with the phone toasts. Theme by overriding the CSS variables; dark mode is the .dark class.
 
 ## Components
@@ -35,7 +35,7 @@ Chrome that behaves like a native app and gets out of the way while you read.
 - app-screen: One screen = app bar + body. Tab roots flow, details reveal with a glass back button that falls back to the parent route on direct entry. Built on SSGOI.
 - app-bar: Glass top bar. Hides while you scroll down, returns the moment you scroll up.
 - bottom-nav: Floating tab capsule. The indicator springs between tabs; the bar shrinks as you scroll.
-- page-transition: Hero, zoom, drill or fade from the photo grid into the photo. One keyed boundary marks the page; your router or plain state drives it. Built on SSGOI.
+- page-transition: Hero, zoom, drill or fade from the photo grid into the photo. Each page is its own boundary; your router or plain state drives it. Built on SSGOI.
 - bottom-sheet: Rises from the bottom. Drag the handle down to dismiss; the scrim fades as you pull.
 - pull-to-refresh: Pull down at the top to reload. Only the dial moves, so sticky bars stay put.
 - drag-scroller: Horizontal rail with drag, flick momentum, wheel and arrow keys. Taps still click.
