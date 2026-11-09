@@ -57,16 +57,21 @@ export default function SaveButton() {
 
 ## 모바일 앱 셸
 
-하단 탭과 전체 화면 상세가 있는 앱에서는 `comwit-ui add app-shell app-screen`이 라우터에 맞는 전체 셸을 설치하므로 배치만 하면 됩니다. `AppShell`은 라우팅 영역을 둘러싼 휴대폰 프레임입니다. 단일 `<main>` 스크롤러(`AppShell` 프리미티브가 구조 스타일을 인라인으로 고정하여 sticky 하단 내비게이션이 흔들리지 않고 퇴장 페이지가 항상 스크롤러에 고정됨), 당겨서 새로고침, 앱 바와 탭 바가 공유하는 스크롤 의도, 페이지 전환, 방문 기록 기반 뒤로 가기를 제공합니다. `TabShell`은 탭 화면의 레이아웃에 두어 탭 바를 유지하면서 본문만 교체합니다. `AppScreen`과 `DetailScreen`은 앱 바와 함께 각 페이지를 감쌉니다.
+하단 탭과 전체 화면 상세가 있는 앱에서는 `comwit-ui add app-shell app-screen`이 라우터에 맞는 전체 셸을 설치하므로 배치만 하면 됩니다. `AppShell`은 라우팅 영역을 둘러싼 휴대폰 프레임입니다. 단일 `<main>` 스크롤러(`AppShell` 프리미티브가 구조 스타일을 인라인으로 고정하여 sticky 하단 내비게이션이 흔들리지 않고 퇴장 페이지가 항상 스크롤러에 고정됨), 당겨서 새로고침, 앱 바와 탭 바가 공유하는 스크롤 의도, 페이지 전환, 방문 기록 기반 뒤로 가기를 제공합니다. `AppShell`은 프로바이더만 담당하고 경계를 렌더링하지 않습니다. `TabShell`은 탭 화면의 레이아웃에 두어 탭 바를 유지하면서 본문만 교체합니다. `AppGroupLayout`은 탭 바가 없는 레이아웃에 쓰는 같은 그룹 경계입니다. `AppScreen`과 `DetailScreen`은 앱 바를 포함한 각 페이지의 최상위 요소입니다.
 
 ```tsx
-// app/(app)/layout — once around the routed area
+// app/(app)/layout.tsx — the provider only, no boundary
 <AppShell tabs={APP_TABS}>{children}</AppShell>
-// app/(app)/(top-level)/layout.tsx — tab screens
-<TabShell>{children}</TabShell>
+// app/(app)/(tabs)/layout.tsx — tab screens; an intercepted @modal slot stays outside
+<><TabShell>{children}</TabShell>{modal}</>
 // app/(app)/(detail)/layout.tsx — full-screen details
-{children}
+<AppGroupLayout>{children}</AppGroupLayout>
+// every page — the top-most element, no wrapper above it
+<AppScreen bar="tab" title="Home">…</AppScreen>
+<DetailScreen fallback="/">…</DetailScreen>
 ```
+
+`bar="tab" | "back" | "sheet"`로 앱 바를 고릅니다. 화면 상단을 직접 구성한다면 생략하세요. 앱 바와 safe-area 여백 없이 경계만 렌더링합니다.
 
 탭 경로(`tabs[].href`)는 탭 바를 유지하고 탭 순서대로 좌우 이동합니다. 다른 라우트는 안쪽으로 진입하며 바도 함께 이동합니다. 기본 동작 위에 시트나 확대 규칙을 추가하려면 `page-transition`의 `transitions={appTransitions(tabPaths, { transitions: [...] })}`를 전달하세요. Next.js 버전은 각 레이아웃에서 선택한 세그먼트를 읽으므로 인터셉트된 `@modal` 라우트 아래에 탭이 유지됩니다. React Router와 TanStack Router 버전은 pathname을 사용하고 일반 버전은 `path`와 `onNavigate`를 받습니다. 복사된 `app-shell.tsx`에 조합이 드러나 있으며 프레임 너비, 배경, 새로고침 다이얼을 직접 스타일링할 수 있습니다.
 
@@ -74,13 +79,13 @@ export default function SaveButton() {
 
 ## 페이지 전환
 
-`page-transition`은 다른 컴포넌트처럼 프로바이더, 라우터용 라우트 경계, 프리셋(`drill`, `sheet`, `slide`, `axis`, `zoom`, `hero`, `fade`)을 일반 컴포넌트 소스로 설치합니다. 라우팅 영역을 한 번 감싸세요.
+`page-transition`은 다른 컴포넌트처럼 프로바이더, 라우터용 라우트 경계, 프리셋(`drill`, `sheet`, `slide`, `axis`, `zoom`, `hero`, `fade`)을 일반 컴포넌트 소스로 설치합니다. `AppShell`을 쓰면 프로바이더가 이미 마운트되어 있습니다. 쓰지 않는다면 프로바이더를 한 번 마운트하고, 엔진이 라우터를 읽는 방법을 알려 주는 `routeFramework`를 전달하세요.
 
 ```tsx
 'use client'
 
 import { PageTransition, drill, sheet } from '@/components/ui/page-transition'
-import { RouteBoundary } from '@/components/ui/route-boundary'
+import { routeFramework } from '@/components/ui/route-boundary'
 
 const transitions = {
   transitions: [
@@ -91,27 +96,31 @@ const transitions = {
 
 export function AppRoot({ children }: { children: React.ReactNode }) {
   return (
-    <PageTransition config={transitions}>
-      <RouteBoundary>{children}</RouteBoundary>
+    <PageTransition config={transitions} framework={routeFramework}>
+      {children}
     </PageTransition>
   )
 }
 ```
 
-CLI는 `package.json`을 읽어 Next.js, React Router, TanStack Router용 `RouteBoundary`를 설치합니다. `--router`로 선택하거나 일반 버전에 라우터 pathname을 전달할 수도 있습니다. Next.js와 TanStack Router 버전은 ssgoi의 자체 어댑터(`@ssgoi/react/nextjs`, `@ssgoi/react/tanstack-router`)를 감싸고 `PageBoundary` 기본값만 추가합니다.
+CLI는 `package.json`을 읽어 Next.js, React Router, TanStack Router용 `route-boundary`를 설치합니다. `--router`로 선택하거나, `RoutePathProvider`로 라우터 pathname을 전달하는 일반 버전을 쓸 수도 있습니다.
 
-전체 계약은 키가 있는 요소 하나입니다. `RouteBoundary`는 React key와 route id가 pathname인 `PageBoundary`를 렌더링합니다. 키가 바뀌면 React가 이전 페이지를 언마운트하고 새 페이지를 마운트합니다. 엔진은 분리된 노드를 유지하고 새 페이지 위에 `position: absolute`로 배치하여 둘 다 애니메이션합니다. 그래서 라우터가 없어도 됩니다. `PageBoundary`가 `path`를 직접 받으므로 `useState` 값도 같은 방식으로 작동합니다. [갤러리](/ui/components#page-transition)의 drill, sheet, hero 데모도 이 방식입니다.
+경계는 라우트 구조를 따릅니다.
 
-`PageTransition`은 레이아웃 전용 셸(`flex min-h-dvh flex-col`)을 배치합니다. 자체 스크롤러 안에서는 `className="min-h-full"`을 전달하세요. 네이티브 앱 셸처럼 나머지는 스크롤러가 담당합니다. 퇴장 페이지의 기준점(`relative`), 쌓임 범위(`z-0`), 가로 잘림(`overflow-x-clip`)을 제공합니다. 스크롤러에 `relative z-0 overflow-x-clip overflow-y-auto`를 주고 맨 위에 `PageTransition`을 두세요. 문서가 스크롤된다면 `body`에 `relative z-0 overflow-x-clip`을 설정하세요. 스크롤러와 sticky 하단 내비게이션 사이에 자체 overflow가 있는 요소를 두지 말고 스크롤러를 쌓임 맥락으로 유지하세요. 이를 어기면 iOS Safari가 스크롤 중 내비게이션 위치를 늦게 바꾸어 흔들립니다. 요소를 스크롤 컨테이너로 만드는 `overflow-x-hidden` 대신 `clip`을 사용하세요. 모든 페이지에 배경을 지정하세요. `PageBoundary`는 기본 `min-h-full`이므로 짧은 페이지도 퇴장 중 셸 높이를 유지하고 sticky 바가 위로 올라가지 않습니다. 앱 바는 경계 안의 페이지에 속해야 페이지와 함께 이동합니다. 탭 변경 후에도 남는 셸은 하단 내비게이션만 유지합니다. 고정 `routeKey`의 바깥 경계와 페이지를 교체하는 안쪽 경계를 둡니다.
+- 루트 레이아웃은 프로바이더만 담고 경계를 렌더링하지 않습니다.
+- 모든 라우트 그룹 레이아웃은 `AppGroupLayout`(또는 `TabShell`)을 렌더링하고, 탭 바 같은 유지되는 UI는 그 안에 둡니다.
+- 모든 페이지는 `AppScreen` 또는 `DetailScreen`을 최상위 요소로 렌더링하며 그 위를 감싸는 요소를 두지 않습니다. Suspense와 프래그먼트는 괜찮습니다. 직접 만든 화면에는 `RouteBoundary`를 쓸 수 있습니다.
+- 인터셉트된 `@modal` 페이지는 감싸지 않습니다. `{modal}` 슬롯은 그룹 경계 바깥에 형제로 둡니다.
 
-```tsx
-<RouteBoundary routeKey="tabs" className="flex min-h-full flex-col">
-  <RouteBoundary className="flex-1">{children}</RouteBoundary>
-  <BottomNav>…</BottomNav>
-</RouteBoundary>
-```
+이 경계들은 SSGOI의 `SsgoiPageBoundary`로 만든 키 없는 경계입니다. `cacheComponents`를 쓰면 Next.js는 방문한 라우트를 React `<Activity>`로 유지합니다. 라우트를 숨기는 것이 퇴장, 다시 보여 주는 것이 진입이며, 강제로 다시 마운트되는 것이 없어서 뒤로 가기가 상태를 복원합니다. 그래서 경계는 최상위 요소여야 합니다. 라우트를 언마운트하는 라우터에서도 똑같이 동작합니다. 라우트마다 페이지 컴포넌트를 따로 두거나, 한 컴포넌트가 여러 경로를 렌더링한다면 `AppScreen`에 경로를 key로 지정하세요.
 
-퇴장 페이지는 가장 가까운 위치 기준 조상의 맨 위에 `position: absolute`로 배치됩니다. 중첩 경계 위에 UI 바를 둔다면 경계에 `relative` 부모를 지정하세요. 그렇지 않으면 바 높이만큼 위로 튑니다.
+라우터가 없다면 키가 있는 `PageBoundary`를 사용하세요. `path`를 직접 받으므로 `useState` 값도 작동하며, [갤러리](/ui/components#page-transition)의 drill, sheet, hero 데모도 이 방식입니다. 키가 바뀌면 엔진은 분리된 노드를 유지하고 새 페이지 위에 `position: absolute`로 배치하여 둘 다 애니메이션합니다. 같은 영역에서 키가 있는 경계와 키 없는 경계를 섞지 마세요.
+
+0.7에서 업그레이드할 때: `bar` 없는 `AppScreen`은 더 이상 탭 바를 렌더링하지 않으므로 `bar="tab"`을 추가하세요. 라우터용 `RouteBoundary`는 `routeKey`, `resolve`, `path`를 더 이상 받지 않습니다. 0.8에는 `@ssgoi/react` `^7.5.0`이 필요합니다.
+
+`PageTransition`은 레이아웃 전용 셸(`flex min-h-dvh flex-col`)을 배치합니다. 자체 스크롤러 안에서는 `className="min-h-full"`을 전달하세요. 네이티브 앱 셸처럼 나머지는 스크롤러가 담당합니다. 퇴장 페이지의 기준점(`relative`), 쌓임 범위(`z-0`), 가로 잘림(`overflow-x-clip`)을 제공합니다. 스크롤러에 `relative z-0 overflow-x-clip overflow-y-auto`를 주고 맨 위에 `PageTransition`을 두세요. 문서가 스크롤된다면 `body`에 `relative z-0 overflow-x-clip`을 설정하세요. 스크롤러와 sticky 하단 내비게이션 사이에 자체 overflow가 있는 요소를 두지 말고 스크롤러를 쌓임 맥락으로 유지하세요. 이를 어기면 iOS Safari가 스크롤 중 내비게이션 위치를 늦게 바꾸어 흔들립니다. 요소를 스크롤 컨테이너로 만드는 `overflow-x-hidden` 대신 `clip`을 사용하세요. 모든 페이지에 배경을 지정하세요. `PageBoundary`는 기본 `min-h-full`이므로 짧은 페이지도 퇴장 중 셸 높이를 유지하고 sticky 바가 위로 올라가지 않습니다. 앱 바는 경계 안의 페이지에 속해야 페이지와 함께 이동하며, `AppScreen`이 이를 처리합니다.
+
+퇴장 페이지는 가장 가까운 위치 기준 조상의 맨 위에 `position: absolute`로 배치됩니다. 경계 위에 UI 바를 둔다면 경계에 `relative` 부모를 지정하세요. 그렇지 않으면 바 높이만큼 위로 튑니다.
 
 `hero()`는 두 페이지 사이에 요소 하나를 연결합니다. 떠나는 위치에 `data-hero-exit-key={id}`, 도착 위치에 `data-hero-enter-key={id}`를 지정하고 양쪽에 `data-hero-radius`(px 단위 모서리 반경)를 지정하면 상자와 모서리가 함께 변합니다. 규칙, 모든 프리셋, 유지되는 레이아웃, 스크롤 복원, 문제 해결은 기반 엔진인 [SSGOI](https://ssgoi.dev/llms.txt) 문서에 있습니다. 설정 구조는 같고 컴포넌트 이름만 다릅니다.
 

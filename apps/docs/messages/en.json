@@ -397,7 +397,7 @@
     "gallery8": "Bottom nav",
     "gallery9": "Floating tab capsule. The indicator springs between tabs; the bar shrinks as you scroll.",
     "gallery10": "Page transition",
-    "gallery11": "Hero, zoom, drill or fade from the photo grid into the photo. One keyed boundary marks the page; your router or plain state drives it.",
+    "gallery11": "Hero, zoom, drill or fade from the photo grid into the photo. Each page is its own boundary; your router or plain state drives it.",
     "gallery12": "Bottom sheet",
     "gallery13": "Rises from the bottom. Drag the handle down to dismiss; the scrim fades as you pull.",
     "gallery14": "Pull to refresh",

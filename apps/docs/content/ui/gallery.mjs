@@ -62,7 +62,7 @@ export const groups = [
         title: 'Page transition',
         exhibit: 'phone',
         summary:
-          'Hero, zoom, drill or fade from the photo grid into the photo. One keyed boundary marks the page; your router or plain state drives it.',
+          'Hero, zoom, drill or fade from the photo grid into the photo. Each page is its own boundary; your router or plain state drives it.',
       },
       {
         name: 'bottom-sheet',
