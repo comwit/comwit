@@ -2,12 +2,12 @@
 // ─────────────────────────────────────────────────────────────────────────
 // create-comwit scaffolds a Next.js project from the Comwit template.
 //   npm create comwit@latest my-app
-//   npx create-comwit@latest my-app [--shop | --course | --opennext] [--pm pnpm|npm|yarn|bun] [--no-install] [--no-git] [--cwd <dir>]
+//   npx create-comwit@latest my-app [--shop | --course] [--pm pnpm|npm|yarn|bun] [--no-install] [--no-git] [--cwd <dir>]
 //
 // The complete template is bundled in template/. Uses only Node built-ins.
 // Substitute the project name in package.json and README; copy other files unchanged.
 // ─────────────────────────────────────────────────────────────────────────
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execFileSync, spawnSync } from 'node:child_process'
@@ -15,7 +15,6 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import { sourceFor, sourceFiles } from './source.js'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
-const VARIANTS = join(HERE, '..', 'variants')
 const DOCS = 'https://library.comwit.io/template'
 
 // ── tiny ansi ─────────────────────────────────────────────────────────────
@@ -61,7 +60,6 @@ function usage() {
 Options
   --shop            create the Shop Template with commerce pages and setup skills
   --course          create the Course Template with course, enrollment and payment pages
-  --opennext        deploy target Cloudflare Workers via OpenNext (adds wrangler.jsonc, open-next.config.ts, scripts)
   --name <name>     package name (default: the directory name)
   --pm <manager>    pnpm · npm · yarn · bun (default: pnpm when installed, else the invoking manager)
   --no-install      skip dependency installation
@@ -73,14 +71,6 @@ Docs: ${DOCS}`)
 }
 
 // ── helpers ───────────────────────────────────────────────────────────────
-function walk(dir, base = dir, out = []) {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    const abs = join(dir, entry.name)
-    if (entry.isDirectory()) walk(abs, base, out)
-    else out.push(relative(base, abs))
-  }
-  return out
-}
 function has(cmd) {
   const r = spawnSync(cmd, ['--version'], { stdio: 'ignore', shell: process.platform === 'win32' })
   return r.status === 0
@@ -120,9 +110,9 @@ if (!dir) {
   die('tell me where to create the project: create-comwit <dir>')
 }
 if (flags.shop && flags.course) die('choose one of --shop and --course')
-if ((flags.shop || flags.course) && flags.opennext)
+if (flags.opennext)
   die(
-    `--${templateName} cannot be combined with --opennext; use the ${templateName} deployment settings`
+    '--opennext was removed in create-comwit 0.8.0; the template no longer ships a Cloudflare Workers setup'
   )
 if (!existsSync(join(TEMPLATE, 'package.json')))
   die('the bundled template is missing — reinstall create-comwit')
@@ -138,14 +128,12 @@ if (
   die(`${target} already exists and is not empty`)
 
 const files = sourceFiles(TEMPLATE)
-const variantFiles = flags.opennext ? walk(join(VARIANTS, 'opennext', 'files')) : []
 log(
-  `${c.bold('create-comwit')} → ${c.cyan(relative(process.cwd(), target) || '.')} ${c.dim(`(${files.length + variantFiles.length} files, ${templateName}${flags.opennext ? ', opennext' : ''})`)}`
+  `${c.bold('create-comwit')} → ${c.cyan(relative(process.cwd(), target) || '.')} ${c.dim(`(${files.length} files, ${templateName})`)}`
 )
 
 if (flags.dry) {
   log(files.map((f) => `  ${f}`).join('\n'))
-  if (flags.opennext) log(variantFiles.map((f) => `  ${f} (opennext)`).join('\n'))
   process.exit(0)
 }
 
@@ -164,81 +152,7 @@ pkg.name = name
 writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
 const readmePath = join(target, 'README.md')
 writeFileSync(readmePath, readFileSync(readmePath, 'utf8').replaceAll('{{name}}', name))
-if (flags.opennext) applyOpenNext(target, name, variantFiles)
 log(c.green('✔ ') + 'files written')
-
-// ── --opennext: Cloudflare Workers overlay ──────────────────────────────
-// The handwritten variants/opennext overlay adds files, merges package.json,
-// initializes development in next.config.ts, replaces AGENTS.md deployment guidance, and extends README/.gitignore.
-function applyOpenNext(target, name, variantFiles) {
-  const dir = join(VARIANTS, 'opennext')
-  const read = (rel) => readFileSync(join(target, rel), 'utf8')
-  const write = (rel, text) => writeFileSync(join(target, rel), text)
-  // Worker names allow only lowercase letters, digits, and hyphens.
-  const worker = name
-    .replace(/^@/, '')
-    .replace(/[^a-z0-9-]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-  for (const rel of variantFiles) {
-    const out = join(target, rel)
-    mkdirSync(dirname(out), { recursive: true })
-    writeFileSync(
-      out,
-      readFileSync(join(dir, 'files', rel), 'utf8').replaceAll('{{worker}}', worker)
-    )
-  }
-  const patch = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'))
-  const pkg = JSON.parse(read('package.json'))
-  for (const key of ['scripts', 'dependencies', 'devDependencies'])
-    pkg[key] = { ...pkg[key], ...patch[key] }
-  delete pkg.dependencies?.['@brrrd/adapter']
-  write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
-  rmSync(join(target, 'pnpm-lock.yaml'), { force: true })
-
-  // workerd installs the platform binary used by Cloudflare development and previews.
-  // Keep both pnpm 10 and pnpm 11 build allowlists in the generated project.
-  const workspace = read('pnpm-workspace.yaml').replace(/patchedDependencies:[\s\S]*$/, '')
-  if (!workspace.includes('onlyBuiltDependencies:\n') || !workspace.includes('allowBuilds:\n'))
-    die('pnpm-workspace.yaml changed shape; the opennext overlay needs updating')
-  write(
-    'pnpm-workspace.yaml',
-    workspace
-      .replace('onlyBuiltDependencies:\n', 'onlyBuiltDependencies:\n  - workerd\n')
-      .replace('allowBuilds:\n', 'allowBuilds:\n  workerd: true\n')
-  )
-
-  const nextConfig = read('next.config.ts')
-  const exportLine = 'export default withServerFn(nextConfig);'
-  if (!nextConfig.includes(exportLine))
-    die('next.config.ts changed shape; the opennext overlay needs updating')
-  write(
-    'next.config.ts',
-    nextConfig
-      .replace(/^.*adapterPath:.*\n/gm, '')
-      .replace(/^\s*partialPrefetching:.*\n/gm, '')
-      .replace('const require = createRequire(import.meta.url);', '')
-      .replace('import { createRequire } from "node:module";', '')
-      .replace(
-        'import type { NextConfig } from "next";',
-        'import type { NextConfig } from "next";\nimport { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";'
-      )
-      .replace(
-        exportLine,
-        '// Enable Cloudflare bindings (getCloudflareContext) during `next dev` too.\ninitOpenNextCloudflareForDev();\n\n' +
-          exportLine
-      )
-  )
-
-  // Replace an existing Deploy section in AGENTS.md or append one to the default template.
-  const agents = read('AGENTS.md')
-  const deployAt = agents.lastIndexOf('## Deploy')
-  const before = deployAt < 0 ? agents.trimEnd() + '\n\n---\n\n' : agents.slice(0, deployAt)
-  write('AGENTS.md', before + readFileSync(join(dir, 'agents-deploy.md'), 'utf8'))
-  // Join fragments with one blank line instead of relying on whitespace that formatters may remove.
-  const fragment = (file) => readFileSync(join(dir, file), 'utf8').trim() + '\n'
-  write('README.md', read('README.md').trimEnd() + '\n\n' + fragment('readme.md'))
-  write('.gitignore', read('.gitignore').trimEnd() + '\n\n' + fragment('gitignore'))
-}
 
 // ── install ─────────────────────────────────────────────────────────────
 const pm = chooseManager(flags.pm)
@@ -295,7 +209,7 @@ log(`
 ${c.bold('Next steps')}
   cd ${relative(process.cwd(), target) || '.'}${flags.install === false ? `\n  ${pm} install` : ''}
   ${run} dev            ${c.dim('http://localhost:3000')}
-  ${run} validate       ${c.dim('typecheck + lint, after every change')}${flags.opennext ? `\n  ${run} preview        ${c.dim('Cloudflare Worker locally (OpenNext)')}\n  ${run} deploy         ${c.dim('wrangler login once, then deploy')}` : ''}
+  ${run} validate       ${c.dim('typecheck + lint, after every change')}
 
 Read ${c.cyan('AGENTS.md')} and the ${c.cyan('.ai.md')} next to each layer before writing code.
 Architecture: ${c.cyan(DOCS)}

@@ -111,8 +111,7 @@ local caches or build output.
 
 `packages/template` preserves the `create-comwit` package. `prepack` exports the
 pinned template submodules to ignored packaging directories and verifies byte equality.
-`--shop` and `--course` select those snapshots; the default remains the base. The optional
-`--opennext` overlay is for the base template only. Packaged `template-sources.json`
+`--shop` and `--course` select those snapshots; the default remains the base. Packaged `template-sources.json`
 records the shared repository, each source branch and its pinned commit.
 Common changes belong on `main`; shop- and course-specific changes target their branches.
 Bring common updates into the shop and course branches before updating their parent pins.
@@ -139,7 +138,7 @@ Use the browser to check the home page, product navigation, mobile menus, live U
 
 The packages retain independent versions: State, the UI engine, template sources, and the CLI need not be released together. Use package-specific tags for future package releases. A repository/documentation milestone may use a `libraries-YYYY-MM-DD` tag; it does not imply a new npm version.
 
-Before publishing a package, build/typecheck it and inspect its packed contents. For the UI CLI, `prepack` generates its bundled registry. For `create-comwit`, check that `npm pack --dry-run` lists `template/_gitignore`, `shop-template/_gitignore`, `course-template/_gitignore`, `template-sources.json` and `variants/` (npm would drop a `.gitignore`). This repository does not automatically publish npm packages when a GitHub release is created.
+Before publishing a package, build/typecheck it and inspect its packed contents. For the UI CLI, `prepack` generates its bundled registry. For `create-comwit`, check that `npm pack --dry-run` lists `template/_gitignore`, `shop-template/_gitignore`, `course-template/_gitignore`, `template-sources.json` (npm would drop a `.gitignore`). This repository does not automatically publish npm packages when a GitHub release is created.
 
 ## Repository consolidation
 

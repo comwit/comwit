@@ -20,7 +20,6 @@ pnpm-lock.yaml
 
 # generated/verbatim project template — keeps its own formatting so the sync stays idempotent
 packages/template/template
-packages/template/variants/opennext/files
 
 # Each submodule owns its formatting; root formatting must not rewrite product source.
 /packages/state

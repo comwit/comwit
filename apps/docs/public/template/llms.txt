@@ -17,8 +17,6 @@ npm create comwit@latest my-app -- --pm pnpm
 cd my-app
 pnpm run dev
 
-Optional: --opennext adds Cloudflare Workers configuration and preview/deploy commands.
-
 ## Structure
 
 - src/app/: Next.js routes and layouts.

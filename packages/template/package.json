@@ -1,6 +1,6 @@
 {
   "name": "create-comwit",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Scaffold a Next.js app with the Comwit template: services sliced by domain, one-way layers (page → state → api → repository), .ai.md rules per layer, and agent skills for app shell, auth and SEO.",
   "keywords": [
     "comwit",
@@ -24,7 +24,6 @@
   "files": [
     "src",
     "template",
-    "variants",
     "README.md",
     "shop-template",
     "course-template",
