@@ -29,6 +29,7 @@ const settings = model({
 | `storage`     | `'localStorage' \| 'sessionStorage' \| PersistAdapter<T>` | Storage backend. Default `'localStorage'`. |
 | `serialize`   | `(value: T) => string`                     | Custom serializer. Default `JSON.stringify`.                   |
 | `deserialize` | `(raw: string) => T`                       | Custom deserializer. Default `JSON.parse`.                     |
+| `debounceMs`  | `number \| false`                          | Storage write delay; overrides the provider default. `0`/`false` writes every change. |
 
 ## Behavior
 
@@ -39,12 +40,13 @@ On model creation, each persist field reads from storage:
 - SSR safe: returns `defaultValue` when `window` is unavailable
 
 ### Write-back
-When a persist field's proxy value changes, the new value is debounced-written to storage.
+When a persist field's proxy value changes, memory updates immediately and the storage write is debounced.
 
-Default debounce: 100ms. Configure via provider:
+Default debounce: 300ms. Configure via provider, or per field with `persist({ debounceMs })`:
 ```ts
-<ComwitProvider defaultOptions={{ persist: { debounceMs: 200 } }}>
+<ComwitProvider defaultOptions={{ persist: { debounceMs: 500 } }}>
 ```
+Pending writes flush automatically on `pagehide`, `beforeunload`, a hidden `visibilitychange` and provider unmount.
 
 ### Cross-tab Sync
 With `localStorage`, changes from other tabs are automatically detected via the `StorageEvent` API. When another tab writes to the same key, the current tab's proxy state is silently updated (no re-render flicker).
