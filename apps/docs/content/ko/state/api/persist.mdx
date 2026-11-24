@@ -43,20 +43,21 @@ export type SettingsState = {
 
 ## 옵션
 
-| 옵션           | 타입                                                   | 설명                                                            |
-| -------------- | ------------------------------------------------------ | --------------------------------------------------------------- |
-| `key`          | `string`                                               | **필수.** 저장소 키입니다.                                      |
-| `defaultValue` | `T`                                                    | **필수.** 저장소가 비었을 때 사용할 값입니다.                   |
-| `storage`      | `'localStorage' \| 'sessionStorage' \| PersistAdapter` | 저장소 백엔드입니다. 기본값은 `'localStorage'`입니다.           |
-| `serialize`    | `(value: T) => string`                                 | 사용자 정의 직렬화 함수입니다. 기본값은 `JSON.stringify`입니다. |
-| `deserialize`  | `(raw: string) => T`                                   | 사용자 정의 역직렬화 함수입니다. 기본값은 `JSON.parse`입니다.   |
+| 옵션           | 타입                                                   | 설명                                                                               |
+| -------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `key`          | `string`                                               | **필수.** 저장소 키입니다.                                                         |
+| `defaultValue` | `T`                                                    | **필수.** 저장소가 비었을 때 사용할 값입니다.                                      |
+| `storage`      | `'localStorage' \| 'sessionStorage' \| PersistAdapter` | 저장소 백엔드입니다. 기본값은 `'localStorage'`입니다.                              |
+| `serialize`    | `(value: T) => string`                                 | 사용자 정의 직렬화 함수입니다. 기본값은 `JSON.stringify`입니다.                    |
+| `deserialize`  | `(raw: string) => T`                                   | 사용자 정의 역직렬화 함수입니다. 기본값은 `JSON.parse`입니다.                      |
+| `debounceMs`   | `number \| false`                                      | 저장소 쓰기 지연입니다. 프로바이더 기본값을 덮어씁니다. `0`/`false`면 매번 씁니다. |
 
 <a id="how-it-works"></a>
 
 ## 동작 방식
 
 1. **하이드레이션** — 모델 생성 시 저장된 값을 읽습니다. 비어 있으면 `defaultValue`를 사용합니다.
-2. **쓰기 반영** — 프록시 값이 바뀌면 디바운스 후 저장소에 씁니다(기본 100ms).
+2. **쓰기 반영** — 메모리 값은 즉시 바뀌고, 저장소 쓰기만 디바운스됩니다(기본 300ms). 대기 중인 쓰기는 `pagehide`, `beforeunload`, `visibilitychange`(hidden), 프로바이더 언마운트 때 바로 씁니다.
 3. **탭 간 동기화** — localStorage에서는 다른 탭의 변경을 `StorageEvent`로 자동 반영합니다.
 4. **SSR 안전성** — `window`를 사용할 수 없으면 `defaultValue`를 반환합니다.
 
@@ -69,7 +70,7 @@ export type SettingsState = {
 ```tsx
 <ComwitProvider
   defaultOptions={{
-    persist: { debounceMs: 200 },
+    persist: { debounceMs: 500 },
   }}
 >
 ```

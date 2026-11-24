@@ -42,18 +42,19 @@ export type SettingsState = {
 
 ## Options
 
-| Option         | Type                                                   | Description                                  |
-| -------------- | ------------------------------------------------------ | -------------------------------------------- |
-| `key`          | `string`                                               | **Required.** Storage key.                   |
-| `defaultValue` | `T`                                                    | **Required.** Value when storage is empty.   |
-| `storage`      | `'localStorage' \| 'sessionStorage' \| PersistAdapter` | Storage backend. Default `'localStorage'`.   |
-| `serialize`    | `(value: T) => string`                                 | Custom serializer. Default `JSON.stringify`. |
-| `deserialize`  | `(raw: string) => T`                                   | Custom deserializer. Default `JSON.parse`.   |
+| Option         | Type                                                   | Description                                                                           |
+| -------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `key`          | `string`                                               | **Required.** Storage key.                                                            |
+| `defaultValue` | `T`                                                    | **Required.** Value when storage is empty.                                            |
+| `storage`      | `'localStorage' \| 'sessionStorage' \| PersistAdapter` | Storage backend. Default `'localStorage'`.                                            |
+| `serialize`    | `(value: T) => string`                                 | Custom serializer. Default `JSON.stringify`.                                          |
+| `deserialize`  | `(raw: string) => T`                                   | Custom deserializer. Default `JSON.parse`.                                            |
+| `debounceMs`   | `number \| false`                                      | Storage write delay. Overrides the provider default. `0`/`false` writes every change. |
 
 ## How it works
 
 1. **Hydration** — On model creation, reads stored value. Uses `defaultValue` if empty.
-2. **Write-back** — When proxy value changes, debounced-writes to storage (default 100ms).
+2. **Write-back** — The value updates in memory immediately; the storage write is debounced (default 300ms). Pending writes flush on `pagehide`, `beforeunload`, a hidden `visibilitychange` and provider unmount.
 3. **Cross-tab sync** — With localStorage, changes from other tabs auto-update via `StorageEvent`.
 4. **SSR safe** — Returns `defaultValue` when `window` is unavailable.
 
@@ -64,7 +65,7 @@ Configure debounce timing globally:
 ```tsx
 <ComwitProvider
   defaultOptions={{
-    persist: { debounceMs: 200 },
+    persist: { debounceMs: 500 },
   }}
 >
 ```
